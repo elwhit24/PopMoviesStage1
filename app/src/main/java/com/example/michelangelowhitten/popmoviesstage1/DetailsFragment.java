@@ -35,7 +35,7 @@ public class DetailsFragment extends Fragment {
             AndroidMovie movieItem = intent.getParcelableExtra(Intent.EXTRA_TEXT);
             TextView movieName = (TextView) rootView.findViewById(R.id.movieName);
             ImageView imageView = (ImageView) rootView.findViewById(R.id.movieThumb);
-            TextView synopsis = (TextView) rootView.findViewById(R.id.overView);
+            TextView synopsis = (TextView) rootView.findViewById(R.id.overview);
             TextView rating = (TextView) rootView.findViewById(R.id.rating);
             TextView releaseDate = (TextView) rootView.findViewById(R.id.releaseDate);
 
