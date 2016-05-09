@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        tools:context="com.example.michelangelowhitten.popmoviesstage1.DetailsFragment$DetailActivity"
+        tools:showIn="@layout/activity_main">
+
+        <TextView
+            android:id="@+id/movieName"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:text="@string/title_string"
+            android:padding="5dp"
+            android:textSize="20sp"/>
+
+        <ImageView
+            android:id="@+id/movieThumb"
+            android:contentDescription="@string/poster_string"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="100dp"
+            android:layout_below="@+id/movieName"
+            android:text="@string/poster_string"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            />
+
+        <TextView
+            android:id="@+id/releaseDate"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/movieThumb"
+            android:layout_toRightOf="@+id/movieThumb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rating"
+            android:text="@string/r_date"
+            android:padding="10dp"
+            android:textSize="40sp"/>
+
+        <TextView
+            android:id="@+id/overView"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_below="@+id/movieThumb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/overview_string"
+
+            android:padding="5dp"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/overView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+</ScrollView>
+
+<!--
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".DetailsFragment$DetailActivity">
+</FrameLayout>-->
