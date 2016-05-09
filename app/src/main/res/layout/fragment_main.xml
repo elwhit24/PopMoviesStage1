@@ -17,12 +17,12 @@
         android:numColumns="2"
         android:stretchMode="columnWidth"
         android:gravity="center"
-        android:src="@+id/movie_poster"
         />
 
 </LinearLayout>
 
 <!--
+        android:src="@+id/movie_poster"
 
 <GridView
         android:id="@+id/grid_view"
@@ -36,11 +36,6 @@
         android:numColumns="2"
         android:stretchMode="columnWidth"/>
 
-<TextView
-        android:id="@+id/no_movies_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:visibility="gone" />
+
 
 -->

@@ -138,7 +138,7 @@ public class Settings extends PreferenceActivity {
         }
         return super.onMenuItemSelected(featureId, item);
     }
-    
+
     /**
      * This method stops fragment injection in malicious applications.
      * Make sure to deny any unknown fragments here.
