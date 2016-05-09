@@ -138,24 +138,7 @@ public class Settings extends PreferenceActivity {
         }
         return super.onMenuItemSelected(featureId, item);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onIsMultiPane() {
-        return isXLargeTablet(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.pref_headers, target);
-    }
-
+    
     /**
      * This method stops fragment injection in malicious applications.
      * Make sure to deny any unknown fragments here.
@@ -240,7 +223,7 @@ public class Settings extends PreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_notification);
+            addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
             bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
@@ -266,7 +249,7 @@ public class Settings extends PreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_data_sync);
+            addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
             bindPreferenceSummaryToValue(findPreference("sync_frequency"));

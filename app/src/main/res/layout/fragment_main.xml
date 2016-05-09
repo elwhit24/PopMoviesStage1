@@ -20,7 +20,6 @@
         android:src="@+id/movie_poster"
         />
 
-
 </LinearLayout>
 
 <!--
