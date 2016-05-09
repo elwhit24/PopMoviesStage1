@@ -66,9 +66,7 @@ public class MainActivityFragment extends Fragment {
 
 
     public MainActivityFragment() {
-        shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        gridview = (GridView) rootView.findViewById(R.id.grid_view);
     }
 
     @Override
@@ -76,6 +74,11 @@ public class MainActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         //setContentView(R.layout.fragment_main);
+
+        shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        gridview = (GridView) rootView.findViewById(R.id.grid_view);
+        gridview.setAdapter(imageAdapter);
 
         SharedPreferences.Editor editor = shared_preferences.edit();
         editor.putString("Preference", "Most Popular");
@@ -88,8 +91,8 @@ public class MainActivityFragment extends Fragment {
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
 
-            //this.inflater = inflater;
-            //this.container = container;
+            this.inflater = inflater;
+            this.container = container;
 
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
             movieArray = new ArrayList<>();
