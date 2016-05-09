@@ -4,7 +4,7 @@
 
     <string name="app_name">PopMoviesStage1</string>
 
-    <string name="title_string">Title</string>
+    <string name="title_string">Popular Movies</string>
     <string name="overview_string">Poster</string>
     <string name="poster_string">Poster</string>
     <string name="action_settings">Settings</string>
