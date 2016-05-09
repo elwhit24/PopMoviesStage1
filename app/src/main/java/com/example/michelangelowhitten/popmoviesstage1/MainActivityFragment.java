@@ -93,7 +93,7 @@ public class MainActivityFragment extends Fragment {
 
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
             movieArray = new ArrayList<>();
-            imageAdapter = new PosterAdapter(getActivity(), R.layout.fragment_main, movieArray);
+            imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
             gridview.setAdapter(imageAdapter);
             gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
