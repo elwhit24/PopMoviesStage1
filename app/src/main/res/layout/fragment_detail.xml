@@ -22,8 +22,8 @@
 
         <TextView
             android:id="@+id/movieName"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/title_string"
             android:padding="5dp"
             android:textSize="20sp"/>
@@ -56,28 +56,31 @@
             android:textSize="20sp"/>
 
         <TextView
+            android:id="@+id/rating"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/overview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="10sp"
+            android:text="@string/vote_"
+            />
+
+        <TextView
             android:id="@+id/overview"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_below="@+id/movieThumb"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/overview_string"
 
             android:padding="5dp"
             android:textSize="12sp"/>
 
-        <TextView
-            android:id="@+id/rating"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/overview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"/>
+
 
     </RelativeLayout>
 </ScrollView>
