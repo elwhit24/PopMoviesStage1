@@ -52,22 +52,22 @@ public class PosterAdapter extends ArrayAdapter<AndroidMovie> {
 
             imageView = new ImageView(this.context);
             imageView.setLayoutParams(new GridView.LayoutParams(300, 400));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
         } else {
             imageView = (ImageView) convertView;
         }
 
-        Picasso.with(context).
+        /*Picasso.with(context).
                 load(movieItem.getPosterImageUrl()).
                 noFade().
                 fit().
                 centerCrop().
-                into(imageView);
+                into(imageView);*/
 
-        /*Picasso.with(getContext())
+        Picasso.with(getContext())
                 .load(movieItem.getPosterImageUrl())
-                .into(imageView);*/
+                .into(imageView);
         return imageView;
     }
 }
