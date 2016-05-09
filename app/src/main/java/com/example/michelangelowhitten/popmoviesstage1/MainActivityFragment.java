@@ -91,7 +91,10 @@ public class MainActivityFragment extends Fragment {
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
 
-            this.inflater = inflater;
+        System.out.println("before fragment inflater ----------in Fragment");
+
+
+        this.inflater = inflater;
             this.container = container;
 
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -101,8 +104,7 @@ public class MainActivityFragment extends Fragment {
             gridview.setAdapter(imageAdapter);
             gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     imageAdapter.getItem(position);
                     AndroidMovie pm = imageAdapter.getItem(position);
