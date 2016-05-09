@@ -88,11 +88,12 @@ public class MainActivityFragment extends Fragment {
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
 
-            this.inflater = inflater;
-            this.container = container;
+            //this.inflater = inflater;
+            //this.container = container;
 
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
             movieArray = new ArrayList<>();
+            getPopularMovies();
             imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
             gridview.setAdapter(imageAdapter);
             gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
