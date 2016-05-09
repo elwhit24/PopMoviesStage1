@@ -77,9 +77,9 @@ public class MainActivityFragment extends Fragment {
         setHasOptionsMenu(true);
         //setContentView(R.layout.fragment_main);
 
-        /*SharedPreferences.Editor editor = shared_preferences.edit();
+        SharedPreferences.Editor editor = shared_preferences.edit();
         editor.putString("Preference", "Most Popular");
-        editor.apply();*/
+        editor.apply();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
