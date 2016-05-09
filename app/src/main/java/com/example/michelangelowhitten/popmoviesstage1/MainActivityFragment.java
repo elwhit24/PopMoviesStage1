@@ -66,7 +66,7 @@ public class MainActivityFragment extends Fragment {
 
 
     public MainActivityFragment() {
-        //shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         //gridview = (GridView) rootView.findViewById(R.id.grid_view);
     }
