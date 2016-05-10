@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment fragment = new Fragment();
-        fragmentTransaction.add(R.id.grid_view_layout, fragment);
+        fragmentTransaction.add(R.id.fragment, fragment);
         fragmentTransaction.commit();
 
     }
