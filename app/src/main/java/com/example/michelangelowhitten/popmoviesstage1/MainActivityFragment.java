@@ -51,7 +51,7 @@ public class MainActivityFragment extends Fragment {
     LayoutInflater inflater;
     ViewGroup container;
     private View rootView;
-    PosterAdapter imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
+    PosterAdapter imageAdapter;
     GridView gridview;
     String noFetch = "Not able to grab movie info from MovieDB.";
     String noInter = "No internet available at the moment";
@@ -67,6 +67,7 @@ public class MainActivityFragment extends Fragment {
 
     public MainActivityFragment() {
         movieArray = new ArrayList<>();
+        gridview = new GridView(getActivity());
     }
 
     @Override
@@ -76,7 +77,7 @@ public class MainActivityFragment extends Fragment {
 
         shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        gridview = (GridView) rootView.findViewById(R.id.grid_view);
+        //gridview = (GridView) rootView.findViewById(R.id.grid_view);
 
         SharedPreferences.Editor editor = shared_preferences.edit();
         editor.putString("Preference", "Most Popular");
@@ -95,8 +96,10 @@ public class MainActivityFragment extends Fragment {
         this.inflater = inflater;
         this.container = container;
 
-        rootView = inflater.inflate(R.layout.fragment_main, container, false);
         imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
+
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        //imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
         gridview.setAdapter(imageAdapter);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -335,7 +338,7 @@ public class MainActivityFragment extends Fragment {
         }
 
         TextView favTextView = new TextView(getActivity());
-        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.movies_grid_layout);
+        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment);
         if (prefF) {
 
             if (posterArray.size() == 0) {
