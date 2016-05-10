@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,8 +14,8 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    /*private final String LOG_TAG = MainActivity.class.getSimpleName();
-    private final String DETAIL_FRAGMENT_TAG = "DFTAG";*/
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private final String DETAIL_FRAGMENT_TAG = "DFTAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
-
     }
 
     @Override
