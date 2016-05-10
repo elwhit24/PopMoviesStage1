@@ -73,12 +73,10 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        //setContentView(R.layout.fragment_main);
 
         shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         gridview = (GridView) rootView.findViewById(R.id.grid_view);
-        //gridview.setAdapter(imageAdapter);
 
         SharedPreferences.Editor editor = shared_preferences.edit();
         editor.putString("Preference", "Most Popular");
@@ -88,8 +86,8 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);*/
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         System.out.println("before fragment inflater ----------in Fragment");
 
@@ -111,11 +109,6 @@ public class MainActivityFragment extends Fragment {
                     Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
                     movieIntent.putExtra(Intent.EXTRA_TEXT, pm);
                     startActivity(movieIntent);
-
-                    /*AndroidMovie popMovie = imageAdapter.getItem(position);
-                    Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
-                    movieIntent.putExtra(Intent.EXTRA_TEXT, popMovie);
-                    startActivity(movieIntent);*/
                 }
             });
         return rootView;
@@ -197,10 +190,10 @@ public class MainActivityFragment extends Fragment {
         else
         {
             System.out.println("THIS IS SCREWED UP, CONNECTION IS");
-            //int duration = Toast.LENGTH_LONG;
-            //Toast toast = Toast.makeText(getActivity(), " " + noInter + " ", duration);
-            //toast.setGravity(Gravity.CENTER, 0, 0);
-            //toast.show();
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getActivity(), " " + noInter + " ", duration);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
     }
 
