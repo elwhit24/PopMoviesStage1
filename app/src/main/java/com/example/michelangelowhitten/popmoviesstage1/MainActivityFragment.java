@@ -177,12 +177,13 @@ public class MainActivityFragment extends Fragment {
 
     public void getPopularMovies() {
 
+        System.out.println("after getPopularMovies() ----------before Fetch Movies task");
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);
         internet = isNetworkAvailable();
         if(internet)
             fetchMovie.execute();
-            //this.movieArray = fetchMovie.getPopularMoviesArray(j)
         else
         {
             System.out.println("THIS IS SCREWED UP, CONNECTION IS");
@@ -197,7 +198,7 @@ public class MainActivityFragment extends Fragment {
 
         final String LOG_TAG = FetchMovieTask.class.getSimpleName();
 
-        final Context mContext = getContext();
+        //final Context mContext = getContext();
 
         protected String doInBackground(String... params) {
 
