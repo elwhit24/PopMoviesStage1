@@ -51,7 +51,7 @@ public class MainActivityFragment extends Fragment {
     LayoutInflater inflater;
     ViewGroup container;
     private View rootView;
-    PosterAdapter imageAdapter;
+    PosterAdapter imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
     GridView gridview;
     String noFetch = "Not able to grab movie info from MovieDB.";
     String noInter = "No internet available at the moment";
@@ -93,24 +93,22 @@ public class MainActivityFragment extends Fragment {
 
 
         this.inflater = inflater;
-            this.container = container;
+        this.container = container;
 
-            rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            //movieArray = new ArrayList<>();
-            getPopularMovies();
-            imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
-            gridview.setAdapter(imageAdapter);
-            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
+        gridview.setAdapter(imageAdapter);
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    imageAdapter.getItem(position);
-                    AndroidMovie pm = imageAdapter.getItem(position);
-                    Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
-                    movieIntent.putExtra(Intent.EXTRA_TEXT, pm);
-                    startActivity(movieIntent);
-                }
-            });
+                imageAdapter.getItem(position);
+                AndroidMovie pm = imageAdapter.getItem(position);
+                Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
+                movieIntent.putExtra(Intent.EXTRA_TEXT, pm);
+                startActivity(movieIntent);
+            }
+        });
         return rootView;
     }
 
@@ -184,6 +182,7 @@ public class MainActivityFragment extends Fragment {
         internet = isNetworkAvailable();
         if(internet)
             fetchMovie.execute();
+            //this.movieArray = fetchMovie.getPopularMoviesArray(j)
         else
         {
             System.out.println("THIS IS SCREWED UP, CONNECTION IS");
@@ -233,6 +232,11 @@ public class MainActivityFragment extends Fragment {
                 }
                 if (highestRatedMoviesJson != null) {
                     finalJsonString = highestRatedMoviesJson.toString();
+                    try {
+                        movieArray = this.getPopularMoviesArray(finalJsonString);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     return finalJsonString;
                 }
             }
