@@ -179,9 +179,6 @@ public class MainActivityFragment extends Fragment {
 
     public void getPopularMovies() {
 
-/*
-        fetchMovie.execute();
-*/
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);
         internet = isNetworkAvailable();
@@ -338,7 +335,7 @@ public class MainActivityFragment extends Fragment {
 
             if (posterArray.size() == 0) {
 
-                favTextView.setText("No Favorite Yet");
+                favTextView.setText(R.string.no_favorites);
                 if (layout.getChildCount() == 1) {
                     layout.addView(favTextView);
                     gridview.setVisibility(GridView.GONE);
@@ -355,7 +352,6 @@ public class MainActivityFragment extends Fragment {
         } else {
             gridview.setVisibility(GridView.VISIBLE);
             layout.removeView(favTextView);
-
 
             if (isNetworkAvailable()) {
                 new FetchMovieTask().execute();

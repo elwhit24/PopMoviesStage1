@@ -15,6 +15,6 @@
         <string name="title_activity_detail">Popular Movies</string>
         <string name="pref_header_general">General</string>
         <string name="sync_settings">System sync settings</string>
-        <string name="pref_ringtone_silent">Silent</string>
+        <string name="no_favorites">no favorites</string>
 
 </resources>
