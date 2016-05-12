@@ -67,7 +67,7 @@ public class MainActivityFragment extends Fragment {
 
     public MainActivityFragment() {
         movieArray = new ArrayList<>();
-        gridview = new GridView(getActivity());
+        //gridview = new GridView(getActivity());
     }
 
     @Override
@@ -96,7 +96,7 @@ public class MainActivityFragment extends Fragment {
         this.inflater = inflater;
         this.container = container;
 
-        imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
+        //imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
 
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
         //imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
