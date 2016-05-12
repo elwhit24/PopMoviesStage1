@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.*;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -57,18 +58,56 @@ public class MainActivityFragment extends Fragment {
     String noInter = "No internet available at the moment";
     JsonReader jReader;
     ArrayList<String> posterArray;
+    Boolean newLoad;
     Boolean prefP;
     Boolean prefH;
     Boolean internet;
     Boolean prefF;
     FetchMovieTask fetchMovie;
     SharedPreferences shared_preferences;
-
+    FragmentActivity myContext;
 
     public MainActivityFragment() {
 
+        newLoad = true;
+        movieArray = new ArrayList<>();
+        jReader = new JsonReader();
+        Log.d(MAF_TAG, "movieArray list instantiated?");
+
+
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
 
+    }
+
+    public void getPopularMovies() {
+
+        System.out.println("after getPopularMovies() ----------before Fetch Movies task");
+
+        fetchMovie = new FetchMovieTask(getActivity());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref = prefs.getString("sort", null);
+
+        Log.d(MAF_TAG, "get pop, after fetchmovie instantiation");
+
+
+        System.out.println("internet = " + internet);
+
+        //internet = isNetworkAvailable();
+        Boolean b = true;
+        System.out.println("internet is now: " + true);
+
+        Log.d(MAF_TAG, "after internet instantiation would have ran");
+
+        /*if(b)
+            fetchMovie.execute();
+        else
+        {
+            System.out.println("THIS IS SCREWED UP, CONNECTION IS");
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getActivity(), " " + noInter + " ", duration);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }*/
     }
 
     @Override
@@ -78,14 +117,33 @@ public class MainActivityFragment extends Fragment {
 
         Log.d(MAF_TAG, "MainActivityFragment onCreate() good");
 
+        getPopularMovies();
+
+        Log.d(MAF_TAG, "getPopularMovies() ran");
+
+       // fetchMovie.getPopularMoviesArray(jReader.);
+
+        Log.d(MAF_TAG, "after fetchmovie.execute() ran");
+
+
+        if (savedInstanceState == null || !savedInstanceState.containsKey("movieArray")) {
+            Log.d(MAF_TAG, "if is true");
+
+            movieArray = new ArrayList<>();
+
+        } else {
+            Log.d(MAF_TAG, "else is true");
+
+            movieArray = savedInstanceState.getParcelableArrayList("movieArray");
+        }
+
+        Log.d(MAF_TAG, "movieArray list populated?");
+
+        System.out.println("movieArray is " + movieArray);
+
+        //movieArray = fetchMovie.getPopularMoviesArray
+
         //shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        fetchMovie = new FetchMovieTask((getActivity()));
-
-        fetchMovie.execute();
-
-        Log.d(MAF_TAG, "MainActivityFragment fetchMovie.execute() ran good");
-
         /*SharedPreferences.Editor editor = shared_preferences.edit();
         editor.putString("Preference", "Most Popular");
         editor.apply();*/
@@ -94,12 +152,13 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
        /* StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
 
-        View v = inflater.inflate(R.layout.fragment_main, container, false);
-        gridview = (GridView) v.findViewById(R.id.grid_view);
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        gridview = (GridView) rootView.findViewById(R.id.grid_view);
         imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
         gridview.setAdapter(imageAdapter);
 
@@ -140,7 +199,14 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public void onStart() {
+
+        Log.d(MAF_TAG, "onStart() ran");
+
+
         super.onStart();
+
+        Log.d(MAF_TAG, "super.onStart() ran");
+
         getPopularMovies();
     }
 
@@ -191,25 +257,6 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
-    public void getPopularMovies() {
-
-        System.out.println("after getPopularMovies() ----------before Fetch Movies task");
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        pref = prefs.getString("sort", null);
-        internet = isNetworkAvailable();
-        if(internet)
-            fetchMovie.execute();
-        else
-        {
-            System.out.println("THIS IS SCREWED UP, CONNECTION IS");
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(getActivity(), " " + noInter + " ", duration);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-        }
-    }
-
     public class FetchMovieTask extends AsyncTask<String, Void, String> {
 
         final String LOG_TAG = FetchMovieTask.class.getSimpleName();
@@ -217,17 +264,28 @@ public class MainActivityFragment extends Fragment {
         private final Context mContext;
 
         public FetchMovieTask(Context context) {
+            Log.d(MAF_TAG, "Fetch Constructor ran");
+
             mContext = context;
         }
         protected String doInBackground(String... params) {
+
+            Log.d(MAF_TAG, "doInBackground started");
+
 
             if (params.length == 0) {
                 return null;
             }
 
+            Log.d(MAF_TAG, "after first if in doInBackground");
+
+
             JSONObject popularMoviesJson = new JSONObject();
             JSONObject highestRatedMoviesJson = new JSONObject();
             String finalJsonString;
+
+            Log.d(MAF_TAG, "after 3 instants in doInBackground made");
+
 
             jReader = new JsonReader();
 
@@ -265,6 +323,9 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String string) {
+
+            Log.d(MAF_TAG, "onPostExecute() running");
+
 
             if(string.length()==0)
             {
