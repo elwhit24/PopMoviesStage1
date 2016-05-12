@@ -17,25 +17,37 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String LOG_TAG = MainActivity.class.getSimpleName();
-    private final String DETAIL_FRAGMENT_TAG = "DFTAG";
-
+    private final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.d(TAG, "MainActivity onCreate() good");
+
         setContentView(R.layout.activity_main);
+
+        Log.d(TAG, "MainActivity setContentView() good");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
 
+        Log.d(TAG, "MainActivity setSupportActionBar() good");
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        Log.d(TAG, "MainActivity fragmentManager.beginTransaction() good");
+
         MainActivityFragment fragment = new MainActivityFragment();
+
+        Log.d(TAG, "MainActivity new MainActivityFragment() good");
+
         fragmentTransaction.add(R.id.fragment, fragment);
         fragmentTransaction.commit();
+
+        Log.d(TAG, "MainActivity fragmentTransaction.commit() good");
+
 
     }
 

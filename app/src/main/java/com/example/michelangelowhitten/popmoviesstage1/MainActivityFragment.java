@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
 
-    private final String LOG_TAG = MainActivityFragment.class.getSimpleName();
+    private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
 
     private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
 
@@ -47,10 +47,10 @@ public class MainActivityFragment extends Fragment {
 
 
     ArrayList<AndroidMovie> movieArray;
-    private String pref;
+    String pref;
     LayoutInflater inflater;
     ViewGroup container;
-    private View rootView;
+    View rootView;
     PosterAdapter imageAdapter;
     GridView gridview;
     String noFetch = "Not able to grab movie info from MovieDB.";
@@ -66,8 +66,9 @@ public class MainActivityFragment extends Fragment {
 
 
     public MainActivityFragment() {
-        movieArray = new ArrayList<>();
-        //gridview = new GridView(getActivity());
+
+        Log.d(MAF_TAG, "MainActivityFragment constructor good");
+
     }
 
     @Override
@@ -75,32 +76,44 @@ public class MainActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Log.d(MAF_TAG, "MainActivityFragment onCreate() good");
 
-        //gridview = (GridView) rootView.findViewById(R.id.grid_view);
+        //shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        SharedPreferences.Editor editor = shared_preferences.edit();
+        fetchMovie = new FetchMovieTask((getActivity()));
+
+        fetchMovie.execute();
+
+        Log.d(MAF_TAG, "MainActivityFragment fetchMovie.execute() ran good");
+
+        /*SharedPreferences.Editor editor = shared_preferences.edit();
         editor.putString("Preference", "Most Popular");
-        editor.apply();
+        editor.apply();*/
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
 
-        System.out.println("before fragment inflater ----------in Fragment");
+       /* StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);*/
 
-
-        this.inflater = inflater;
-        this.container = container;
-
-        //imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
-
-        rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        //imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
+        gridview = (GridView) v.findViewById(R.id.grid_view);
+        imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
         gridview.setAdapter(imageAdapter);
+
+        Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
+
+
+        /*this.inflater = inflater;
+        this.container = container;
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);*/
+
+
+        //imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
+
+
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -201,8 +214,11 @@ public class MainActivityFragment extends Fragment {
 
         final String LOG_TAG = FetchMovieTask.class.getSimpleName();
 
-        //final Context mContext = getContext();
+        private final Context mContext;
 
+        public FetchMovieTask(Context context) {
+            mContext = context;
+        }
         protected String doInBackground(String... params) {
 
             if (params.length == 0) {
@@ -259,8 +275,13 @@ public class MainActivityFragment extends Fragment {
             }
             else {
                 super.onPostExecute(string);
-                imageAdapter = new PosterAdapter(getContext(), 0, movieArray);
-                imageAdapter.getView(0, getView(), gridview);
+
+                GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
+                gridView.setAdapter(imageAdapter = new PosterAdapter(getContext(), 0, movieArray));
+                rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+                //new PosterAdapter(getContext(), 0, movieArray).getView(0, getView(), gridview
+                //imageAdapter.getView(0, getView(), gridview);
             }
         }
 
@@ -362,7 +383,7 @@ public class MainActivityFragment extends Fragment {
             layout.removeView(favTextView);
 
             if (isNetworkAvailable()) {
-                new FetchMovieTask().execute();
+                fetchMovie.execute();
             } else {
                 TextView noInternetText = new TextView(getActivity());
                 noInternetText.setText(noInter);
