@@ -22,19 +22,3 @@
         />
 
 </android.support.design.widget.CoordinatorLayout>
-
-<!--
-
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-
-    android:id="@+id/fragment_main"
-    android:name="com.example.michelangelowhitten.popmoviesstage1.MainActivityFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    tools:context="com.example.michelangelowhitten.popmoviesstage1.MainActivityFragment"
-    tools:layout="@layout/activity_detail"> </fragment>
-
-
-<include layout="@layout/fragment_main"/>-->

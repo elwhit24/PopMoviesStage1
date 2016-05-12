@@ -338,7 +338,7 @@ public class MainActivityFragment extends Fragment {
         }
 
         TextView favTextView = new TextView(getActivity());
-        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.grid_view_layout);
+        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment);
         if (prefF) {
 
             if (posterArray.size() == 0) {
