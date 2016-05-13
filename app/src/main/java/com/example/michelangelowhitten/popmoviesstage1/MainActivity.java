@@ -23,31 +23,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(TAG, "MainActivity onCreate() good");
-        Log.d(TAG, "MainActivity fragmentTransaction.commit() good");
-        Log.d(TAG, "MainActivity new MainActivityFragment() good");
-        Log.d(TAG, "MainActivity fragmentManager.beginTransaction() good");
-        Log.d(TAG, "MainActivity setSupportActionBar() good");
-        Log.d(TAG, "MainActivity setContentView() good");
+        Log.d(TAG, "main onCreate successful");
 
+        View mainView = new View(getApplicationContext());
         setContentView(R.layout.activity_main);
 
+        Log.d(TAG, "this is after setContentView in main good");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
+        Log.d(TAG, "MainActivity setSupportActionBar() good");
 
         MainActivityFragment fragMain = new MainActivityFragment();
+        Log.d(TAG, "MainActivity new MainActivityFragment() good");
 
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        fragTransaction.add(R.id.fragment_layout, fragMain, "PopFragment");
-        fragTransaction.commit();
+        Log.d(TAG, "MainActivity fragmentManager.beginTransaction() good");
 
+        fragTransaction.add(R.id.fragment_main_layout, fragMain, "PopFragment");
+        Log.d(TAG, "fragment Transaction.add fragment_main_layout.beginTransaction() good");
+
+        fragTransaction.addToBackStack("Fragment");
+        Log.d(TAG, "addToBackStack worked");
+
+        fragTransaction.commit();
+        Log.d(TAG, "fragTransaction.commit() good");
+        mainView.getContext();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        Log.d(TAG, "onCreateOptionsMenu done");
+
         return true;
     }
 

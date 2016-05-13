@@ -403,7 +403,7 @@ public class MainActivityFragment extends Fragment {
         }
 
         TextView favTextView = new TextView(getActivity());
-        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment_layout);
+        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment_two);
         if (prefF) {
 
             if (posterArray.size() == 0) {
