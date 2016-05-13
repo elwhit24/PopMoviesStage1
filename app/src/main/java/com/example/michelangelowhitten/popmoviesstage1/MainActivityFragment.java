@@ -1,6 +1,7 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,9 +73,7 @@ public class MainActivityFragment extends Fragment {
 
         newLoad = true;
         movieArray = new ArrayList<>();
-        jReader = new JsonReader();
-        Log.d(MAF_TAG, "movieArray list instantiated?");
-
+        Log.d(MAF_TAG, "movieArray list init");
 
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
 
@@ -141,7 +141,6 @@ public class MainActivityFragment extends Fragment {
 
         System.out.println("movieArray is " + movieArray);
 
-        //movieArray = fetchMovie.getPopularMoviesArray
 
         //shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         /*SharedPreferences.Editor editor = shared_preferences.edit();
@@ -151,32 +150,16 @@ public class MainActivityFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
-       /* StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);*/
-
-        rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        gridview = (GridView) rootView.findViewById(R.id.grid_view);
-        imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
-        gridview.setAdapter(imageAdapter);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
 
-
-        /*this.inflater = inflater;
-        this.container = container;
-        rootView = inflater.inflate(R.layout.fragment_main, container, false);*/
-
-
-        //imageAdapter = new PosterAdapter(getActivity(), R.layout.movie_item, movieArray);
-
-
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 imageAdapter.getItem(position);
                 AndroidMovie pm = imageAdapter.getItem(position);
                 Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
@@ -184,7 +167,7 @@ public class MainActivityFragment extends Fragment {
                 startActivity(movieIntent);
             }
         });
-        return rootView;
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     private boolean isNetworkAvailable() {
@@ -358,7 +341,7 @@ public class MainActivityFragment extends Fragment {
             final String backdropPath = "backdrop_path";
             final String voteAverage = "vote_average";
 
-            movieArray.clear();
+            //movieArray.clear();
 
             if(!(movieJsonStr== null)) {
 
@@ -420,7 +403,7 @@ public class MainActivityFragment extends Fragment {
         }
 
         TextView favTextView = new TextView(getActivity());
-        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment);
+        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment_layout);
         if (prefF) {
 
             if (posterArray.size() == 0) {

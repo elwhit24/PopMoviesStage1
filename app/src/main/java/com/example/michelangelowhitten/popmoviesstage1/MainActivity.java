@@ -24,30 +24,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Log.d(TAG, "MainActivity onCreate() good");
+        Log.d(TAG, "MainActivity fragmentTransaction.commit() good");
+        Log.d(TAG, "MainActivity new MainActivityFragment() good");
+        Log.d(TAG, "MainActivity fragmentManager.beginTransaction() good");
+        Log.d(TAG, "MainActivity setSupportActionBar() good");
+        Log.d(TAG, "MainActivity setContentView() good");
 
         setContentView(R.layout.activity_main);
 
-        Log.d(TAG, "MainActivity setContentView() good");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
 
-        Log.d(TAG, "MainActivity setSupportActionBar() good");
+        MainActivityFragment fragMain = new MainActivityFragment();
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        Log.d(TAG, "MainActivity fragmentManager.beginTransaction() good");
-
-        MainActivityFragment fragment = new MainActivityFragment();
-
-        Log.d(TAG, "MainActivity new MainActivityFragment() good");
-
-        fragmentTransaction.add(R.id.fragment, fragment);
-        fragmentTransaction.commit();
-
-        Log.d(TAG, "MainActivity fragmentTransaction.commit() good");
-
+        FragmentManager fragManager = getFragmentManager();
+        FragmentTransaction fragTransaction = fragManager.beginTransaction();
+        fragTransaction.add(R.id.fragment_layout, fragMain, "PopFragment");
+        fragTransaction.commit();
 
     }
 
