@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "addToBackStack worked");
         Log.d(TAG, "this is after setContentView in main good");*/
 
+        setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
 
@@ -39,30 +41,22 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
 
-        fragTransaction.add(R.id.fragment_main_layout, fragMain, "PopFragment");
+        fragTransaction.add(R.id.fragment_one, fragMain, "PopFragment");
 
         fragTransaction.addToBackStack("Fragment");
 
         fragTransaction.commit();
-
-        View mainView = new View(getApplicationContext());
-        mainView.getContext();
-        mainView = findViewById(R.id.fragment_main_layout);
-        Log.d(TAG, "View made... good");
-
-        setContentView(R.layout.activity_main);
-
-
     }
-    /*@Override
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         Log.d(TAG, "onCreateOptionsMenu done");
 
         return true;
-    }*/
+    }
 
-    /*@Override
+    /*/*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
