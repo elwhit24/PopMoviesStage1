@@ -158,13 +158,7 @@ public class MainActivityFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
         gridview.getAdapter().getView(rootView.findViewById(R.id.grid_view));
 
-        RecyclerView.ViewHolder viewHolder = new RecyclerView.ViewHolder(rootView) {
-
-            @Override
-            protected void finalize() throws Throwable {
-                super.finalize();
-            }
-        };
+        
 
 
 
