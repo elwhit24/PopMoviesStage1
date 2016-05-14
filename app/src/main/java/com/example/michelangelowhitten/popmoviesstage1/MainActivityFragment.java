@@ -1,7 +1,6 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +11,7 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.*;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -155,19 +154,33 @@ public class MainActivityFragment extends Fragment {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
+        rootView = new View(getActivity());
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        gridview.getAdapter().getView(rootView.findViewById(R.id.grid_view));
 
-            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        RecyclerView.ViewHolder viewHolder = new RecyclerView.ViewHolder(rootView) {
+
+            @Override
+            protected void finalize() throws Throwable {
+                super.finalize();
+            }
+        };
+
+
+
+                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                imageAdapter.getItem(position);
                 AndroidMovie pm = imageAdapter.getItem(position);
                 Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
                 movieIntent.putExtra(Intent.EXTRA_TEXT, pm);
                 startActivity(movieIntent);
             }
         });
-        return inflater.inflate(R.layout.fragment_main, container, false);
+
+        Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
+
+        return rootView;
     }
 
     private boolean isNetworkAvailable() {
