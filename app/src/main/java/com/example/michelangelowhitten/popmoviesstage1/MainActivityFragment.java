@@ -73,7 +73,7 @@ public class MainActivityFragment extends Fragment {
     public MainActivityFragment() {
 
         newLoad = true;
-        movieArray = new ArrayList<>();
+        //movieArray = new ArrayList<>();
         Log.d(MAF_TAG, "movieArray list init");
 
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
@@ -149,13 +149,18 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-       // rootView = new View(getActivity());
-        rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        //gridview = (GridView) rootView.findViewById(R.id.grid_view);
-        //gridview.getAdapter().getView(0, gridview, gridview);
+        if (getActivity() != null) {
+            ArrayList<AndroidMovie> movieArray = new ArrayList<AndroidMovie>();
+            imageAdapter = new PosterAdapter(getActivity(), 0, movieArray);
+            gridview = (GridView) rootView.findViewById(R.id.grid_view);
+            gridview.setAdapter(imageAdapter);
+            gridview.getAdapter().getView(0, gridview, gridview);
 
             gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -167,8 +172,8 @@ public class MainActivityFragment extends Fragment {
                 }
             });
 
-        Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
-
+            Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
+        }
         return rootView;
     }
 
