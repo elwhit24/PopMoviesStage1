@@ -52,7 +52,7 @@ public class PosterAdapter extends ArrayAdapter<AndroidMovie> {
 
             imageView = new ImageView(this.context);
             imageView.setLayoutParams(new GridView.LayoutParams(300, 400));
-            //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
         } else {
             imageView = (ImageView) convertView;
