@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        fragTransaction.add(R.id.fragment_one, fragMain, "PopFragment");
+        fragTransaction.add(R.id.fragment_one, fragMain, "Fragment");
         fragTransaction.addToBackStack("Fragment");
         fragTransaction.commit();
     }

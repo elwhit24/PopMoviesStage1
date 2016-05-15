@@ -18,21 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragment_one"
-            android:name="com.example.michelangelowhitten.popmoviesstage1.MainActivityFragment">
-        </fragment>
-
-        <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:name="com.example.michelangelowhitten.popmoviesstage1.DetailsFragment"
-            android:id="@+id/fragment_two">
-        </fragment>
-
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
+
+<!--
+
+
+
+-->

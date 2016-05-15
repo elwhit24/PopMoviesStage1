@@ -24,7 +24,9 @@
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/fragment_two">
+            android:id="@+id/fragment_two"
+            android:name="com.example.michelangelowhitten.popmoviesstage1.DetailsFragment"
+            tools:layout="@layout/fragment_detail">
 
         <TextView
             android:id="@+id/movieName"

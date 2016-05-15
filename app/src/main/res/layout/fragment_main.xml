@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<fragment
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_one"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:name="com.example.michelangelowhitten.popmoviesstage1.MainActivityFragment">
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_main_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
+    android:layout_height="match_parent"
+    tools:layout="@layout/fragment_main">
 
         <GridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/grid_view"
@@ -17,19 +24,19 @@
             android:gravity="center">
         </GridView>
 
-
-
 </LinearLayout>
 
+</fragment>
 
     <!--
-<fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:name="com.example.michelangelowhitten.popmoviesstage1.MainActivityFragment">
-                    </fragment>
 
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    tools:layout="@layout/fragment_main">
 
         xmlns:tools="http://schemas.android.com/tools"
 

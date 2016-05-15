@@ -10,13 +10,9 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.*;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,11 +20,9 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +31,8 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+
+/*created by Michelangelo Whitten over a period of more than a few months of learning*/
 
 public class MainActivityFragment extends Fragment {
 
@@ -77,7 +73,6 @@ public class MainActivityFragment extends Fragment {
         Log.d(MAF_TAG, "movieArray list init");
 
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
-
     }
 
     public void getPopularMovies() {
@@ -160,7 +155,7 @@ public class MainActivityFragment extends Fragment {
             imageAdapter = new PosterAdapter(getActivity(), 0, movieArray);
             gridview = (GridView) rootView.findViewById(R.id.grid_view);
             gridview.setAdapter(imageAdapter);
-            gridview.getAdapter().getView(0, gridview, gridview);
+            //gridview.getAdapter().getView(0, gridview, gridview);
 
             gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
