@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<fragment
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/fragment_one">
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_main_layout">
+
+        <fragment
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:name="com.example.michelangelowhitten.popmoviesstage1.MainActivityFragment">
 
         <GridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
@@ -20,13 +19,13 @@
             android:numColumns="2"
             android:stretchMode="columnWidth"
             android:gravity="center">
-
         </GridView>
+
+        </fragment>
 
 
 </LinearLayout>
 
-</fragment>
 
     <!--
 
@@ -51,7 +50,6 @@
 
     </fragment>
 
-
             android:src="@+id/movie_poster"
 
     <GridView
@@ -65,7 +63,5 @@
             android:minHeight="?android:attr/listPreferredItemHeight"
             android:numColumns="2"
             android:stretchMode="columnWidth"/>
-
-
 
     -->

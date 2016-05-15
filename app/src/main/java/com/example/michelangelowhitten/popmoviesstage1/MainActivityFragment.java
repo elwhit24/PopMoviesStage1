@@ -15,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.*;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -53,8 +55,8 @@ public class MainActivityFragment extends Fragment {
     LayoutInflater inflater;
     ViewGroup container;
     View rootView;
-    PosterAdapter imageAdapter;
     GridView gridview;
+    PosterAdapter imageAdapter;
     String noFetch = "Not able to grab movie info from MovieDB.";
     String noInter = "No internet available at the moment";
     JsonReader jReader;
@@ -66,7 +68,7 @@ public class MainActivityFragment extends Fragment {
     Boolean prefF;
     FetchMovieTask fetchMovie;
     SharedPreferences shared_preferences;
-    FragmentActivity myContext;
+    PreferenceChangeListener p;
 
     public MainActivityFragment() {
 
@@ -116,35 +118,31 @@ public class MainActivityFragment extends Fragment {
 
         Log.d(MAF_TAG, "MainActivityFragment onCreate() good");
 
-        getPopularMovies();
+        //getPopularMovies();
 
-        Log.d(MAF_TAG, "getPopularMovies() ran");
-
-       // fetchMovie.getPopularMoviesArray(jReader.);
-
-        Log.d(MAF_TAG, "after fetchmovie.execute() ran");
-
+        //Log.d(MAF_TAG, "getPopularMovies() ran");
 
         if (savedInstanceState == null || !savedInstanceState.containsKey("movieArray")) {
             Log.d(MAF_TAG, "if is true");
 
-            movieArray = new ArrayList<>();
+            movieArray = new ArrayList<>(20);
+            getPopularMovies();
 
+            Log.d(MAF_TAG, "after fetchmovie.execute() ran");
         } else {
             Log.d(MAF_TAG, "else is true");
 
             movieArray = savedInstanceState.getParcelableArrayList("movieArray");
         }
-
         Log.d(MAF_TAG, "movieArray list populated?");
-
         System.out.println("movieArray is " + movieArray);
 
-
-        //shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        /*SharedPreferences.Editor editor = shared_preferences.edit();
+        shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = shared_preferences.edit();
         editor.putString("Preference", "Most Popular");
-        editor.apply();*/
+        editor.apply();
+
+        Log.d(MAF_TAG, "shared_pref and editor instantiated?");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -154,23 +152,20 @@ public class MainActivityFragment extends Fragment {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        rootView = new View(getActivity());
+       // rootView = new View(getActivity());
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        gridview.getAdapter().getView(rootView.findViewById(R.id.grid_view));
+        //gridview = (GridView) rootView.findViewById(R.id.grid_view);
+        //gridview.getAdapter().getView(0, gridview, gridview);
 
-        
-
-
-
-                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AndroidMovie pm = imageAdapter.getItem(position);
-                Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
-                movieIntent.putExtra(Intent.EXTRA_TEXT, pm);
-                startActivity(movieIntent);
-            }
-        });
+            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    AndroidMovie pm = imageAdapter.getItem(position);
+                    Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
+                    movieIntent.putExtra(Intent.EXTRA_TEXT, pm);
+                    startActivity(movieIntent);
+                }
+            });
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
 
@@ -269,13 +264,11 @@ public class MainActivityFragment extends Fragment {
 
             Log.d(MAF_TAG, "after first if in doInBackground");
 
-
             JSONObject popularMoviesJson = new JSONObject();
             JSONObject highestRatedMoviesJson = new JSONObject();
             String finalJsonString;
 
             Log.d(MAF_TAG, "after 3 instants in doInBackground made");
-
 
             jReader = new JsonReader();
 
@@ -330,9 +323,6 @@ public class MainActivityFragment extends Fragment {
                 GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
                 gridView.setAdapter(imageAdapter = new PosterAdapter(getContext(), 0, movieArray));
                 rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-                //new PosterAdapter(getContext(), 0, movieArray).getView(0, getView(), gridview
-                //imageAdapter.getView(0, getView(), gridview);
             }
         }
 
@@ -347,8 +337,6 @@ public class MainActivityFragment extends Fragment {
             final String movieTitle = "original_title";
             final String backdropPath = "backdrop_path";
             final String voteAverage = "vote_average";
-
-            //movieArray.clear();
 
             if(!(movieJsonStr== null)) {
 
@@ -384,67 +372,66 @@ public class MainActivityFragment extends Fragment {
             gridview.setAdapter(null);
             onPrefStart();
         }
-    }
 
-    public void onPrefStart() {
+        public void onPrefStart() {
 
-        super.onStart();
+            getParentFragment().onStart();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        PreferenceChangeListener listener = new PreferenceChangeListener();
-        prefs.registerOnSharedPreferenceChangeListener(listener);
+            PreferenceChangeListener listener = new PreferenceChangeListener();
+            prefs.registerOnSharedPreferenceChangeListener(listener);
 
-        if (prefs.getString("sortby", "popularity").equals("popularity")) {
-            getActivity().setTitle("Most Popular Movies");
-            prefP = true;
-            prefH = false;
-        } else if (prefs.getString("sortby", "rating").equals("rating")) {
-            getActivity().setTitle("Highest Rated Movies");
-            prefP = false;
-            prefF = false;
-        } else if (prefs.getString("sortby", "favorites").equals("favorites")) {
-            getActivity().setTitle("Favorite Movies");
-            prefP = false;
-            prefF = true;
-        }
+            if (prefs.getString("sortby", "popularity").equals("popularity")) {
+                getActivity().setTitle("Most Popular Movies");
+                prefP = true;
+                prefH = false;
+            } else if (prefs.getString("sortby", "rating").equals("rating")) {
+                getActivity().setTitle("Highest Rated Movies");
+                prefP = false;
+                prefF = false;
+            } else if (prefs.getString("sortby", "favorites").equals("favorites")) {
+                getActivity().setTitle("Favorite Movies");
+                prefP = false;
+                prefF = true;
+            }
 
-        TextView favTextView = new TextView(getActivity());
-        LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment_two);
-        if (prefF) {
+            TextView favTextView = new TextView(getActivity());
+            LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment_two);
+            if (prefF) {
 
-            if (posterArray.size() == 0) {
+                if (posterArray.size() == 0) {
 
-                favTextView.setText(R.string.no_favorites);
-                if (layout.getChildCount() == 1) {
-                    layout.addView(favTextView);
-                    gridview.setVisibility(GridView.GONE);
+                    favTextView.setText(R.string.no_favorites);
+                    if (layout.getChildCount() == 1) {
+                        layout.addView(favTextView);
+                        gridview.setVisibility(GridView.GONE);
+                    }
+                } else {
+                    gridview.setVisibility(GridView.VISIBLE);
+                    layout.removeView(favTextView);
+                }
+
+                if (posterArray != null && getActivity() != null) {
+                    PosterAdapter adapter = new PosterAdapter(getActivity(), imageAdapter.layoutResourceId, movieArray);
+                    gridview.setAdapter(adapter);
                 }
             } else {
                 gridview.setVisibility(GridView.VISIBLE);
                 layout.removeView(favTextView);
-            }
 
-            if (posterArray != null && getActivity() != null) {
-                PosterAdapter adapter = new PosterAdapter(getActivity(), imageAdapter.layoutResourceId, movieArray );
-                gridview.setAdapter(adapter);
-            }
-        } else {
-            gridview.setVisibility(GridView.VISIBLE);
-            layout.removeView(favTextView);
-
-            if (isNetworkAvailable()) {
-                fetchMovie.execute();
-            } else {
-                TextView noInternetText = new TextView(getActivity());
-                noInternetText.setText(noInter);
-                if (layout.getChildCount() == 1) {
-                    layout.addView(noInternetText);
+                if (isNetworkAvailable()) {
+                    fetchMovie.execute();
+                } else {
+                    TextView noInternetText = new TextView(getActivity());
+                    noInternetText.setText(noInter);
+                    if (layout.getChildCount() == 1) {
+                        layout.addView(noInternetText);
+                    }
+                    gridview.setVisibility(GridView.GONE);
                 }
-                gridview.setVisibility(GridView.GONE);
             }
         }
-
     }
 }
 

@@ -13,6 +13,8 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
+    MainActivityFragment fragMain;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,24 +31,22 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
 
-        MainActivityFragment fragMain = new MainActivityFragment();
+        fragMain = new MainActivityFragment();
 
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
         fragTransaction.add(R.id.fragment_one, fragMain, "PopFragment");
         fragTransaction.addToBackStack("Fragment");
         fragTransaction.commit();
-
-
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         Log.d(TAG, "onCreateOptionsMenu done");
 
         return true;
-    }
+    }*/
 
     /*/*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
