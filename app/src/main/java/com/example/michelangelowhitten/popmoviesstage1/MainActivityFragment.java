@@ -47,6 +47,7 @@ public class MainActivityFragment extends Fragment {
 
 
     ArrayList<AndroidMovie> movieArray;
+    private Context mContext;
     String pref;
     LayoutInflater inflater;
     ViewGroup container;
@@ -57,7 +58,6 @@ public class MainActivityFragment extends Fragment {
     String noInter = "No internet available at the moment";
     JsonReader jReader;
     ArrayList<String> posterArray;
-    Boolean newLoad;
     Boolean prefP;
     Boolean prefH;
     Boolean internet;
@@ -67,11 +67,6 @@ public class MainActivityFragment extends Fragment {
     PreferenceChangeListener p;
 
     public MainActivityFragment() {
-
-        newLoad = true;
-        //movieArray = new ArrayList<>();
-        Log.d(MAF_TAG, "movieArray list init");
-
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
     }
 
@@ -110,20 +105,12 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        Log.d(MAF_TAG, "MainActivityFragment onCreate() good");
-
-        //getPopularMovies();
-
-        //Log.d(MAF_TAG, "getPopularMovies() ran");
+        mContext = getActivity().getApplicationContext();
 
         if (savedInstanceState == null || !savedInstanceState.containsKey("movieArray")) {
             Log.d(MAF_TAG, "if is true");
 
-            movieArray = new ArrayList<>(20);
-            getPopularMovies();
-
-            Log.d(MAF_TAG, "after fetchmovie.execute() ran");
+            onAttach(mContext);
         } else {
             Log.d(MAF_TAG, "else is true");
 
@@ -131,13 +118,24 @@ public class MainActivityFragment extends Fragment {
         }
         Log.d(MAF_TAG, "movieArray list populated?");
         System.out.println("movieArray is " + movieArray);
-
+        
         shared_preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = shared_preferences.edit();
         editor.putString("Preference", "Most Popular");
         editor.apply();
 
         Log.d(MAF_TAG, "shared_pref and editor instantiated?");
+
+        Log.d(MAF_TAG, "MainActivityFragment onCreate() good");
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        movieArray = new ArrayList<>(20);
+        getPopularMovies();
+        Log.d(MAF_TAG, "after getPopularMovies() ran");
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -145,7 +143,6 @@ public class MainActivityFragment extends Fragment {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
