@@ -2,6 +2,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = MainActivity.class.getSimpleName();
 
     MainActivityFragment fragMain;
+    //Context mContext = getApplicationContext();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "fragment Transaction.add fragment_main_layout.beginTransaction() good");
         Log.d(TAG, "MainActivity new MainActivityFragment() good");
         Log.d(TAG, "MainActivity setSupportActionBar() good");
-        Log.d(TAG, "addToBackStack worked");
         Log.d(TAG, "this is after setContentView in main good");*/
 
         setContentView(R.layout.activity_main);
@@ -35,9 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        fragTransaction.add(R.id.fragment_one, fragMain, "Fragment");
+        fragTransaction.add(R.id.grid_view, fragMain, "Fragment");
         fragTransaction.addToBackStack("Fragment");
         fragTransaction.commit();
+
+        Log.d(TAG, "addToBackStack worked");
+
     }
 
     /*@Override
