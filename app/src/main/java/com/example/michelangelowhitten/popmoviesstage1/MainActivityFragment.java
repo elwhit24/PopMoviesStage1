@@ -114,11 +114,12 @@ public class MainActivityFragment extends Fragment {
 
     public void getPopularMovies() {
 
-        System.out.println("after getPopularMovies() ----------before Fetch Movies task");
+        System.out.println("inside at start of getPopularMovies() ----------before Fetch Movies task");
 
         fetchMovie = new FetchMovieTask();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        pref = prefs.getString("sort", null);
+
+        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref = prefs.getString("sort", null);*/
 
         Log.d(MAF_TAG, "get pop, after fetchmovie instantiation");
 
@@ -129,12 +130,14 @@ public class MainActivityFragment extends Fragment {
         System.out.println("internet is now: " + true);
 
         Log.d(MAF_TAG, "after internet instantiation would have ran");
+
+        fetchMovie.execute();
     }
 
     @Override
     public void onAttach(Context context) {
         movieArray = new ArrayList<>(20);
-        getPopularMovies();
+        //getPopularMovies();
         Log.d(MAF_TAG, "after getPopularMovies() ran");
     }
 
@@ -154,6 +157,7 @@ public class MainActivityFragment extends Fragment {
         Log.d(MAF_TAG, "onStart()...at the start");
 
         super.onStart();
+
         shared_pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         p = new PreferenceChangeListener();
         shared_pref.registerOnSharedPreferenceChangeListener(p);
@@ -210,7 +214,7 @@ public class MainActivityFragment extends Fragment {
 
     public class FetchMovieTask extends AsyncTask<String, Void, String> {
 
-        final String FETCH_TAG = FetchMovieTask.class.getSimpleName();
+        //final String FETCH_TAG = FetchMovieTask.class.getSimpleName();
 
             public FetchMovieTask() {
                 Log.d(MAF_TAG, "Fetch Constructor ran");
@@ -274,12 +278,8 @@ public class MainActivityFragment extends Fragment {
             GridView gv = null;
             gv.findViewById(R.id.grid_view);
 
-            if (gv != null) {
-                try {
-                    gv.setAdapter(new PosterAdapter(mContext, 0, getPopularMoviesArray(string)));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            if (gv == null) {
+                gv.setAdapter(new PosterAdapter(mContext, 0, movieArray));
             }
 
             gv.getAdapter().getView(position, cFragGridView, (ViewGroup) rootView);

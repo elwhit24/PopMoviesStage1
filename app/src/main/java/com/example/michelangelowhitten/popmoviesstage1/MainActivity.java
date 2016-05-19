@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = fragMain.getActivity();
         movieArrayList = fragMain.movieArray;
+
+        System.out.println("movieArrayList test print:" + movieArrayList.get(2));
     }
 
     @Override
