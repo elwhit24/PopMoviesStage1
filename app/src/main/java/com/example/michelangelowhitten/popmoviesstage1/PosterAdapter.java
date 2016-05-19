@@ -40,10 +40,6 @@ public class PosterAdapter extends ArrayAdapter<AndroidMovie> {
         return 0;
     }
 
-    /*public View getView(ImageView view){
-        return view;
-    }*/
-
     // create new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
@@ -58,16 +54,17 @@ public class PosterAdapter extends ArrayAdapter<AndroidMovie> {
             imageView = (ImageView) convertView;
         }
 
-        /*Picasso.with(context).
+        Picasso.with(getContext())
+                .load(movieItem.getPosterImageUrl())
+                .into(imageView);
+
+        return imageView;
+    }
+}
+
+/*Picasso.with(context).
                 load(movieItem.getPosterImageUrl()).
                 noFade().
                 fit().
                 centerCrop().
                 into(imageView);*/
-
-        Picasso.with(getContext())
-                .load(movieItem.getPosterImageUrl())
-                .into(imageView);
-        return imageView;
-    }
-}

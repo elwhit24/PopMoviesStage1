@@ -37,7 +37,6 @@ public class AndroidMovie implements Parcelable {
         movieTitle = item_title;
         voteAverage = item_vote_average;
         backdropImageUrl = item_backdrop_path;
-
     }
 
     private AndroidMovie(Parcel in) {
@@ -51,7 +50,6 @@ public class AndroidMovie implements Parcelable {
     }
 
     public AndroidMovie() {
-
     }
 
     public int getMovieId() {

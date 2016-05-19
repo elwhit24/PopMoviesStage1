@@ -54,11 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = fragMain.getActivity();
         movieArrayList = fragMain.movieArray;
-
-        GridView gridview = (GridView) findViewById(R.id.grid_view);
-        if (gridview != null) {
-            gridview.setAdapter(new PosterAdapter(mContext, 0, movieArrayList));
-        }
     }
 
     @Override

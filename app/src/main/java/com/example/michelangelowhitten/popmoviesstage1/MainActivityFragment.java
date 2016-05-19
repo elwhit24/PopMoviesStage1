@@ -48,7 +48,6 @@ public class MainActivityFragment extends Fragment {
 
     Context mContext = getActivity();
     ArrayList<AndroidMovie> movieArray;
-    String pref;
     LayoutInflater inflater;
     ViewGroup container;
     View rootView;
@@ -57,42 +56,36 @@ public class MainActivityFragment extends Fragment {
     String noFetch = "Not able to grab movie info from MovieDB.";
     String noInter = "No internet available at the moment";
     JsonReader jReader;
-    ArrayList<Image> posterArray;
+    ArrayList<Image> posterFavs;
+
+    String pref;
     Boolean prefP;
     Boolean prefH;
-    Boolean internet;
     Boolean prefF;
+    Boolean internet;
+
     FetchMovieTask fetchMovie;
-    SharedPreferences shared_preferences;
+    SharedPreferences shared_pref;
     PreferenceChangeListener p;
     String sToast;
-    GridView cGridview;
+    int position;
 
     public MainActivityFragment() {
+
         sToast = "this is the toast";
+
+        position = 0;
 
         movieArray = new ArrayList<>();
         getPopularMovies();
 
-       // cFragGridView = new GridView(mContext);
-        //cFragGridView = (GridView) rootView.findViewById(R.id.grid_view);
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-
-
-
-        /*mContext = this.getActivity();
-
-        cFragGridView = new GridView(this.mContext);
-        imageAdapter.addAll();*/
-
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,15 +109,8 @@ public class MainActivityFragment extends Fragment {
 
             Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
         }
-
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
-
-    /*@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true)
-    }*/
 
     public void getPopularMovies() {
 
@@ -143,16 +129,6 @@ public class MainActivityFragment extends Fragment {
         System.out.println("internet is now: " + true);
 
         Log.d(MAF_TAG, "after internet instantiation would have ran");
-        /*if(b)
-            fetchMovie.execute();
-        else
-        {
-            System.out.println("THIS IS SCREWED UP, CONNECTION IS");
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(getActivity(), " " + noInter + " ", duration);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-        }*/
     }
 
     @Override
@@ -175,14 +151,14 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onStart() {
 
-        Log.d(MAF_TAG, "onStart() ran");
-
+        Log.d(MAF_TAG, "onStart()...at the start");
 
         super.onStart();
+        shared_pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        p = new PreferenceChangeListener();
+        shared_pref.registerOnSharedPreferenceChangeListener(p);
 
         Log.d(MAF_TAG, "super.onStart() ran");
-
-        //getPopularMovies();
     }
 
     public class JsonReader {
@@ -234,20 +210,15 @@ public class MainActivityFragment extends Fragment {
 
     public class FetchMovieTask extends AsyncTask<String, Void, String> {
 
-        final String LOG_TAG = FetchMovieTask.class.getSimpleName();
-
-       // private final Context mContext;
+        final String FETCH_TAG = FetchMovieTask.class.getSimpleName();
 
             public FetchMovieTask() {
                 Log.d(MAF_TAG, "Fetch Constructor ran");
-
-               // Context context,,,,,,,,mContext = context;
             }
 
             protected String doInBackground(String... params) {
 
                 Log.d(MAF_TAG, "doInBackground started");
-
 
                 if (params.length == 0) {
                     return null;
@@ -300,13 +271,28 @@ public class MainActivityFragment extends Fragment {
 
             Log.d(MAF_TAG, "onPostExecute() running");
 
-            try {
+            GridView gv = null;
+            gv.findViewById(R.id.grid_view);
+
+            if (gv != null) {
+                try {
+                    gv.setAdapter(new PosterAdapter(mContext, 0, getPopularMoviesArray(string)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            gv.getAdapter().getView(position, cFragGridView, (ViewGroup) rootView);
+
+            Log.d(MAF_TAG, "onPostExecute()..it ran, now after getView in onPostexecute");
+
+           /* try {
                 movieArray = getPopularMoviesArray(string);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            getView();
+            getView();*/
 
             /*if(string.length()==0)
             {
@@ -344,8 +330,8 @@ public class MainActivityFragment extends Fragment {
                 for (int i = 0; i < movieJsonArray.length(); i++) {
 
                     JSONObject movieObject = movieJsonArray.getJSONObject(i);
-
                     AndroidMovie aMovie = new AndroidMovie();
+
                     aMovie.setPosterUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(posterPath));
                     Log.v("||||||", "the poster path: " + aMovie.getPosterImageUrl());
                     aMovie.setPlotSynopsis(movieObject.getString(movieOverview));
@@ -398,7 +384,7 @@ public class MainActivityFragment extends Fragment {
             LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment_two);
             if (prefF) {
 
-                if (posterArray.size() == 0) {
+                if (posterFavs.size() == 0) {
 
                     favTextView.setText(R.string.no_favorites);
                     if (layout.getChildCount() == 1) {
@@ -410,7 +396,7 @@ public class MainActivityFragment extends Fragment {
                     layout.removeView(favTextView);
                 }
 
-                if (posterArray != null && getActivity() != null) {
+                if (posterFavs != null && getActivity() != null) {
                     PosterAdapter adapter = new PosterAdapter(getActivity(), imageAdapter.layoutResourceId, movieArray);
                     cFragGridView.setAdapter(adapter);
                 }
@@ -432,35 +418,3 @@ public class MainActivityFragment extends Fragment {
         }
     }
 }
-
-
-    /*public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
-
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        if (getActivity() != null) {
-            ArrayList<AndroidMovie> movieArray = new ArrayList<AndroidMovie>();
-            imageAdapter = new PosterAdapter(getActivity(), 0, movieArray);
-            //gridview = (GridView) rootView.findViewById(R.id.grid_view);
-            //gridview.setAdapter(imageAdapter);
-            //gridview.getAdapter().getView(0, gridview, gridview);
-
-            this.cGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    AndroidMovie pm = imageAdapter.getItem(position);
-                    Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
-                    movieIntent.putExtra(Intent.EXTRA_TEXT, pm);
-                    startActivity(movieIntent);
-                }
-            });
-
-            Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
-        }
-        return rootView;
-    }*/
