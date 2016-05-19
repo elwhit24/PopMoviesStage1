@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.app.FragmentHostCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = MainActivity.class.getSimpleName();
+
+    PosterAdapter imageAdapter;
 
     MainActivityFragment fragMain;
     ArrayList<AndroidMovie> movieArrayList = new ArrayList<>(20);
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fragMain = new MainActivityFragment();
-
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
         fragTransaction.add(R.id.grid_view, fragMain, "Fragment");
@@ -54,8 +56,14 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = fragMain.getActivity();
         movieArrayList = fragMain.movieArray;
+        imageAdapter = new PosterAdapter(fragMain.mContext, fragMain.position, fragMain.movieArray);
 
-        System.out.println("movieArrayList test print:" + movieArrayList.get(2));
+        System.out.println("movieArrayList test print: ");
+        fragMain.imageAdapter = this.imageAdapter;
+    }
+
+    public PosterAdapter getImageAdapter() {
+        return this.imageAdapter;
     }
 
     @Override

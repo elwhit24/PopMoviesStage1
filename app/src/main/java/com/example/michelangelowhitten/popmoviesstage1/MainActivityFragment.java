@@ -1,6 +1,8 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentHostCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +23,9 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +44,7 @@ public class MainActivityFragment extends Fragment {
 
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
 
-    private final String MY_API_KEY = "private";
+    private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
 
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + MY_API_KEY;
     private final String HI_RATED_URL = "http://api.themoviedb.org/3/discover/movie/?certification_country=US&certification=R&" +
@@ -47,23 +52,23 @@ public class MainActivityFragment extends Fragment {
     private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185/";
 
     Context mContext = getActivity();
+    FragmentHostCallback mHost;
+    PosterAdapter imageAdapter;
     ArrayList<AndroidMovie> movieArray;
     LayoutInflater inflater;
     ViewGroup container;
     View rootView;
     GridView cFragGridView;
-    PosterAdapter imageAdapter;
     String noFetch = "Not able to grab movie info from MovieDB.";
     String noInter = "No internet available at the moment";
     JsonReader jReader;
     ArrayList<Image> posterFavs;
-
+    Boolean attachCalled;
     String pref;
     Boolean prefP;
     Boolean prefH;
     Boolean prefF;
     Boolean internet;
-
     FetchMovieTask fetchMovie;
     SharedPreferences shared_pref;
     PreferenceChangeListener p;
@@ -75,9 +80,9 @@ public class MainActivityFragment extends Fragment {
         sToast = "this is the toast";
 
         position = 0;
-
+        attachCalled = false;
         movieArray = new ArrayList<>();
-        getPopularMovies();
+
 
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
     }
@@ -95,6 +100,20 @@ public class MainActivityFragment extends Fragment {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        GridView gView = new GridView(mContext);
+        //gView.setAdapter(imageAdapter);
+
+        /*Picasso.with(getContext())
+                .load(movieItem.getPosterImageUrl())
+                .into(imageView);*/
+
+        /*if (gView == null) {
+            gView.setAdapter(new PosterAdapter(mContext, position, movieArray));
+        }
+        gView.getAdapter().getView(position, cFragGridView, (ViewGroup) rootView);*/
+
+
+
         if (getActivity() != null) {
 
             this.cFragGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -107,7 +126,7 @@ public class MainActivityFragment extends Fragment {
                 }
             });
 
-            Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
+            Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");  //DO NOT START WITHOUT ME
         }
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
@@ -137,8 +156,15 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         movieArray = new ArrayList<>(20);
+
+        attachCalled = true;
+        final Activity hostActivity = getActivity();
+        if (hostActivity != null) {
+            attachCalled = false;
+        }
+
         //getPopularMovies();
-        Log.d(MAF_TAG, "after getPopularMovies() ran");
+        Log.d(MAF_TAG, "after onAttach ran");
     }
 
     private boolean isNetworkAvailable() {
