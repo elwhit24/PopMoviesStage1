@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -56,7 +57,7 @@ public class MainActivityFragment extends Fragment {
     String noFetch = "Not able to grab movie info from MovieDB.";
     String noInter = "No internet available at the moment";
     JsonReader jReader;
-    ArrayList<String> posterArray;
+    ArrayList<Image> posterArray;
     Boolean prefP;
     Boolean prefH;
     Boolean internet;
@@ -72,8 +73,6 @@ public class MainActivityFragment extends Fragment {
 
         movieArray = new ArrayList<>();
         getPopularMovies();
-        imageAdapter = new PosterAdapter(mContext, 0, movieArray);
-        cFragGridView.setAdapter(imageAdapter);
 
        // cFragGridView = new GridView(mContext);
         //cFragGridView = (GridView) rootView.findViewById(R.id.grid_view);
@@ -85,10 +84,14 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mContext = this.getActivity();
+
+
+
+
+        /*mContext = this.getActivity();
 
         cFragGridView = new GridView(this.mContext);
-        imageAdapter.addAll();
+        imageAdapter.addAll();*/
 
     }
 
@@ -100,8 +103,6 @@ public class MainActivityFragment extends Fragment {
         StrictMode.setThreadPolicy(policy);
 
         if (getActivity() != null) {
-            imageAdapter = new PosterAdapter(getActivity(), 0, movieArray);
-            cFragGridView.setAdapter(imageAdapter);
 
             this.cFragGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -115,9 +116,8 @@ public class MainActivityFragment extends Fragment {
 
             Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");
         }
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        return rootView;
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     /*@Override
@@ -182,7 +182,7 @@ public class MainActivityFragment extends Fragment {
 
         Log.d(MAF_TAG, "super.onStart() ran");
 
-        getPopularMovies();
+        //getPopularMovies();
     }
 
     public class JsonReader {
@@ -300,8 +300,15 @@ public class MainActivityFragment extends Fragment {
 
             Log.d(MAF_TAG, "onPostExecute() running");
 
+            try {
+                movieArray = getPopularMoviesArray(string);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-            if(string.length()==0)
+            getView();
+
+            /*if(string.length()==0)
             {
                 int duration = Toast.LENGTH_LONG;
                 Toast toast = Toast.makeText(getContext(), noFetch, duration);
@@ -314,7 +321,7 @@ public class MainActivityFragment extends Fragment {
                 GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
                 gridView.setAdapter(imageAdapter = new PosterAdapter(getContext(), 0, movieArray));
                 rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            }
+            }*/
         }
 
         public ArrayList<AndroidMovie> getPopularMoviesArray(String movieJsonStr)

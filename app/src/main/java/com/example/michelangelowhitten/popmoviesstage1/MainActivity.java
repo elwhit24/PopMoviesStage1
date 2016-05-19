@@ -3,11 +3,17 @@ package com.example.michelangelowhitten.popmoviesstage1;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.GridView;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -15,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = MainActivity.class.getSimpleName();
 
     MainActivityFragment fragMain;
-    //Context mContext = getApplicationContext();
+    ArrayList<AndroidMovie> movieArrayList = new ArrayList<>(20);
+    Context mContext;
 
 
     @Override
@@ -41,19 +48,28 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.addToBackStack("Fragment");
         fragTransaction.commit();
 
-        Log.d(TAG, "addToBackStack worked");
+        Log.d(TAG, "after transaction commit");
 
+        fragMain.onAttach(mContext);
+
+        mContext = fragMain.getActivity();
+        movieArrayList = fragMain.movieArray;
+
+        GridView gridview = (GridView) findViewById(R.id.grid_view);
+        if (gridview != null) {
+            gridview.setAdapter(new PosterAdapter(mContext, 0, movieArrayList));
+        }
     }
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         Log.d(TAG, "onCreateOptionsMenu done");
 
         return true;
-    }*/
+    }
 
-    /*/*@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
@@ -62,5 +78,5 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 }
