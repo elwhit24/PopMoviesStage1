@@ -47,9 +47,9 @@ public class PosterAdapter extends ArrayAdapter<AndroidMovie> {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            imageView = (ImageView) inflater.inflate(R.layout.movie_item, parent, false);
-            imageView.setLayoutParams(new GridView.LayoutParams(50, 60));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView = (ImageView) inflater.inflate(R.layout.fragment_main, parent, false);
+            //imageView.setLayoutParams(new GridView.LayoutParams(50, 60));
+            //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
         } else {
             imageView = (ImageView) convertView;

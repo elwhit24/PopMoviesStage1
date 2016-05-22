@@ -137,8 +137,8 @@ public class MainActivityFragment extends Fragment {
         if(isNetworkAvailable()) {
             fetchMovie = new FetchMovieTask();
         }
-        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        pref = prefs.getString("sort", null);*/
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref = prefs.getString("sort", null);
 
         Log.d(MAF_TAG, "get pop, after fetchmovie instantiation");
 
@@ -220,14 +220,30 @@ public class MainActivityFragment extends Fragment {
                 System.out.println("before sort comparison ----------in Fetch Movies task");
 
                 if (pref == null) {
+
+                    System.out.println("pref is " + pref);
                     pref = "popular";
+                    System.out.println("pref is now " + pref);
+                    System.out.println("NEXT UP");
+
+                    System.out.println("popularMoviesJson is " + popularMoviesJson);
+                    System.out.println("popularMoviesJson should be null!!");
+
                     try {
                         popularMoviesJson = jReader.JsonRead(POP_URL);
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
                     }
+                    System.out.println("popularMoviesJson is " + popularMoviesJson);
+
                     if (popularMoviesJson != null) {
                         finalJsonString = popularMoviesJson.toString();
+                        System.out.println("finalJsonString is " + finalJsonString);
+                        try {
+                            movieArray = this.getPopularMoviesArray(finalJsonString);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         return finalJsonString;
                     }
                 } else if (pref.equals("highest rated")) {
@@ -240,12 +256,16 @@ public class MainActivityFragment extends Fragment {
                         finalJsonString = highestRatedMoviesJson.toString();
                         try {
                             movieArray = this.getPopularMoviesArray(finalJsonString);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         return finalJsonString;
                     }
                 }
+
+                System.out.println("after sort comparison ----------in Fetch Movies task");
+
                 return null;
             }
 
@@ -253,13 +273,14 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(String string) {
 
             /*try {
-                movieArray = fetchMovie.getPopularMoviesArray(doInBackground(string));
+                movieArray = getPopularMoviesArray(string);
             } catch (JSONException e) {
                 e.printStackTrace();
             }*/
 
-            PosterAdapter adapter = new PosterAdapter(getActivity(), width, movieArray);
-            cFragGridView.setAdapter(adapter);
+            //PosterAdapter adapter = new PosterAdapter(getActivity(), width, movieArray);
+            //cFragGridView.setAdapter(adapter);
+            System.out.println("string passed is " + string);
 
 
             Log.d(MAF_TAG, "onPostExecute() running");
