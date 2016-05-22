@@ -278,9 +278,14 @@ public class MainActivityFragment extends Fragment {
                 e.printStackTrace();
             }*/
 
-            //PosterAdapter adapter = new PosterAdapter(getActivity(), width, movieArray);
-            //cFragGridView.setAdapter(adapter);
-            System.out.println("string passed is " + string);
+            PosterAdapter adapter = new PosterAdapter(getActivity(), position, movieArray);
+            cFragGridView.setAdapter(adapter);
+            
+            /*System.out.println("string passed is " + string);
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+            System.out.println("movieArray is " + movieArray);*/
+
 
 
             Log.d(MAF_TAG, "onPostExecute() running");
