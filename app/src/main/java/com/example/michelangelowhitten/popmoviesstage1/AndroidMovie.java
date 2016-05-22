@@ -27,26 +27,14 @@ public class AndroidMovie implements Parcelable {
         }
     };
 
-    public AndroidMovie (int item_id, String item_poster_path, String item_backdrop_path, String item_overview,
-                         String item_release_date, String item_title,
-                         double item_vote_average) {
-        movieId = item_id;
-        posterImageUrl = item_poster_path;
-        plotSynopsis = item_overview;
-        releaseDate = item_release_date;
-        movieTitle = item_title;
-        voteAverage = item_vote_average;
-        backdropImageUrl = item_backdrop_path;
-    }
-
     private AndroidMovie(Parcel in) {
-        movieId = in.readInt();
-        movieTitle = in.readString();
-        posterImageUrl = in.readString();
-        backdropImageUrl = in.readString();
-        releaseDate = in.readString();
-        plotSynopsis = in.readString();
-        voteAverage = in.readDouble();
+        this.movieId = in.readInt();
+        this.movieTitle = in.readString();
+        this.posterImageUrl = in.readString();
+        this.backdropImageUrl = in.readString();
+        this.releaseDate = in.readString();
+        this.plotSynopsis = in.readString();
+        this.voteAverage = in.readDouble();
     }
 
     public AndroidMovie() {
