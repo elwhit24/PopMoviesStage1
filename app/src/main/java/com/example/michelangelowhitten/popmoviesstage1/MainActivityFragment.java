@@ -53,6 +53,8 @@ public class MainActivityFragment extends Fragment {
                                         "sort_by=vote_average.desc&api_key=" + MY_API_KEY;
     private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185";
 
+    ArrayList<String> posterImageUrls;
+    ArrayList<String> backdropImageUrls;
     Context mContext;
     FragmentHostCallback mHost;
     PosterAdapter imageAdapter;
@@ -84,7 +86,7 @@ public class MainActivityFragment extends Fragment {
         mContext = getActivity();
         position = 0;
         movieArray = new ArrayList<>();
-        imageAdapter = new PosterAdapter(mContext, position, movieArray);
+       // imageAdapter = new PosterAdapter(mContext, position, movieArray);
         cFragGridView = new GridView(mContext);
 
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
@@ -108,7 +110,7 @@ public class MainActivityFragment extends Fragment {
 
         if (getActivity() != null) {
 
-            PosterAdapter posterAdapter = new PosterAdapter(getActivity(), position, movieArray);
+            PosterAdapter posterAdapter = new PosterAdapter(mContext, posterImageUrls);
             cFragGridView = (GridView) rootView.findViewById(R.id.grid_view);
             cFragGridView.setColumnWidth(width);
             cFragGridView.setAdapter(posterAdapter);
@@ -278,7 +280,7 @@ public class MainActivityFragment extends Fragment {
                 e.printStackTrace();
             }*/
 
-            PosterAdapter adapter = new PosterAdapter(getActivity(), position, movieArray);
+            PosterAdapter adapter = new PosterAdapter(getActivity(), posterImageUrls);
             cFragGridView.setAdapter(adapter);
 
             /*System.out.println("string passed is " + string);
@@ -295,7 +297,7 @@ public class MainActivityFragment extends Fragment {
                // gv.setAdapter(new PosterAdapter(mContext, 0, movieArray));
 
 
-            //gv.getAdapter().getView(position, cFragGridView, (ViewGroup) rootView);
+            //imageAdapter.getView(position, cFragGridView, (ViewGroup) rootView);
 
             Log.d(MAF_TAG, "onPostExecute()..it ran, now after getView in onPostexecute");
 
@@ -347,18 +349,21 @@ public class MainActivityFragment extends Fragment {
 
                     aMovie.setPosterUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(posterPath));
                     Log.v("||||||", "the poster path: " + aMovie.getPosterImageUrl());
+                    posterImageUrls.add(aMovie.getPosterImageUrl());
                     aMovie.setPlotSynopsis(movieObject.getString(movieOverview));
                     aMovie.setReleaseDate(movieObject.getString(releaseDate));
                     aMovie.setId(movieObject.getInt(movieId));
                     aMovie.setMovieName(movieObject.getString(movieTitle));
                     aMovie.setBackdropImageUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(backdropPath));
                     Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
+                    backdropImageUrls.add(aMovie.getPosterImageUrl());
                     aMovie.setRating(movieObject.getDouble(voteAverage));
 
                     movieArray.add(aMovie);
                     /*Picasso.with(mContext)
                             .load("http://image.tmdb.org/t/p/w185/" + aMovie.getPosterImageUrl())
-                            .resize(50, 50)
+                            //.resize(50, 50)
+                            .fit()
                             .into((Target) rootView);*/
                 }
             }
@@ -460,7 +465,7 @@ public class MainActivityFragment extends Fragment {
                 }
 
                 if (posterFavs != null && getActivity() != null) {
-                    PosterAdapter adapter = new PosterAdapter(getActivity(), imageAdapter.layoutResourceId, movieArray);
+                    PosterAdapter adapter = new PosterAdapter(mContext, posterImageUrls);
                     cFragGridView.setAdapter(adapter);
                 }
             } else {
