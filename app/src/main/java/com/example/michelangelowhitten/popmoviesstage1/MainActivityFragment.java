@@ -209,12 +209,6 @@ public class MainActivityFragment extends Fragment {
 
                 Log.d(MAF_TAG, "doInBackground started");
 
-                if (params.length == 0) {
-                    return null;
-                }
-
-                Log.d(MAF_TAG, "after first if in doInBackground");
-
                 JSONObject popularMoviesJson = new JSONObject();
                 JSONObject highestRatedMoviesJson = new JSONObject();
                 String finalJsonString;
@@ -258,8 +252,15 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(String string) {
 
+            /*try {
+                movieArray = fetchMovie.getPopularMoviesArray(doInBackground(string));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
+
             PosterAdapter adapter = new PosterAdapter(getActivity(), width, movieArray);
             cFragGridView.setAdapter(adapter);
+
 
             Log.d(MAF_TAG, "onPostExecute() running");
 
@@ -329,10 +330,10 @@ public class MainActivityFragment extends Fragment {
                     aMovie.setRating(movieObject.getDouble(voteAverage));
 
                     movieArray.add(aMovie);
-                    Picasso.with(mContext)
+                    /*Picasso.with(mContext)
                             .load("http://image.tmdb.org/t/p/w185/" + aMovie.getPosterImageUrl())
                             .resize(50, 50)
-                            .into((Target) rootView);
+                            .into((Target) rootView);*/
                 }
             }
             return movieArray;
