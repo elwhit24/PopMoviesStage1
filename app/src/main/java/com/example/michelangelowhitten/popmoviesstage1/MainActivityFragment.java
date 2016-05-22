@@ -51,7 +51,7 @@ public class MainActivityFragment extends Fragment {
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + MY_API_KEY;
     private final String HI_RATED_URL = "http://api.themoviedb.org/3/discover/movie/?certification_country=US&certification=R&" +
                                         "sort_by=vote_average.desc&api_key=" + MY_API_KEY;
-    private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185/";
+    private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185";
 
     Context mContext;
     FragmentHostCallback mHost;
@@ -280,7 +280,7 @@ public class MainActivityFragment extends Fragment {
 
             PosterAdapter adapter = new PosterAdapter(getActivity(), position, movieArray);
             cFragGridView.setAdapter(adapter);
-            
+
             /*System.out.println("string passed is " + string);
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
@@ -351,7 +351,7 @@ public class MainActivityFragment extends Fragment {
                     aMovie.setReleaseDate(movieObject.getString(releaseDate));
                     aMovie.setId(movieObject.getInt(movieId));
                     aMovie.setMovieName(movieObject.getString(movieTitle));
-                    aMovie.setPosterUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(backdropPath));
+                    aMovie.setBackdropImageUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(backdropPath));
                     Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
                     aMovie.setRating(movieObject.getDouble(voteAverage));
 

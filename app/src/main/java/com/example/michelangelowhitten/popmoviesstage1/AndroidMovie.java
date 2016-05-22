@@ -70,6 +70,10 @@ public class AndroidMovie implements Parcelable {
         return backdropImageUrl;
     }
 
+    public void setBackdropImageUrl(String backdropImageUrl) {
+        this.backdropImageUrl = backdropImageUrl;
+    }
+
     public String getPlotSynopsis() {
         return plotSynopsis;
     }
