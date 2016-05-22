@@ -45,9 +45,7 @@ public class DetailsFragment extends Fragment {
             rating.setText(stringRating);
             String stringRelDate = NumberFormat.getInstance().format(movieItem.getReleaseDate());
             releaseDate.setText(stringRelDate);
-
         }
-
         return rootView;
     }
 

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
-import android.support.v4.app.FragmentHostCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,16 +20,15 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
-    PosterAdapter imageAdapter;
-
     MainActivityFragment fragMain;
-    ArrayList<AndroidMovie> movieArrayList = new ArrayList<>(20);
+    ArrayList<AndroidMovie> movieArrayList = new ArrayList<>();
     Context mContext;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         /*Log.d(TAG, "main onCreate successful");
         Log.d(TAG, "fragment Transaction.add fragment_main_layout.beginTransaction() good");
@@ -38,32 +36,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "MainActivity setSupportActionBar() good");
         Log.d(TAG, "this is after setContentView in main good");*/
 
-        setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
-        setSupportActionBar(toolbar);
-
-        fragMain = new MainActivityFragment();
         FragmentManager fragManager = getFragmentManager();
-        FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        fragTransaction.add(R.id.grid_view, fragMain, "Fragment");
-        fragTransaction.addToBackStack("Fragment");
+        FragmentTransaction fragTransaction = fragManager.beginTransaction()
+                .replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
         Log.d(TAG, "after transaction commit");
 
-        fragMain.onAttach(mContext);
-
-        mContext = fragMain.getActivity();
-        movieArrayList = fragMain.movieArray;
-        imageAdapter = new PosterAdapter(fragMain.mContext, fragMain.position, fragMain.movieArray);
-
-        System.out.println("movieArrayList test print: ");
-        fragMain.imageAdapter = this.imageAdapter;
-    }
-
-    public PosterAdapter getImageAdapter() {
-        return this.imageAdapter;
     }
 
     @Override

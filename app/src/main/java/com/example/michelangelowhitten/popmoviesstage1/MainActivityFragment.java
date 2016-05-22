@@ -6,26 +6,27 @@ import android.app.FragmentHostCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.util.*;
-import android.view.Gravity;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.squareup.picasso.Picasso;
-
+import com.squareup.picasso.Target;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -51,121 +53,111 @@ public class MainActivityFragment extends Fragment {
                                         "sort_by=vote_average.desc&api_key=" + MY_API_KEY;
     private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185/";
 
-    Context mContext = getActivity();
+    Context mContext;
     FragmentHostCallback mHost;
     PosterAdapter imageAdapter;
-    ArrayList<AndroidMovie> movieArray;
-    LayoutInflater inflater;
-    ViewGroup container;
     View rootView;
     GridView cFragGridView;
     String noFetch = "Not able to grab movie info from MovieDB.";
     String noInter = "No internet available at the moment";
     JsonReader jReader;
+    ArrayList<AndroidMovie> movieArray;
     ArrayList<Image> posterFavs;
-    Boolean attachCalled;
     String pref;
     Boolean prefP;
     Boolean prefH;
     Boolean prefF;
-    Boolean internet;
     FetchMovieTask fetchMovie;
     SharedPreferences shared_pref;
     PreferenceChangeListener p;
-    String sToast;
+    int width;
     int position;
 
     public MainActivityFragment() {
-
-        sToast = "this is the toast";
-
-        position = 0;
-        attachCalled = false;
-        movieArray = new ArrayList<>();
-
-
-        Log.d(MAF_TAG, "MainActivityFragment constructor good");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        mContext = getActivity();
+        position = 0;
+        movieArray = new ArrayList<>();
+        imageAdapter = new PosterAdapter(mContext, position, movieArray);
+        cFragGridView = new GridView(mContext);
+
+        Log.d(MAF_TAG, "MainActivityFragment constructor good");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        GridView gView = new GridView(mContext);
-        //gView.setAdapter(imageAdapter);
+        Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
-        /*Picasso.with(getContext())
-                .load(movieItem.getPosterImageUrl())
-                .into(imageView);*/
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        setHasOptionsMenu(true);
 
-        /*if (gView == null) {
-            gView.setAdapter(new PosterAdapter(mContext, position, movieArray));
-        }
-        gView.getAdapter().getView(position, cFragGridView, (ViewGroup) rootView);*/
-
-
+        WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        width = size.x / 2;
 
         if (getActivity() != null) {
 
-            this.cFragGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            PosterAdapter posterAdapter = new PosterAdapter(getActivity(), position, movieArray);
+            cFragGridView = (GridView) rootView.findViewById(R.id.grid_view);
+            cFragGridView.setColumnWidth(width);
+            cFragGridView.setAdapter(posterAdapter);
+        }
+
+            cFragGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    AndroidMovie pm = imageAdapter.getItem(position);
-                    Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
-                    movieIntent.putExtra(Intent.EXTRA_TEXT, pm);
+                    AndroidMovie movieItem = movieArray.get(position);
+                    Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class).
+                            putExtra(Intent.EXTRA_TEXT, movieItem);
                     startActivity(movieIntent);
                 }
             });
 
             Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");  //DO NOT START WITHOUT ME
-        }
-        return inflater.inflate(R.layout.fragment_main, container, false);
+
+        return rootView;
     }
 
     public void getPopularMovies() {
 
         System.out.println("inside at start of getPopularMovies() ----------before Fetch Movies task");
 
-        fetchMovie = new FetchMovieTask();
 
+        if(isNetworkAvailable()) {
+            fetchMovie = new FetchMovieTask();
+        }
         /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);*/
 
         Log.d(MAF_TAG, "get pop, after fetchmovie instantiation");
 
-        System.out.println("internet = " + internet);
-
-        //internet = isNetworkAvailable();
-        Boolean b = true;
-        System.out.println("internet is now: " + true);
-
-        Log.d(MAF_TAG, "after internet instantiation would have ran");
-
-        fetchMovie.execute();
+        //fetchMovie.execute();
     }
 
-    @Override
+    /*@Override
     public void onAttach(Context context) {
-        movieArray = new ArrayList<>(20);
+        //movieArray = new ArrayList<>(20);
 
-        attachCalled = true;
+        *//*attachCalled = true;
         final Activity hostActivity = getActivity();
         if (hostActivity != null) {
             attachCalled = false;
-        }
+        }*//*
 
         //getPopularMovies();
         Log.d(MAF_TAG, "after onAttach ran");
-    }
+    }*/
 
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -189,53 +181,20 @@ public class MainActivityFragment extends Fragment {
         shared_pref.registerOnSharedPreferenceChangeListener(p);
 
         Log.d(MAF_TAG, "super.onStart() ran");
+
+        getPopularMovies();
+
+        Log.d(MAF_TAG, "after getPopularMovies() ran after super.onStart() ran");
+
     }
 
-    public class JsonReader {
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(MAF_TAG, "super.onResume() ran");
 
-        JSONObject json;
-        String jsonText;
+        this.fetchMovie.execute();
 
-        public JsonReader() {
-            this.json = new JSONObject();
-            this.jsonText = "";
-        }
-
-        public JSONObject JsonRead(String url) throws IOException, JSONException {
-            try {
-                return readJsonFromUrl(url);
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-            return readJsonFromUrl(url);
-        }
-
-        public String readIt(Reader reader) throws IOException {
-            StringBuilder stringBuilder = new StringBuilder();
-            int count;
-            while ((count = reader.read()) != -1) {
-                stringBuilder.append((char) count);
-            }
-            return stringBuilder.toString();
-        }
-
-        public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-            InputStream is = new URL(url).openStream();
-            try {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-                this.jsonText = readIt(bufferedReader);
-                this.json = new JSONObject(jsonText);
-                return json;
-            } finally {
-                if (is != null) {
-                    try {
-                        is.close();
-                    } catch (final IOException e) {
-                        Log.e("error w/ retrieval", "error closing stream", e);
-                    }
-                }
-            }
-        }
     }
 
     public class FetchMovieTask extends AsyncTask<String, Void, String> {
@@ -299,16 +258,17 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(String string) {
 
+            PosterAdapter adapter = new PosterAdapter(getActivity(), width, movieArray);
+            cFragGridView.setAdapter(adapter);
+
             Log.d(MAF_TAG, "onPostExecute() running");
 
-            GridView gv = null;
-            gv.findViewById(R.id.grid_view);
 
-            if (gv == null) {
-                gv.setAdapter(new PosterAdapter(mContext, 0, movieArray));
-            }
 
-            gv.getAdapter().getView(position, cFragGridView, (ViewGroup) rootView);
+               // gv.setAdapter(new PosterAdapter(mContext, 0, movieArray));
+
+
+            //gv.getAdapter().getView(position, cFragGridView, (ViewGroup) rootView);
 
             Log.d(MAF_TAG, "onPostExecute()..it ran, now after getView in onPostexecute");
 
@@ -369,9 +329,60 @@ public class MainActivityFragment extends Fragment {
                     aMovie.setRating(movieObject.getDouble(voteAverage));
 
                     movieArray.add(aMovie);
+                    Picasso.with(mContext)
+                            .load("http://image.tmdb.org/t/p/w185/" + aMovie.getPosterImageUrl())
+                            .resize(50, 50)
+                            .into((Target) rootView);
                 }
             }
             return movieArray;
+        }
+    }
+
+    public class JsonReader {
+
+        JSONObject json;
+        String jsonText;
+
+        public JsonReader() {
+            this.json = new JSONObject();
+            this.jsonText = "";
+        }
+
+        public JSONObject JsonRead(String url) throws IOException, JSONException {
+            try {
+                return readJsonFromUrl(url);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return readJsonFromUrl(url);
+        }
+
+        public String readIt(Reader reader) throws IOException {
+            StringBuilder stringBuilder = new StringBuilder();
+            int count;
+            while ((count = reader.read()) != -1) {
+                stringBuilder.append((char) count);
+            }
+            return stringBuilder.toString();
+        }
+
+        public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+            InputStream is = new URL(url).openStream();
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+                this.jsonText = readIt(bufferedReader);
+                this.json = new JSONObject(jsonText);
+                return json;
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (final IOException e) {
+                        Log.e("error w/ retrieval", "error closing stream", e);
+                    }
+                }
+            }
         }
     }
 
@@ -385,10 +396,9 @@ public class MainActivityFragment extends Fragment {
 
         public void onPrefStart() {
 
-            getParentFragment().onStart();
+            //getParentFragment().onStart();
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
             PreferenceChangeListener listener = new PreferenceChangeListener();
             prefs.registerOnSharedPreferenceChangeListener(listener);
 
@@ -407,7 +417,7 @@ public class MainActivityFragment extends Fragment {
             }
 
             TextView favTextView = new TextView(getActivity());
-            LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment_two);
+            LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment_main_layout);
             if (prefF) {
 
                 if (posterFavs.size() == 0) {
