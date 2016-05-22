@@ -20,26 +20,16 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
-    MainActivityFragment fragMain;
-    ArrayList<AndroidMovie> movieArrayList = new ArrayList<>();
-    Context mContext;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*Log.d(TAG, "main onCreate successful");
-        Log.d(TAG, "fragment Transaction.add fragment_main_layout.beginTransaction() good");
-        Log.d(TAG, "MainActivity new MainActivityFragment() good");
-        Log.d(TAG, "MainActivity setSupportActionBar() good");
-        Log.d(TAG, "this is after setContentView in main good");*/
-
         FragmentManager fragManager = getFragmentManager();
-        FragmentTransaction fragTransaction = fragManager.beginTransaction()
-                .replace(R.id.container, new MainActivityFragment());
+        FragmentTransaction fragTransaction = fragManager.beginTransaction();
+                //.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
+        fragTransaction.replace(R.id.container, new MainActivityFragment());
 
         Log.d(TAG, "after transaction commit");
 
