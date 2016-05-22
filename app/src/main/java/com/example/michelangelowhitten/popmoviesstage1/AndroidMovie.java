@@ -27,6 +27,9 @@ public class AndroidMovie implements Parcelable {
         }
     };
 
+    public AndroidMovie() {
+    }
+
     private AndroidMovie(Parcel in) {
         this.movieId = in.readInt();
         this.movieTitle = in.readString();
@@ -37,8 +40,7 @@ public class AndroidMovie implements Parcelable {
         this.voteAverage = in.readDouble();
     }
 
-    public AndroidMovie() {
-    }
+    
 
     public int getMovieId() {
         return movieId;
