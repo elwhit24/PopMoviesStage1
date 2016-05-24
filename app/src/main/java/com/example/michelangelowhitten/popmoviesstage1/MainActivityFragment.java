@@ -15,6 +15,8 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.*;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -51,7 +53,7 @@ public class MainActivityFragment extends Fragment {
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + MY_API_KEY;
     private final String HI_RATED_URL = "http://api.themoviedb.org/3/discover/movie/?certification_country=US&certification=R&" +
                                         "sort_by=vote_average.desc&api_key=" + MY_API_KEY;
-    private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185";
+    private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185/";
 
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
@@ -109,6 +111,15 @@ public class MainActivityFragment extends Fragment {
         width = size.x / 2;
 
         if (getActivity() != null) {
+
+            RecyclerView recyclerView;
+            recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+            recyclerView.setHasFixedSize(true);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
+            recyclerView.setLayoutManager(layoutManager);
+
+            PosterAdapter posterAdapter = new PosterAdapter(mContext, posterImageUrls);
+            recyclerView.setAdapter( (RecyclerView) posterAdapter);
 
             PosterAdapter posterAdapter = new PosterAdapter(mContext, posterImageUrls);
             cFragGridView = (GridView) rootView.findViewById(R.id.grid_view);
@@ -230,6 +241,7 @@ public class MainActivityFragment extends Fragment {
 
                     System.out.println("popularMoviesJson is " + popularMoviesJson);
                     System.out.println("popularMoviesJson should be null!!");
+                }
 
                     try {
                         popularMoviesJson = jReader.JsonRead(POP_URL);
@@ -247,14 +259,15 @@ public class MainActivityFragment extends Fragment {
                             e.printStackTrace();
                         }
                         return finalJsonString;
-                    }
-                } else if (pref.equals("highest rated")) {
-                    try {
-                        highestRatedMoviesJson = jReader.JsonRead(HI_RATED_URL);
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                    }
+
+                    } else if (pref.equals("highest rated")) {
+                        try {
+                            highestRatedMoviesJson = jReader.JsonRead(HI_RATED_URL);
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
                     if (highestRatedMoviesJson != null) {
+
                         finalJsonString = highestRatedMoviesJson.toString();
                         try {
                             movieArray = this.getPopularMoviesArray(finalJsonString);
@@ -280,8 +293,8 @@ public class MainActivityFragment extends Fragment {
                 e.printStackTrace();
             }*/
 
-            PosterAdapter adapter = new PosterAdapter(getActivity(), posterImageUrls);
-            cFragGridView.setAdapter(adapter);
+           // PosterAdapter adapter = new PosterAdapter(getActivity(), posterImageUrls);
+            //cFragGridView.setAdapter(adapter);
 
             /*System.out.println("string passed is " + string);
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");

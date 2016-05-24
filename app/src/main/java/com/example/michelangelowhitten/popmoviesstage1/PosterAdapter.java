@@ -4,6 +4,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
  * Created by Mike on 5/5/2016.
  */
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,18 +29,41 @@ public class PosterAdapter extends ArrayAdapter {
         this.context = context;
         this.imageUrls = imageUrls;
 
-        inflater = LayoutInflater.from(context);
+        //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        /*inflater = LayoutInflater.from(context);*/
+    }
+
+    public PosterAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_main, viewGroup, false);
+        return new ViewHolder(view);
+    }
+
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+
+        Picasso.with(context)
+                .load(popMovieArrayList.get(position).getPosterImageUrl())
+                .fit()
+                .into(viewHolder.poster);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        ImageView poster;
+        public ViewHolder(View view) {
+            super(view);
+
+            poster = (ImageView)view.findViewById(R.id.movie_poster);
+        }
     }
 
     // create new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
+    /*public View getView(int position, View convertView, ViewGroup parent) {
+
+        //RecyclerView.ViewHolder viewHolder;
 
         if(convertView == null) {
-            //ImageView imageView;
 
-            if (null == convertView) {
-                convertView = inflater.inflate(R.layout.fragment_main, parent, false);
-            }
+            convertView = inflater.inflate(R.layout.fragment_main, parent, false);
+           // viewHolder.s = (ImageView) convertView.findViewById(R.id.grid_view);
 
         }
         //LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -47,9 +71,9 @@ public class PosterAdapter extends ArrayAdapter {
         //imageView.setLayoutParams(new GridView.LayoutParams(50, 60));
         //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-         /*else {
+         *//*else {
             imageView = (ImageView) convertView;
-        }*/
+        }*//*
 
         Picasso.with(context)
                 .load(popMovieArrayList.get(position).getPosterImageUrl())
@@ -57,7 +81,8 @@ public class PosterAdapter extends ArrayAdapter {
                 .into((ImageView) convertView);
 
         return convertView;
-    }
+    }*/
+
 //    public PosterAdapter(Context context, int resource, ArrayList<AndroidMovie> popMovieArrayList) {
 //        super(context, resource, popMovieArrayList);
 //        this.context = context;
@@ -72,6 +97,10 @@ public class PosterAdapter extends ArrayAdapter {
             movieCount = popMovieArrayList.size();
         }
         return movieCount;
+    }
+
+    public Object getItem(int i) {
+        return null;
     }
 
     public long getItemId(int position) {
