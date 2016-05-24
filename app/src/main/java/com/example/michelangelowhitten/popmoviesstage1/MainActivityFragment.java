@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.*;
@@ -58,6 +59,8 @@ public class MainActivityFragment extends Fragment {
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
     Context mContext;
+    RecyclerView recyclerView;
+
     FragmentHostCallback mHost;
     PosterAdapter imageAdapter;
     View rootView;
@@ -78,6 +81,8 @@ public class MainActivityFragment extends Fragment {
     int position;
 
     public MainActivityFragment() {
+        posterImageUrls = new ArrayList<>();
+        backdropImageUrls = new ArrayList<>();
     }
 
     @Override
@@ -102,7 +107,9 @@ public class MainActivityFragment extends Fragment {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        setHasOptionsMenu(true);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.poster_recycler_view);
+
+        //setHasOptionsMenu(true);
 
         WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
@@ -112,31 +119,22 @@ public class MainActivityFragment extends Fragment {
 
         if (getActivity() != null) {
 
-            RecyclerView recyclerView;
-            recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
-            recyclerView.setHasFixedSize(true);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
+            //recyclerView.setHasFixedSize(true);
+
+
+            imageAdapter = new PosterAdapter(mContext, posterImageUrls);
+            recyclerView.setAdapter(imageAdapter);
+            GridLayoutManager layoutManager = new GridLayoutManager(mContext, 20);
             recyclerView.setLayoutManager(layoutManager);
 
-            PosterAdapter posterAdapter = new PosterAdapter(mContext, posterImageUrls);
-            recyclerView.setAdapter( (RecyclerView) posterAdapter);
-
-            PosterAdapter posterAdapter = new PosterAdapter(mContext, posterImageUrls);
+            /*cFragGridView = (GridView)recyclerView;
             cFragGridView = (GridView) rootView.findViewById(R.id.grid_view);
-            cFragGridView.setColumnWidth(width);
-            cFragGridView.setAdapter(posterAdapter);
+            cFragGridView.setColumnWidth(width);*/
+            //cFragGridView.setAdapter();
+
+
+
         }
-
-            cFragGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    AndroidMovie movieItem = movieArray.get(position);
-                    Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class).
-                            putExtra(Intent.EXTRA_TEXT, movieItem);
-                    startActivity(movieIntent);
-                }
-            });
-
             Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");  //DO NOT START WITHOUT ME
 
         return rootView;
@@ -293,8 +291,8 @@ public class MainActivityFragment extends Fragment {
                 e.printStackTrace();
             }*/
 
-           // PosterAdapter adapter = new PosterAdapter(getActivity(), posterImageUrls);
-            //cFragGridView.setAdapter(adapter);
+            PosterAdapter adapter = new PosterAdapter(getActivity(), posterImageUrls);
+            recyclerView.setAdapter(adapter);
 
             /*System.out.println("string passed is " + string);
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
@@ -479,7 +477,7 @@ public class MainActivityFragment extends Fragment {
 
                 if (posterFavs != null && getActivity() != null) {
                     PosterAdapter adapter = new PosterAdapter(mContext, posterImageUrls);
-                    cFragGridView.setAdapter(adapter);
+                    //cFragGridView.setAdapter(imageAdapter);
                 }
             } else {
                 cFragGridView.setVisibility(GridView.VISIBLE);

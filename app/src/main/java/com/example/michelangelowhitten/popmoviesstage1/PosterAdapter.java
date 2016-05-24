@@ -4,6 +4,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
  * Created by Mike on 5/5/2016.
  */
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -13,45 +14,54 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import com.squareup.picasso.Picasso;
 
-public class PosterAdapter extends ArrayAdapter {
+public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHolder> {
+
+    private LayoutInflater inflater;
 
     private Context context;
-    private LayoutInflater inflater;
     private ArrayList<String> imageUrls;
     int layoutResourceId;
     ArrayList<AndroidMovie> popMovieArrayList;
     int movieCount;
+    ImageView poster;
 
     public PosterAdapter(Context context, ArrayList<String> imageUrls) {
-        super(context, R.layout.fragment_main, imageUrls);
+        //super(context, R.layout.fragment_main, imageUrls);
+        /*private final LayoutInflater inflater;*/
+
         this.context = context;
         this.imageUrls = imageUrls;
+        inflater = LayoutInflater.from(context);
 
         //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        /*inflater = LayoutInflater.from(context);*/
     }
 
-    public PosterAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_main, viewGroup, false);
-        return new ViewHolder(view);
+    public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = inflater.inflate(R.layout.movie_item, viewGroup, false);
+        MyViewHolder holder = new MyViewHolder(view);
+        return holder;
     }
 
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-
+    @Override
+    public void onBindViewHolder(MyViewHolder viewHolder, int position) {
+        AndroidMovie currentMovie = popMovieArrayList.get(position);
+        viewHolder.poster.setImageResource(currentMovie.getMovieId());
         Picasso.with(context)
                 .load(popMovieArrayList.get(position).getPosterImageUrl())
                 .fit()
                 .into(viewHolder.poster);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView poster;
-        public ViewHolder(View view) {
+        public MyViewHolder(View view) {
             super(view);
 
-            poster = (ImageView)view.findViewById(R.id.movie_poster);
+            poster = (ImageView) view.findViewById(R.id.movie_poster);
         }
     }
 
@@ -107,7 +117,10 @@ public class PosterAdapter extends ArrayAdapter {
         return 0;
     }
 
-
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
 
 
 }
