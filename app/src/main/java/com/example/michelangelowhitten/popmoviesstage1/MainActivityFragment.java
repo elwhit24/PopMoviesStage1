@@ -60,6 +60,7 @@ public class MainActivityFragment extends Fragment {
     ArrayList<String> backdropImageUrls;
     Context mContext;
     RecyclerView recyclerView;
+    GridLayoutManager layoutManager;
 
     FragmentHostCallback mHost;
     PosterAdapter imageAdapter;
@@ -91,9 +92,20 @@ public class MainActivityFragment extends Fragment {
         setHasOptionsMenu(true);
 
         mContext = getActivity();
-        position = 0;
+
+        imageAdapter = new PosterAdapter(mContext,posterImageUrls);
+
+        //List<ItemObject> rowListItem = getAllItemList();
+        //lLayout = new GridLayoutManager(MainActivity.this, 4);
+
+/*
+        RecyclerView recyclerView = (RecyclerView) cFragGridView.findViewById(R.id.poster_recycler_view);
+        *//*rView.setHasFixedSize(true);
+        rView.setLayoutManager(lLayout);*//*
+
+        PosterAdapter mainAdapter = new PosterAdapter(getActivity(), posterImageUrls);
+        recyclerView.setAdapter(mainAdapter);*/
         movieArray = new ArrayList<>();
-       // imageAdapter = new PosterAdapter(mContext, position, movieArray);
         cFragGridView = new GridView(mContext);
 
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
@@ -108,24 +120,24 @@ public class MainActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.poster_recycler_view);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(imageAdapter);
 
         //setHasOptionsMenu(true);
 
-        WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        /*WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        width = size.x / 2;
+        width = size.x / 2;*/
 
-        if (getActivity() != null) {
+        //if (getActivity() != null) {
 
             //recyclerView.setHasFixedSize(true);
 
 
-            imageAdapter = new PosterAdapter(mContext, posterImageUrls);
-            recyclerView.setAdapter(imageAdapter);
-            GridLayoutManager layoutManager = new GridLayoutManager(mContext, 20);
-            recyclerView.setLayoutManager(layoutManager);
+            //imageAdapter = new PosterAdapter(mContext, posterImageUrls);
+
 
             /*cFragGridView = (GridView)recyclerView;
             cFragGridView = (GridView) rootView.findViewById(R.id.grid_view);
@@ -134,7 +146,7 @@ public class MainActivityFragment extends Fragment {
 
 
 
-        }
+        //}
             Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");  //DO NOT START WITHOUT ME
 
         return rootView;
@@ -289,11 +301,15 @@ public class MainActivityFragment extends Fragment {
                 movieArray = getPopularMoviesArray(string);
             } catch (JSONException e) {
                 e.printStackTrace();
-            }*/
+          }*/
 
-            PosterAdapter adapter = new PosterAdapter(getActivity(), posterImageUrls);
-            recyclerView.setAdapter(adapter);
+           // PosterAdapter adapter = new PosterAdapter(getActivity(), poste recyclerView
+            // cFragGridView.setAdapter(adapter);
 
+            layoutManager = new GridLayoutManager(mContext, 20);
+
+            PosterAdapter mainAdapter = new PosterAdapter(getActivity(), posterImageUrls);
+            recyclerView.setAdapter(mainAdapter);
             /*System.out.println("string passed is " + string);
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 

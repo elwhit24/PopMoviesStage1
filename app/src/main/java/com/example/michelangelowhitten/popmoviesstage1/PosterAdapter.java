@@ -4,6 +4,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
  * Created by Mike on 5/5/2016.
  */
 import android.content.Context;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -48,7 +49,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder viewHolder, int position) {
+        System.out.println("onBindViewHolder running!");
+
         AndroidMovie currentMovie = popMovieArrayList.get(position);
+        System.out.println(currentMovie);
+
         viewHolder.poster.setImageResource(currentMovie.getMovieId());
         Picasso.with(context)
                 .load(popMovieArrayList.get(position).getPosterImageUrl())
@@ -58,8 +63,19 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView poster;
+        int position = this.getAdapterPosition();
+
         public MyViewHolder(View view) {
             super(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AndroidMovie movieItem = popMovieArrayList.get(position);
+                    Intent movieIntent = new Intent(context, DetailsFragment.DetailActivity.class).
+                            putExtra(Intent.EXTRA_TEXT, movieItem);
+                    //(movieIntent);
+                }
+            });
 
             poster = (ImageView) view.findViewById(R.id.movie_poster);
         }
