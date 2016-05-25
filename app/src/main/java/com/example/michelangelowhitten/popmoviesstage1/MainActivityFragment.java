@@ -1,35 +1,27 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentHostCallback;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.*;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -59,9 +50,8 @@ public class MainActivityFragment extends Fragment {
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
     Context mContext;
-    RecyclerView recyclerView;
     GridLayoutManager layoutManager;
-
+    RecyclerView recyclerView;
     FragmentHostCallback mHost;
     PosterAdapter imageAdapter;
     View rootView;
@@ -90,21 +80,13 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
         mContext = getActivity();
 
-        imageAdapter = new PosterAdapter(mContext,posterImageUrls);
+        this.recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_poster_view);
+        this.recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
+        imageAdapter = new PosterAdapter();
+        this.recyclerView.setAdapter(imageAdapter);
 
-        //List<ItemObject> rowListItem = getAllItemList();
-        //lLayout = new GridLayoutManager(MainActivity.this, 4);
-
-/*
-        RecyclerView recyclerView = (RecyclerView) cFragGridView.findViewById(R.id.poster_recycler_view);
-        *//*rView.setHasFixedSize(true);
-        rView.setLayoutManager(lLayout);*//*
-
-        PosterAdapter mainAdapter = new PosterAdapter(getActivity(), posterImageUrls);
-        recyclerView.setAdapter(mainAdapter);*/
         movieArray = new ArrayList<>();
         cFragGridView = new GridView(mContext);
 
@@ -119,7 +101,7 @@ public class MainActivityFragment extends Fragment {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.poster_recycler_view);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_poster_view);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(imageAdapter);
 
@@ -297,19 +279,9 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(String string) {
 
-            /*try {
-                movieArray = getPopularMoviesArray(string);
-            } catch (JSONException e) {
-                e.printStackTrace();
-          }*/
-
-           // PosterAdapter adapter = new PosterAdapter(getActivity(), poste recyclerView
-            // cFragGridView.setAdapter(adapter);
-
-            layoutManager = new GridLayoutManager(mContext, 20);
-
-            PosterAdapter mainAdapter = new PosterAdapter(getActivity(), posterImageUrls);
-            recyclerView.setAdapter(mainAdapter);
+            //PosterAdapter mainAdapter = new PosterAdapter(mContext, posterImageUrls);
+            recyclerView.setAdapter(imageAdapter);
+            imageAdapter.getPopMovieArrayList();
             /*System.out.println("string passed is " + string);
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
@@ -476,7 +448,7 @@ public class MainActivityFragment extends Fragment {
             }
 
             TextView favTextView = new TextView(getActivity());
-            LinearLayout layout = (LinearLayout) getActivity().findViewById(R.id.fragment_main_layout);
+            RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.fragment_main_layout);
             if (prefF) {
 
                 if (posterFavs.size() == 0) {
@@ -492,7 +464,7 @@ public class MainActivityFragment extends Fragment {
                 }
 
                 if (posterFavs != null && getActivity() != null) {
-                    PosterAdapter adapter = new PosterAdapter(mContext, posterImageUrls);
+                    PosterAdapter adapter = new PosterAdapter();
                     //cFragGridView.setAdapter(imageAdapter);
                 }
             } else {
@@ -513,3 +485,14 @@ public class MainActivityFragment extends Fragment {
         }
     }
 }
+
+//List<ItemObject> rowListItem = getAllItemList();
+//lLayout = new GridLayoutManager(MainActivity.this, 4);
+
+/*
+        RecyclerView recyclerView = (RecyclerView) cFragGridView.findViewById(R.id.poster_recycler_view);
+        *//*rView.setHasFixedSize(true);
+        rView.setLayoutManager(lLayout);*//*
+
+        PosterAdapter mainAdapter = new PosterAdapter(getActivity(), posterImageUrls);
+        recyclerView.setAdapter(mainAdapter);*/
