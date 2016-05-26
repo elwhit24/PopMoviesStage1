@@ -26,6 +26,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     ImageView poster;
 
     public PosterAdapter() {
+        MyViewHolder holder = new MyViewHolder();
 
     }
 
@@ -33,9 +34,9 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
         return popMovieArrayList;
     }
 
-    public View getView() {
-        return this.inflater.inflate(R.layout.movie_item, null);
-    }
+    /*public View getView() {
+        return this.inflater.inflate(R.layout.fragment_main, );
+    }*/
 
     /*public PosterAdapter(Context context, ArrayList<String> imageUrls) {
         //super(context, R.layout.fragment_main, imageUrls);
@@ -59,7 +60,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
-        View view = inflater.inflate(R.layout.movie_item, parent, false);
+
+        View view = inflater.inflate(R.layout.movie_item, parent);
         final MyViewHolder viewHolder = new MyViewHolder(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

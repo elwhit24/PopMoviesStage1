@@ -72,6 +72,8 @@ public class MainActivityFragment extends Fragment {
     PreferenceChangeListener p;
     int width;
     int position;
+    RecyclerView recyclerView;
+
 
     public MainActivityFragment() {
         posterImageUrls = new ArrayList<>();
@@ -86,8 +88,6 @@ public class MainActivityFragment extends Fragment {
         mContext = getActivity();
 
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
-
-
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,9 +97,12 @@ public class MainActivityFragment extends Fragment {
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
+        inflater = (LayoutInflater)mContext.getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
 
         WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
@@ -107,23 +110,8 @@ public class MainActivityFragment extends Fragment {
         display.getSize(size);
         width = size.x / 2;
 
-        //if (getActivity() != null) {
 
-            //recyclerView.setHasFixedSize(true);
-
-
-            //imageAdapter = new PosterAdapter(mContext, posterImageUrls);
-
-
-            /*cFragGridView = (GridView)recyclerView;
-            cFragGridView = (GridView) rootView.findViewById(R.id.grid_view);
-            cFragGridView.setColumnWidth(width);*/
-            //cFragGridView.setAdapter();
-
-
-
-        //}
-            Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");  //DO NOT START WITHOUT ME
+        Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");  //DO NOT START WITHOUT ME
 
         return rootView;
     }
@@ -132,7 +120,6 @@ public class MainActivityFragment extends Fragment {
 
         System.out.println("inside at start of getPopularMovies() ----------before Fetch Movies task");
 
-
         if(isNetworkAvailable()) {
             fetchMovie = new FetchMovieTask();
         }
@@ -140,23 +127,7 @@ public class MainActivityFragment extends Fragment {
         pref = prefs.getString("sort", null);
 
         Log.d(MAF_TAG, "get pop, after fetchmovie instantiation");
-
-        //fetchMovie.execute();
     }
-
-    /*@Override
-    public void onAttach(Context context) {
-        //movieArray = new ArrayList<>(20);
-
-        *//*attachCalled = true;
-        final Activity hostActivity = getActivity();
-        if (hostActivity != null) {
-            attachCalled = false;
-        }*//*
-
-        //getPopularMovies();
-        Log.d(MAF_TAG, "after onAttach ran");
-    }*/
 
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -184,7 +155,6 @@ public class MainActivityFragment extends Fragment {
         getPopularMovies();
 
         Log.d(MAF_TAG, "after getPopularMovies() ran after super.onStart() ran");
-
     }
 
     @Override
@@ -193,12 +163,11 @@ public class MainActivityFragment extends Fragment {
         Log.d(MAF_TAG, "super.onResume() ran");
 
         this.fetchMovie.execute();
-
     }
 
     public class FetchMovieTask extends AsyncTask<String, Void, String> {
 
-        //final String FETCH_TAG = FetchMovieTask.class.getSimpleName();
+        final String FETCH_TAG = FetchMovieTask.class.getSimpleName();
 
             public FetchMovieTask() {
                 Log.d(MAF_TAG, "Fetch Constructor ran");
@@ -206,13 +175,13 @@ public class MainActivityFragment extends Fragment {
 
             protected String doInBackground(String... params) {
 
-                Log.d(MAF_TAG, "doInBackground started");
+                Log.d(FETCH_TAG, "doInBackground started");
 
                 JSONObject popularMoviesJson = new JSONObject();
                 JSONObject highestRatedMoviesJson = new JSONObject();
                 String finalJsonString;
 
-                Log.d(MAF_TAG, "after 3 instants in doInBackground made");
+                Log.d(FETCH_TAG, "after 3 instants in doInBackground made");
 
                 jReader = new JsonReader();
 
@@ -272,19 +241,25 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String string) {
-            Log.d(MAF_TAG, "onPostExecute() running");
+            Log.d(FETCH_TAG, "onPostExecute() running");
+
+            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
+                    (Context.LAYOUT_INFLATER_SERVICE);
+
+            inflater.getFactory();
 
             imageAdapter = new PosterAdapter();
-            Log.d(MAF_TAG, "initializing imageAdapter in onPostExecute()");
+            Log.d(FETCH_TAG, "initializing imageAdapter in onPostExecute()");
 
             RecyclerView recyclerView = new RecyclerView(mContext);
             recyclerView.setAdapter(imageAdapter);
 
-            Log.d(MAF_TAG, "after setAdapter");
+            Log.d(FETCH_TAG, "after setAdapter");
 
 
 
-            Log.d(MAF_TAG, "onPostExecute()..it ran, now after getView in onPostexecute");
+
+            Log.d(FETCH_TAG, "onPostExecute()..it ran, now after onPostexecute");
         }
 
         public ArrayList<AndroidMovie> getPopularMoviesArray(String movieJsonStr)
