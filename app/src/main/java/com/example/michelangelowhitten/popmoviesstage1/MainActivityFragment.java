@@ -51,7 +51,6 @@ public class MainActivityFragment extends Fragment {
     ArrayList<String> backdropImageUrls;
     Context mContext;
     GridLayoutManager layoutManager;
-    RecyclerView recyclerView;
     FragmentHostCallback mHost;
     PosterAdapter imageAdapter;
     View rootView;
@@ -74,21 +73,14 @@ public class MainActivityFragment extends Fragment {
     public MainActivityFragment() {
         posterImageUrls = new ArrayList<>();
         backdropImageUrls = new ArrayList<>();
+        layoutManager = new GridLayoutManager(mContext, 2);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
         mContext = getActivity();
-
-        this.recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_poster_view);
-        this.recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
-        imageAdapter = new PosterAdapter();
-        this.recyclerView.setAdapter(imageAdapter);
-
-        movieArray = new ArrayList<>();
-        cFragGridView = new GridView(mContext);
 
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
     }
@@ -101,9 +93,6 @@ public class MainActivityFragment extends Fragment {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_poster_view);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(imageAdapter);
 
         //setHasOptionsMenu(true);
 
@@ -278,50 +267,17 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String string) {
-
-            //PosterAdapter mainAdapter = new PosterAdapter(mContext, posterImageUrls);
-            recyclerView.setAdapter(imageAdapter);
-            imageAdapter.getPopMovieArrayList();
-            /*System.out.println("string passed is " + string);
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-
-            System.out.println("movieArray is " + movieArray);*/
-
-
-
             Log.d(MAF_TAG, "onPostExecute() running");
 
+            imageAdapter = new PosterAdapter();
+            Log.d(MAF_TAG, "initializing imageAdapter in onPostExecute()");
 
+            RecyclerView recyclerView = new RecyclerView(mContext);
+            recyclerView.setAdapter(imageAdapter);
 
-               // gv.setAdapter(new PosterAdapter(mContext, 0, movieArray));
-
-
-            //imageAdapter.getView(position, cFragGridView, (ViewGroup) rootView);
+            Log.d(MAF_TAG, "setAdapter");
 
             Log.d(MAF_TAG, "onPostExecute()..it ran, now after getView in onPostexecute");
-
-           /* try {
-                movieArray = getPopularMoviesArray(string);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            getView();*/
-
-            /*if(string.length()==0)
-            {
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(getContext(), noFetch, duration);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-            else {
-                super.onPostExecute(string);
-
-                GridView gridView = (GridView) rootView.findViewById(R.id.grid_view);
-                gridView.setAdapter(imageAdapter = new PosterAdapter(getContext(), 0, movieArray));
-                rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            }*/
         }
 
         public ArrayList<AndroidMovie> getPopularMoviesArray(String movieJsonStr)
@@ -358,7 +314,7 @@ public class MainActivityFragment extends Fragment {
                     backdropImageUrls.add(aMovie.getPosterImageUrl());
                     aMovie.setRating(movieObject.getDouble(voteAverage));
 
-                    movieArray.add(aMovie);
+                   // movieArray.add(aMovie);
                     /*Picasso.with(mContext)
                             .load("http://image.tmdb.org/t/p/w185/" + aMovie.getPosterImageUrl())
                             //.resize(50, 50)

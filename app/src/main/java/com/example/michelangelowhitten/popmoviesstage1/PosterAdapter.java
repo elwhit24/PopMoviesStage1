@@ -33,8 +33,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
         return popMovieArrayList;
     }
 
-    public void setPopMovieArrayList(ArrayList<AndroidMovie> popMovieArrayList) {
-        this.popMovieArrayList = popMovieArrayList;
+    public View getView() {
+        return this.inflater.inflate(R.layout.movie_item, null);
     }
 
     /*public PosterAdapter(Context context, ArrayList<String> imageUrls) {
