@@ -28,16 +28,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         FragmentManager fragManager = getFragmentManager();
-        FragmentTransaction fragTransaction = fragManager.beginTransaction();
-                //.replace(R.id.container, new MainActivityFragment());
+        FragmentTransaction fragTransaction = fragManager.beginTransaction()
+                .replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
         fragTransaction.replace(R.id.container, new MainActivityFragment());
 
         Log.d(TAG, "after transaction commit");
-
     }
 
     @Override

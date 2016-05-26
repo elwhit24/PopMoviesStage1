@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentHostCallback;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,9 +15,11 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.*;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -83,6 +86,8 @@ public class MainActivityFragment extends Fragment {
         mContext = getActivity();
 
         Log.d(MAF_TAG, "MainActivityFragment constructor good");
+
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,11 +101,11 @@ public class MainActivityFragment extends Fragment {
 
         //setHasOptionsMenu(true);
 
-        /*WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        width = size.x / 2;*/
+        width = size.x / 2;
 
         //if (getActivity() != null) {
 
@@ -275,7 +280,9 @@ public class MainActivityFragment extends Fragment {
             RecyclerView recyclerView = new RecyclerView(mContext);
             recyclerView.setAdapter(imageAdapter);
 
-            Log.d(MAF_TAG, "setAdapter");
+            Log.d(MAF_TAG, "after setAdapter");
+
+
 
             Log.d(MAF_TAG, "onPostExecute()..it ran, now after getView in onPostexecute");
         }
