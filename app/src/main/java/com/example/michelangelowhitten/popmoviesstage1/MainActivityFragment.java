@@ -3,6 +3,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
 import android.app.Fragment;
 import android.app.FragmentHostCallback;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.media.Image;
@@ -13,6 +14,7 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.*;
 import android.view.Display;
@@ -21,9 +23,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,18 +47,23 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment {
 
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
-
-    private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
-
-    private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + MY_API_KEY;
-    private final String HI_RATED_URL = "http://api.themoviedb.org/3/discover/movie/?certification_country=US&certification=R&" +
-                                        "sort_by=vote_average.desc&api_key=" + MY_API_KEY;
+    private final String MY_API_KEY = "";
+    private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
+            "popularity.desc&api_key=" + MY_API_KEY;
     private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185/";
+    private final String HI_RATED_URL = "http://api.themoviedb.org/3/discover/movie/?" +
+            "certification_country=US&certification=R& sort_by=vote_average.desc&api_key="
+            + MY_API_KEY;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
     Context mContext;
-    GridLayoutManager layoutManager;
+    GridLayoutManager mLayoutManager;
     FragmentHostCallback mHost;
     PosterAdapter imageAdapter;
     View rootView;
@@ -72,13 +82,29 @@ public class MainActivityFragment extends Fragment {
     PreferenceChangeListener p;
     int width;
     int position;
-    RecyclerView recyclerView;
+    RecyclerView mRecyclerView;
+    MyViewHolder holder;
 
 
     public MainActivityFragment() {
         posterImageUrls = new ArrayList<>();
         backdropImageUrls = new ArrayList<>();
-        layoutManager = new GridLayoutManager(mContext, 2);
+
+        mRecyclerView = (RecyclerView) this.findViewById(R.id.my_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        ArrayList<AndroidMovie> movieArrayList = new ArrayList<>();
+
+        // specify an adapter (see also next example)
+        imageAdapter = new PosterAdapter(ArrayList<AndroidMovie>);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -243,21 +269,35 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(String string) {
             Log.d(FETCH_TAG, "onPostExecute() running");
 
-            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
+            /*LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
                     (Context.LAYOUT_INFLATER_SERVICE);
 
-            inflater.getFactory();
+            ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_main, (ViewGroup) rootView);
+
+            //inflater.getFactory();
 
             imageAdapter = new PosterAdapter();
-            Log.d(FETCH_TAG, "initializing imageAdapter in onPostExecute()");
+            //Log.d(FETCH_TAG, "initializing imageAdapter in onPostExecute()");
 
             RecyclerView recyclerView = new RecyclerView(mContext);
-            recyclerView.setAdapter(imageAdapter);
+            recyclerView.setAdapter(new RecyclerView.Adapter() {
+                @Override
+                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                    return null;
+                }
+
+                @Override
+                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+                }
+
+                @Override
+                public int getItemCount() {
+                    return 0;
+                }
+            });*/
 
             Log.d(FETCH_TAG, "after setAdapter");
-
-
-
 
             Log.d(FETCH_TAG, "onPostExecute()..it ran, now after onPostexecute");
         }
@@ -353,6 +393,57 @@ public class MainActivityFragment extends Fragment {
                 }
             }
         }
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        ImageView poster;
+        private LayoutInflater inflater;
+        PosterAdapter imageAdapterMain;
+        Context holderContext;
+
+        public MyViewHolder(View view) {
+            super(view);
+            poster = (ImageView) view.findViewById(R.id.movie_poster);
+            imageAdapterMain = new PosterAdapter();
+            this.holderContext = view.getContext();
+
+        }
+
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+
+            View view = inflater.inflate(R.layout.movie_item, parent);
+            final MyViewHolder viewHolder = new MyViewHolder(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = viewHolder.getAdapterPosition();
+                    Intent intent = new Intent(holderContext, DetailsFragment.DetailActivity.class);
+                    intent.putExtra(DetailsFragment.DetailActivity.EXTRA_MOVIE, imageAdapterMain.getPopMovieArrayList().get(position));
+                    holderContext.startActivity(intent);
+                }
+            });
+            return viewHolder;
+        }
+
+        /*public void onBindViewHolder(MyViewHolder holder, int position) {
+            AndroidMovie movie = imageAdapterMain.getPopMovieArrayList().get(position);
+            Picasso.with(holderContext)
+                    .load(movie.getPosterImageUrl())
+                    //.placeholder(R.color.colorAccent)
+                    .into(holder.poster);
+        }*/
+
+        /*public Object getItem(int i) {
+            return null;
+        }
+
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        public int getItemCount() {
+            return (imageAdapterMain.getPopMovieArrayList() == null) ? 0 : imageAdapterMain.getPopMovieArrayList().size();
+        }*/
     }
 
     public class PreferenceChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {

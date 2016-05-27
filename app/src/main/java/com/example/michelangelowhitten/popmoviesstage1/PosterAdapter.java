@@ -10,148 +10,61 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 import com.squareup.picasso.Picasso;
 
-public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHolder> {
+public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder> {
 
-    private LayoutInflater inflater;
+        private String[] ;
 
-    private Context context;
-    private ArrayList<String> imageUrls;
-    int layoutResourceId;
-    private ArrayList<AndroidMovie> popMovieArrayList;
-    int movieCount;
-    ImageView poster;
-
-    public PosterAdapter() {
-        MyViewHolder holder = new MyViewHolder();
-
-    }
-
-    public ArrayList<AndroidMovie> getPopMovieArrayList() {
-        return popMovieArrayList;
-    }
-
-    /*public View getView() {
-        return this.inflater.inflate(R.layout.fragment_main, );
-    }*/
-
-    /*public PosterAdapter(Context context, ArrayList<String> imageUrls) {
-        //super(context, R.layout.fragment_main, imageUrls);
-        *//*private final LayoutInflater inflater;*//*
-
-        this.context = context;
-        this.imageUrls = imageUrls;
-        inflater = LayoutInflater.from(context);
-
-        //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }*/
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView poster;
-
-        public MyViewHolder(View view) {
-            super(view);
-            poster = (ImageView) view.findViewById(R.id.movie_poster);
+        // Provide a reference to the views for each data item
+        // Complex data items may need more than one view per item, and
+        // you provide access to all the views for a data item in a view holder
+        public static class ViewHolder extends RecyclerView.ViewHolder {
+            // each data item is just a string in this case
+            public TextView mTextView;
+            public ViewHolder(TextView v) {
+                super(v);
+                mTextView = v;
+            }
         }
-    }
 
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+        // Provide a suitable constructor (depends on the kind of dataset)
+        public PosterAdapter(String[] myDataset) {
+            mDataset = myDataset;
+        }
 
-        View view = inflater.inflate(R.layout.movie_item, parent);
-        final MyViewHolder viewHolder = new MyViewHolder(view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = viewHolder.getAdapterPosition();
-                    Intent intent = new Intent(context, DetailsFragment.DetailActivity.class);
-                    intent.putExtra(DetailsFragment.DetailActivity.EXTRA_MOVIE, getPopMovieArrayList().get(position));
-                    context.startActivity(intent);
-                }
-            });
-     return viewHolder;
-    }
+        // Create new views (invoked by the layout manager)
+        @Override
+        public PosterAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                       int viewType) {
+            // create a new view
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.my_text_view, parent, false);
+            // set the view's size, margins, paddings and layout parameters
+            ...
+            ViewHolder vh = new ViewHolder(v);
+            return vh;
+        }
 
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        AndroidMovie movie = getPopMovieArrayList().get(position);
-        Picasso.with(context)
-                .load(movie.getPosterImageUrl())
-                .placeholder(R.color.colorAccent)
-                .into(holder.poster);
-    }
-
-    public Object getItem(int i) {
-        return null;
-    }
-
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public int getItemCount() {
-        return (getPopMovieArrayList() == null) ? 0 : getPopMovieArrayList().size();
-    }
-
-
-}
-
-// create new ImageView for each item referenced by the Adapter
-    /*public View getView(int position, View convertView, ViewGroup parent) {
-
-        //RecyclerView.ViewHolder viewHolder;
-
-        if(convertView == null) {
-
-            convertView = inflater.inflate(R.layout.fragment_main, parent, false);
-           // viewHolder.s = (ImageView) convertView.findViewById(R.id.grid_view);
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            // - get element from your dataset at this position
+            // - replace the contents of the view with that element
+            holder.mTextView.setText(mDataset[position]);
 
         }
-        //LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //imageView = (ImageView) inflater.inflate(R.layout.fragment_main, parent, false);
-        //imageView.setLayoutParams(new GridView.LayoutParams(50, 60));
-        //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-         *//*else {
-            imageView = (ImageView) convertView;
-        }*//*
-
-        recyclerView.setOnItemClickListener(new Image.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    AndroidMovie movieItem = movieArray.get(position);
-                    Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class).
-                            putExtra(Intent.EXTRA_TEXT, movieItem);
-                    startActivity(movieIntent);
-                }
-            });
-/*public int getItemCount() {
-
-        if (popMovieArrayList != null) {
-            movieCount = popMovieArrayList.size();
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return mDataset.length;
         }
-        return movieCount;
     }
-        Picasso.with(context)
-                .load(popMovieArrayList.get(position).getPosterImageUrl())
-                .fit()
-                .into((ImageView) convertView);
-
-        return convertView;
-    }
-
-//    public PosterAdapter(Context context, int resource, ArrayList<AndroidMovie> popMovieArrayList) {
-//        super(context, resource, popMovieArrayList);
-//        this.context = context;
-//        this.layoutResourceId = resource;
-//        this.popMovieArrayList = popMovieArrayList;
-//
-//    }
-
-/*for(int i = 0; i <= 20; i++) {
 
         }*/
 /*Picasso.with(getContext())
@@ -164,3 +77,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
                 fit().
                 centerCrop().
                 into(imageView);*/
+
+/*public ArrayList<AndroidMovie> getPopMovieArrayList() {
+        return popMovieArrayList;
+    }
+
+    public void setPopMovieArrayList() {
+
+    }*/
