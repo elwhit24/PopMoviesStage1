@@ -47,19 +47,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(AndroidMovie mItem) {
+    public boolean onOptionsItemSelected(AndroidMovie movieItem) {
 
         Bundle args = new Bundle();
-        args.putParcelable(DetailsFragment.DetailActivity.DETAIL_MOVIE, mItem);
+        args.putParcelable(DetailsFragment.DETAIL_MOVIE, movieItem);
 
         DetailsFragment dFrag = new DetailsFragment();
         dFrag.setArguments(args);
 
-        int id = mItem.getItemId();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.movie_detail, dFrag, DetailsFragment.D_TAG)
+                .commit();
+        int id = movieItem.getMovieId();
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, Settings.class));
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        return true;  //super.onOptionsItemSelected(movieItem);
     }
 }

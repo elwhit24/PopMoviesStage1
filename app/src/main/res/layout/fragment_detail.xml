@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_layout"
+    android:visibility="invisible"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailsFragment$DetailActivity">
+
+   <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".DetailsFragment$DetailActivity">
+        android:id="@+id/movie_detail">
 
         <TextView
             android:id="@+id/movieName"
@@ -18,11 +31,11 @@
         <ImageView
             android:id="@+id/movieThumb"
             android:contentDescription="@string/poster_string"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_below="@+id/movieName"
             android:text="@string/poster_string"
             android:adjustViewBounds="true"/>
@@ -45,8 +58,8 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:layout_below="@+id/overview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="10sp"/>
 
         <TextView
@@ -55,13 +68,14 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_below="@+id/movieThumb"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:padding="5dp"
             android:textSize="12sp"/>
 
-</RelativeLayout>
-
+        </RelativeLayout>
+        </LinearLayout>
+</ScrollView>
 <!--
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
