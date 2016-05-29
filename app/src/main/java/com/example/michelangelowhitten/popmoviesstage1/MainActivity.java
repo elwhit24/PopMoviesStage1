@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(AndroidMovie mItem) {
+
+        Bundle args = new Bundle();
+        args.putParcelable(DetailsFragment.DetailActivity.DETAIL_MOVIE, mItem);
 
         int id = item.getItemId();
         if (id == R.id.action_settings) {
