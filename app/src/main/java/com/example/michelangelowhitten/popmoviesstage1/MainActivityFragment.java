@@ -400,7 +400,7 @@ public class MainActivityFragment extends Fragment {
 
         public MyViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
 
-            View view = inflater.inflate(R.layout.movie_row, parent);
+            View view = inflater.inflate(R.layout.movie_poster, parent);
             final MyViewHolder viewHolder = new MyViewHolder(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

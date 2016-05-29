@@ -6,14 +6,12 @@ package com.example.michelangelowhitten.popmoviesstage1;
  * https://developer.android.com/training/material/lists-cards.html
  */
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
+
 import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
 
@@ -46,7 +44,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
                                                    int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_row, parent, false);
+                .inflate(R.layout.movie_poster, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
         ViewHolder vh = new ViewHolder(v);
