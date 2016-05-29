@@ -52,7 +52,10 @@ public class MainActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putParcelable(DetailsFragment.DetailActivity.DETAIL_MOVIE, mItem);
 
-        int id = item.getItemId();
+        DetailsFragment dFrag = new DetailsFragment();
+        dFrag.setArguments(args);
+
+        int id = mItem.getItemId();
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, Settings.class));
             return true;
