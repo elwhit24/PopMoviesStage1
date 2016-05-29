@@ -1,7 +1,6 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
-import android.app.FragmentHostCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.*;
@@ -24,11 +22,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,8 +41,9 @@ import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
 
-    private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
     private final String MY_API_KEY = "";
+
+    private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
             "popularity.desc&api_key=" + MY_API_KEY;
     private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185/";
@@ -59,14 +55,10 @@ public class MainActivityFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
     Context mContext;
-    GridLayoutManager mLayoutManager;
-    FragmentHostCallback mHost;
     PosterAdapter imageAdapter;
-    View rootView;
     GridView cFragGridView;
     String noFetch = "Not able to grab movie info from MovieDB.";
     String noInter = "No internet available at the moment";
@@ -81,16 +73,12 @@ public class MainActivityFragment extends Fragment {
     SharedPreferences shared_pref;
     PreferenceChangeListener p;
     int width;
-    int position;
-    RecyclerView mRecyclerView;
-    MyViewHolder holder;
-
 
     public MainActivityFragment() {
         posterImageUrls = new ArrayList<>();
         backdropImageUrls = new ArrayList<>();
 
-        mRecyclerView = (RecyclerView) this.findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -103,17 +91,18 @@ public class MainActivityFragment extends Fragment {
         ArrayList<AndroidMovie> movieArrayList = new ArrayList<>();
 
         // specify an adapter (see also next example)
-        imageAdapter = new PosterAdapter(ArrayList<AndroidMovie>);
+        mAdapter = new PosterAdapter(movieArrayList);
         mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setHasOptionsMenu(true);
-        mContext = getActivity();
+        setHasOptionsMenu(true);
 
-        Log.d(MAF_TAG, "MainActivityFragment constructor good");
+
+
+        Log.d(MAF_TAG, "after onCreate in fragment has executed...");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -411,7 +400,7 @@ public class MainActivityFragment extends Fragment {
 
         public MyViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
 
-            View view = inflater.inflate(R.layout.movie_item, parent);
+            View view = inflater.inflate(R.layout.movie_row, parent);
             final MyViewHolder viewHolder = new MyViewHolder(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

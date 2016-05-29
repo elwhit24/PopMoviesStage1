@@ -13,10 +13,6 @@
         android:numColumns="2"
         android:stretchMode="columnWidth"
         android:layout_gravity="center">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/image_in_fragment" />
     </GridView>
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,7 +29,10 @@
 
 <!--
 
-
+<ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_in_fragment" />
 <GridLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_main_layout"
