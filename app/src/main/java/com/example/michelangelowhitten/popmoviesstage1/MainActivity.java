@@ -32,19 +32,25 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
 
-            RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+            FragmentManager fragManager = getFragmentManager();
+            FragmentTransaction fragTransaction = fragManager.beginTransaction()
+                    .replace(R.id.container, new MainActivityFragment());
+            fragTransaction.commit();
+            fragTransaction.replace(R.id.container, new MainActivityFragment());
+
+            RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycler_poster_view);
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
-            if (mRecyclerView != null) {
-                mRecyclerView.setHasFixedSize(true);
-            }
+            //if (mRecyclerView != null) {
+            mRecyclerView.setHasFixedSize(true);
+            //}
 
             // use a linear layout manager
             GridLayoutManager mGridLayoutManager = new GridLayoutManager(getBaseContext(), 20);
             mRecyclerView.setLayoutManager(mGridLayoutManager);
 
-            ArrayList<AndroidMovie> movieArrayList = new ArrayList<AndroidMovie>();
+            ArrayList<Image> imageArrayList = new ArrayList<>();
 
             /*for(int i = 0; i < 20; i++) {
                 movieArrayList.add(new AndroidMovie(
@@ -55,14 +61,10 @@ public class MainActivity extends AppCompatActivity {
             }*/
 
             // specify an adapter (see also next example)
-            RecyclerView.Adapter mAdapter = new PosterAdapter(getBaseContext(), movieArrayList);
+            RecyclerView.Adapter mAdapter = new PosterAdapter(getBaseContext(), imageArrayList);
             mRecyclerView.setAdapter(mAdapter);
 
-            FragmentManager fragManager = getFragmentManager();
-            FragmentTransaction fragTransaction = fragManager.beginTransaction()
-                    .replace(R.id.container, new MainActivityFragment());
-            fragTransaction.commit();
-            fragTransaction.replace(R.id.container, new MainActivityFragment());
+
         } else {
             Bundle bundle = savedInstanceState.getBundle(M_TAG);
             super.onCreate(bundle);

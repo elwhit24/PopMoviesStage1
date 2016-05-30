@@ -2,30 +2,20 @@ package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.*;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +32,7 @@ import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
 
-    private final String MY_API_KEY = "";
+    private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
 
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
@@ -69,9 +59,11 @@ public class MainActivityFragment extends Fragment {
     FetchMovieTask fetchMovie;
     SharedPreferences shared_pref;
     PreferenceChangeListener p;
+    ArrayList<Image> imageArrayList;
     int width;
 
     public MainActivityFragment() {
+        imageArrayList = new ArrayList<>();
 
     }
 
@@ -79,6 +71,10 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setHasOptionsMenu(true);
+
+        getPopularMovies();
+
+        imageAdapter = new PosterAdapter(getActivity(), imageArrayList);
 
         /*mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -104,10 +100,10 @@ public class MainActivityFragment extends Fragment {
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
 
-        Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
+        //Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
-        inflater = (LayoutInflater)mContext.getSystemService
-                (Context.LAYOUT_INFLATER_SERVICE);
+        //inflater = (LayoutInflater)mContext.getSystemService
+                //(Context.LAYOUT_INFLATER_SERVICE);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -279,7 +275,7 @@ public class MainActivityFragment extends Fragment {
                 }
             });*/
 
-            Log.d(FETCH_TAG, "after setAdapter");
+            //Log.d(FETCH_TAG, "after setAdapter");
 
             Log.d(FETCH_TAG, "onPostExecute()..it ran, now after onPostexecute");
         }
@@ -317,13 +313,6 @@ public class MainActivityFragment extends Fragment {
                     Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
                     backdropImageUrls.add(aMovie.getPosterImageUrl());
                     aMovie.setRating(movieObject.getDouble(voteAverage));
-
-                   // movieArray.add(aMovie);
-                    /*Picasso.with(mContext)
-                            .load("http://image.tmdb.org/t/p/w185/" + aMovie.getPosterImageUrl())
-                            //.resize(50, 50)
-                            .fit()
-                            .into((Target) rootView);*/
                 }
             }
             return movieArray;
@@ -475,7 +464,7 @@ public class MainActivityFragment extends Fragment {
                 }
 
                 if (posterFavs != null && getActivity() != null) {
-                    PosterAdapter adapter = new PosterAdapter(mContext, movieArray);
+                    PosterAdapter adapter = new PosterAdapter(mContext, imageArrayList);
                     //cFragGridView.setAdapter(imageAdapter);
                 }
             } else {

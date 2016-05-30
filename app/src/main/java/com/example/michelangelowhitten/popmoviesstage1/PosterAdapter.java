@@ -6,6 +6,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
  * https://developer.android.com/training/material/lists-cards.html
  */
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.squareup.picasso.Picasso;
 
 public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder> {
 
-    private ArrayList<AndroidMovie> movieArrayList;
+    private ArrayList<Image> imageArrayList;
     private Context context;
 
     // Provide a reference to the views for each data item
@@ -33,8 +34,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(Context context, ArrayList<AndroidMovie> movieArrayList) {
-        this.movieArrayList = movieArrayList;
+    public PosterAdapter(Context context, ArrayList<Image> imageArrayList) {
+        this.imageArrayList = imageArrayList;
         this.context = context;
     }
 
@@ -60,9 +61,10 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
 
         final ImageView imageView = (ImageView) holder.view.findViewById(R.id.posterView);
 
-        for(int i = 0; i < movieArrayList.size(); i++) {
+        for(int i = 0; i < imageArrayList.size(); i++) {
+            Image onePoster = imageArrayList.get(i);
             Picasso.with(context)
-                    .load(movieArrayList.get(i).getPosterImageUrl())
+                    .load(String.valueOf(onePoster))
                     .noFade()
                     .fit()
                     .centerCrop()
@@ -73,15 +75,15 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return movieArrayList.size();
+        return imageArrayList.size();
     }
 
-    public ArrayList<AndroidMovie> getMovieArrayList() {
-        return movieArrayList;
+    public ArrayList<Image> getImageArrayList() {
+        return imageArrayList;
     }
 
-    public void setMovieArrayList(ArrayList<AndroidMovie> movieArrayList) {
-        this.movieArrayList = movieArrayList;
+    public void setImageArrayList(ArrayList<Image> imageArrayList) {
+        this.imageArrayList = imageArrayList;
     }
 }
 
