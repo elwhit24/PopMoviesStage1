@@ -58,15 +58,15 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
         // - replace the contents of the view with that element
 
 
-        final ImageView imageView = (ImageView) holder.view.findViewById(R.id.movie_poster);
+        final ImageView imageView = (ImageView) holder.view.findViewById(R.id.posterView);
 
         for(int i = 0; i < movieArrayList.size(); i++) {
-            Picasso.with(context).
-                    load(movieArrayList.get(i).getPosterImageUrl()).
-                    noFade().
-                    fit().
-                    centerCrop().
-                    into(imageView);
+            Picasso.with(context)
+                    .load(movieArrayList.get(i).getPosterImageUrl())
+                    .noFade()
+                    .fit()
+                    .centerCrop()
+                    .into(imageView);
         }
     }
 

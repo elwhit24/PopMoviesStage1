@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.*;
@@ -51,10 +52,6 @@ public class MainActivityFragment extends Fragment {
             "certification_country=US&certification=R& sort_by=vote_average.desc&api_key="
             + MY_API_KEY;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
     Context mContext;
@@ -75,40 +72,37 @@ public class MainActivityFragment extends Fragment {
     int width;
 
     public MainActivityFragment() {
-        posterImageUrls = new ArrayList<>();
-        backdropImageUrls = new ArrayList<>();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        ArrayList<AndroidMovie> movieArrayList = new ArrayList<>();
-
-        // specify an adapter (see also next example)
-        mAdapter = new PosterAdapter(movieArrayList);
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
 
+        /*mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a grid layout manager
+        mGridLayoutManager = new GridLayoutManager(getActivity(), 20);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+
+        ArrayList<AndroidMovie> movieArrayList = new ArrayList<>();
+
+        // specify an adapter (see also next example)
+        mAdapter = new PosterAdapter(mContext, movieArrayList);
+        mRecyclerView.setAdapter(mAdapter);*/
 
         Log.d(MAF_TAG, "after onCreate in fragment has executed...");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);*/
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
@@ -117,14 +111,13 @@ public class MainActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
 
-        WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        /*WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        width = size.x / 2;
-
+        width = size.x / 2;*/
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");  //DO NOT START WITHOUT ME
 
@@ -384,7 +377,7 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    /*public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView poster;
         private LayoutInflater inflater;
         PosterAdapter imageAdapterMain;
@@ -393,7 +386,7 @@ public class MainActivityFragment extends Fragment {
         public MyViewHolder(View view) {
             super(view);
             poster = (ImageView) view.findViewById(R.id.movie_poster);
-            imageAdapterMain = new PosterAdapter();
+            imageAdapterMain = new PosterAdapter(mContext, movieArray);
             this.holderContext = view.getContext();
 
         }
@@ -407,12 +400,12 @@ public class MainActivityFragment extends Fragment {
                 public void onClick(View view) {
                     int position = viewHolder.getAdapterPosition();
                     Intent intent = new Intent(holderContext, DetailsFragment.DetailActivity.class);
-                    intent.putExtra(DetailsFragment.DetailActivity.EXTRA_MOVIE, imageAdapterMain.getPopMovieArrayList().get(position));
+                    intent.putExtra(DetailsFragment.DetailActivity.EXTRA_MOVIE, imageAdapterMain.getMovieArrayList().get(position));
                     holderContext.startActivity(intent);
                 }
             });
             return viewHolder;
-        }
+        }*/
 
         /*public void onBindViewHolder(MyViewHolder holder, int position) {
             AndroidMovie movie = imageAdapterMain.getPopMovieArrayList().get(position);
@@ -433,7 +426,7 @@ public class MainActivityFragment extends Fragment {
         public int getItemCount() {
             return (imageAdapterMain.getPopMovieArrayList() == null) ? 0 : imageAdapterMain.getPopMovieArrayList().size();
         }*/
-    }
+
 
     public class PreferenceChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -482,7 +475,7 @@ public class MainActivityFragment extends Fragment {
                 }
 
                 if (posterFavs != null && getActivity() != null) {
-                    PosterAdapter adapter = new PosterAdapter();
+                    PosterAdapter adapter = new PosterAdapter(mContext, movieArray);
                     //cFragGridView.setAdapter(imageAdapter);
                 }
             } else {

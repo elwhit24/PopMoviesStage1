@@ -7,21 +7,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:id="@+id/container"
-    tools:context=".MainActivity">
+    tools:context="com.example.michelangelowhitten.popmoviesstage1.MainActivity">
 
-    <!-- A RecyclerView with some commonly used attributes -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
+
+
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-
+        android:layout_height="wrap_content">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
+
+    </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/fragment_main" />
 
@@ -39,8 +38,6 @@
         tools:context=".MainActivity"
         tools:showIn="@layout/activity_main"/>
 
-<android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
 
 -->

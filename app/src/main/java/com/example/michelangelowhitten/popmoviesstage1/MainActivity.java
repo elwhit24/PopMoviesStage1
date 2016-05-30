@@ -23,8 +23,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String TAG = MainActivity.class.getSimpleName();
-
+    private final String M_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,25 +31,52 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
+
+            RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            if (mRecyclerView != null) {
+                mRecyclerView.setHasFixedSize(true);
+            }
+
+            // use a linear layout manager
+            GridLayoutManager mGridLayoutManager = new GridLayoutManager(getBaseContext(), 20);
+            mRecyclerView.setLayoutManager(mGridLayoutManager);
+
+            ArrayList<AndroidMovie> movieArrayList = new ArrayList<AndroidMovie>();
+
+            /*for(int i = 0; i < 20; i++) {
+                movieArrayList.add(new AndroidMovie(
+                        "Title " + i,
+                        "This is a description text",
+                        R.drawable.flowers1
+                ));
+            }*/
+
+            // specify an adapter (see also next example)
+            RecyclerView.Adapter mAdapter = new PosterAdapter(getBaseContext(), movieArrayList);
+            mRecyclerView.setAdapter(mAdapter);
+
             FragmentManager fragManager = getFragmentManager();
             FragmentTransaction fragTransaction = fragManager.beginTransaction()
                     .replace(R.id.container, new MainActivityFragment());
             fragTransaction.commit();
             fragTransaction.replace(R.id.container, new MainActivityFragment());
         } else {
-            Bundle bundle = savedInstanceState.getBundle(TAG);
+            Bundle bundle = savedInstanceState.getBundle(M_TAG);
             super.onCreate(bundle);
             setContentView(R.layout.activity_main);
         }
             /*Bundle nBundle = new Bundle();
             bundle.putAll(nBundle);*/
-            Log.d(TAG, "after transaction commit");
+            Log.d(M_TAG, "after transaction commit");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        Log.d(TAG, "onCreateOptionsMenu done");
+        Log.d(M_TAG, "onCreateOptionsMenu done");
 
         return true;
     }
