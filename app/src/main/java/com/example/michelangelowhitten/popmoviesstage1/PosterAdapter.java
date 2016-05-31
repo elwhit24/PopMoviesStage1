@@ -6,11 +6,14 @@ package com.example.michelangelowhitten.popmoviesstage1;
  * https://developer.android.com/training/material/lists-cards.html
  */
 import android.content.Context;
+import android.graphics.Point;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
 
     private ArrayList<Image> imageArrayList;
     private Context context;
+    int width;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -34,9 +38,10 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(Context context, ArrayList<Image> imageArrayList) {
+    public PosterAdapter(Context context, ArrayList<Image> imageArrayList, int sWidth) {
         this.imageArrayList = imageArrayList;
         this.context = context;
+        this.width = sWidth;
     }
 
     // Create new views (invoked by the layout manager)
@@ -57,9 +62,9 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        int width = this.width;
 
-
-        final ImageView imageView = (ImageView) holder.view.findViewById(R.id.posterView);
+        final ImageView imageView = (ImageView) holder.view.findViewById(R.id.recycler_poster_view);
 
         for(int i = 0; i < imageArrayList.size(); i++) {
             Image onePoster = imageArrayList.get(i);
@@ -67,6 +72,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
                     .load(String.valueOf(onePoster))
                     .noFade()
                     .fit()
+                    .resize(width, (width * 2) / 3)
                     .centerCrop()
                     .into(imageView);
         }

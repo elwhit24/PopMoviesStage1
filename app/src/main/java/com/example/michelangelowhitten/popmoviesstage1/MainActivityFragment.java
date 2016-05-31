@@ -3,6 +3,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,9 +11,11 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.util.*;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,10 +64,11 @@ public class MainActivityFragment extends Fragment {
     PreferenceChangeListener p;
     ArrayList<Image> imageArrayList;
     int width;
+    Context context;
 
     public MainActivityFragment() {
-        imageArrayList = new ArrayList<>();
-
+        this.context = this.getActivity();
+        this.imageArrayList = new ArrayList<>();
     }
 
     @Override
@@ -74,7 +78,7 @@ public class MainActivityFragment extends Fragment {
 
         getPopularMovies();
 
-        imageAdapter = new PosterAdapter(getActivity(), imageArrayList);
+        imageAdapter = new PosterAdapter(context, imageArrayList, width);
 
         /*mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -109,15 +113,37 @@ public class MainActivityFragment extends Fragment {
 
         //setHasOptionsMenu(true);
 
-        /*WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        width = size.x / 2;*/
+
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");  //DO NOT START WITHOUT ME
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+
+        Log.d(MAF_TAG, "onStart()...at the start");
+
+        super.onStart();
+
+        //shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
+        //p = new PreferenceChangeListener();
+        //shared_pref.registerOnSharedPreferenceChangeListener(p);
+
+        Log.d(MAF_TAG, "super.onStart() ran");
+
+        getPopularMovies();
+
+        Log.d(MAF_TAG, "after getPopularMovies() ran after super.onStart() ran");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(MAF_TAG, "super.onResume() ran");
+
+        //this.fetchMovie.execute();
     }
 
     public void getPopularMovies() {
@@ -141,32 +167,6 @@ public class MainActivityFragment extends Fragment {
             isAvailable = true;
         }
         return isAvailable;
-    }
-
-    @Override
-    public void onStart() {
-
-        Log.d(MAF_TAG, "onStart()...at the start");
-
-        super.onStart();
-
-        shared_pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        p = new PreferenceChangeListener();
-        shared_pref.registerOnSharedPreferenceChangeListener(p);
-
-        Log.d(MAF_TAG, "super.onStart() ran");
-
-        getPopularMovies();
-
-        Log.d(MAF_TAG, "after getPopularMovies() ran after super.onStart() ran");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(MAF_TAG, "super.onResume() ran");
-
-        this.fetchMovie.execute();
     }
 
     public class FetchMovieTask extends AsyncTask<String, Void, String> {
@@ -366,57 +366,6 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
-    /*public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView poster;
-        private LayoutInflater inflater;
-        PosterAdapter imageAdapterMain;
-        Context holderContext;
-
-        public MyViewHolder(View view) {
-            super(view);
-            poster = (ImageView) view.findViewById(R.id.movie_poster);
-            imageAdapterMain = new PosterAdapter(mContext, movieArray);
-            this.holderContext = view.getContext();
-
-        }
-
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
-
-            View view = inflater.inflate(R.layout.movie_poster, parent);
-            final MyViewHolder viewHolder = new MyViewHolder(view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = viewHolder.getAdapterPosition();
-                    Intent intent = new Intent(holderContext, DetailsFragment.DetailActivity.class);
-                    intent.putExtra(DetailsFragment.DetailActivity.EXTRA_MOVIE, imageAdapterMain.getMovieArrayList().get(position));
-                    holderContext.startActivity(intent);
-                }
-            });
-            return viewHolder;
-        }*/
-
-        /*public void onBindViewHolder(MyViewHolder holder, int position) {
-            AndroidMovie movie = imageAdapterMain.getPopMovieArrayList().get(position);
-            Picasso.with(holderContext)
-                    .load(movie.getPosterImageUrl())
-                    //.placeholder(R.color.colorAccent)
-                    .into(holder.poster);
-        }*/
-
-        /*public Object getItem(int i) {
-            return null;
-        }
-
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        public int getItemCount() {
-            return (imageAdapterMain.getPopMovieArrayList() == null) ? 0 : imageAdapterMain.getPopMovieArrayList().size();
-        }*/
-
-
     public class PreferenceChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         @Override
@@ -464,7 +413,7 @@ public class MainActivityFragment extends Fragment {
                 }
 
                 if (posterFavs != null && getActivity() != null) {
-                    PosterAdapter adapter = new PosterAdapter(mContext, imageArrayList);
+                    PosterAdapter adapter = new PosterAdapter(context, imageArrayList, width);
                     //cFragGridView.setAdapter(imageAdapter);
                 }
             } else {

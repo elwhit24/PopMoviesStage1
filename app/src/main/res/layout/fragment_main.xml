@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
 
 
 <GridLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:id="@+id/fragment_main_layout"
     android:columnCount="2"
     android:rowCount="20"
     android:useDefaultMargins="true">
-
-
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -155,6 +157,8 @@
         android:src="@drawable/placeholder"/>
 
 </GridLayout>
+
+</ScrollView>
 
 <!--
 
