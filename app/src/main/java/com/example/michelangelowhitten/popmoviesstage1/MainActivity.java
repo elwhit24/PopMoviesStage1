@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String M_TAG = MainActivity.class.getSimpleName();
     private int width;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +36,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Context context = getApplicationContext();
+        this.width = getScreenWidth(context);
 
 
         if (savedInstanceState == null) {
 
             FragmentManager fragManager = getFragmentManager();
-            FragmentTransaction fragTransaction = fragManager.beginTransaction()
-                    .replace(R.id.container, new MainActivityFragment());
+            FragmentTransaction fragTransaction = fragManager.beginTransaction();
             fragTransaction.commit();
             fragTransaction.replace(R.id.container, new MainActivityFragment());
 
-            RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycler_poster_view);
+            mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
@@ -85,22 +86,10 @@ public class MainActivity extends AppCompatActivity {
     //@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (item == null) {
-            Bundle args = new Bundle();
-            args.putParcelable(DetailsFragment.DETAIL_MOVIE, (Parcelable) item);
 
-            Fragment dFrag = new Fragment();
-            dFrag.setArguments(args);
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail, dFrag, DetailsFragment.D_TAG)
-                    .commit();
-        } else {
-            startActivity(new Intent(this, Settings.class));
-            return true;
-        }
 
-        return true;  //super.onOptionsItemSelected(movieItem);
+        return true;
     }
 
     public int getScreenWidth(Context context) {

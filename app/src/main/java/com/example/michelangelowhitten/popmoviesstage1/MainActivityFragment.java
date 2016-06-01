@@ -1,5 +1,6 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,11 +14,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.*;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,11 +32,11 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-/*created by Michelangelo Whitten over a period of more than a few months of learning*/
+/*created by Michelangelo Whitten over a period of many months of learning*/
 
 public class MainActivityFragment extends Fragment {
 
-    private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
+    private final String MY_API_KEY = "";
 
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
@@ -70,18 +69,29 @@ public class MainActivityFragment extends Fragment {
     RecyclerView mRecyclerView;
 
     public MainActivityFragment() {
+        this.setArguments(Bundle.EMPTY);
         this.context = this.getActivity();
         this.imageArrayList = new ArrayList<>();
+    }
+
+    private int setArguments(int width) {
+        this.width = width;
+        return this.width;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setHasOptionsMenu(true);
-
+        setHasOptionsMenu(true);
+        System.out.println("LET US TEST THIS ONE OUT.  MAINACTIVITY HAS SCREEN OF WIDTH: " + width);
        // getPopularMovies();
 
         imageAdapter = new PosterAdapter(context, imageArrayList, width);
+
+        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recyclerView);
+        imageAdapter = new PosterAdapter(context, imageArrayList, width);
+        mRecyclerView.setAdapter(imageAdapter);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context,2));
 
         /*mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -113,7 +123,8 @@ public class MainActivityFragment extends Fragment {
                 //(Context.LAYOUT_INFLATER_SERVICE);
 
         //View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        //mRecyclerView = (RecyclerView) container.findViewById(R.id.recycler_poster_view);
+
+
         //setHasOptionsMenu(true);
 
         View mRecyclerView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -151,7 +162,7 @@ public class MainActivityFragment extends Fragment {
 
     public void getPopularMovies() {
 
-        System.out.println("inside at start of getPopularMovies() ----------before Fetch Movies task");
+        Log.d(MAF_TAG, "inside at start of getPopularMovies() ----------before Fetch Movies task");
 
         if(isNetworkAvailable()) {
             fetchMovie = new FetchMovieTask();
@@ -249,10 +260,6 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(String string) {
             Log.d(FETCH_TAG, "onPostExecute() running");
-
-
-
-            mRecyclerView = (RecyclerView) findViewById(R.id.recycler_poster_view);
 
             mRecyclerView.setHasFixedSize(true);
             GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);

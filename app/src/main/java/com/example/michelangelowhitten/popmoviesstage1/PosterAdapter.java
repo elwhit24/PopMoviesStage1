@@ -93,7 +93,25 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     }
 }
 
-/*Picasso.with(getContext())
+/*
+if (item == null) {
+        Bundle args = new Bundle();
+        args.putParcelable(DetailsFragment.DETAIL_MOVIE, (Parcelable) item);
+
+        Fragment dFrag = new Fragment();
+        dFrag.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+        .replace(R.id.movie_detail, dFrag, DetailsFragment.D_TAG)
+        .commit();
+        } else {
+        startActivity(new Intent(this, Settings.class));
+        return true;
+        }
+
+        return true;  //super.onOptionsItemSelected(movieItem);
+
+Picasso.with(getContext())
         .load(movieItem.getPosterImageUrl())
         .into(imageView);*/
 
