@@ -54,21 +54,12 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             //}
 
-            // use a linear layout manager
+            // use a grid layout manager
             GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
             mRecyclerView.setLayoutManager(mGridLayoutManager);
 
             ArrayList<Image> imageArrayList = new ArrayList<>();
 
-            /*for(int i = 0; i < 20; i++) {
-                movieArrayList.add(new AndroidMovie(
-                        "Title " + i,
-                        "This is a description text",
-                        R.drawable.flowers1
-                ));
-            }*/
-
-            // specify an adapter (see also next example)
             RecyclerView.Adapter mAdapter = new PosterAdapter(context, imageArrayList, getScreenWidth(context));
             mRecyclerView.setAdapter(mAdapter);
 
@@ -92,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //@Override
-    public boolean onOptionsItemSelected(Menu menuItem) {
-
-        if (menuItem == null) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (item == null) {
             Bundle args = new Bundle();
-            args.putParcelable(DetailsFragment.DETAIL_MOVIE, (Parcelable) menuItem);
+            args.putParcelable(DetailsFragment.DETAIL_MOVIE, (Parcelable) item);
 
             Fragment dFrag = new Fragment();
             dFrag.setArguments(args);
@@ -113,12 +104,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int getScreenWidth(Context context) {
+        int screenWidth;
+
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        width = size.x / 2;
+        screenWidth = size.x / 2;
 
-        return width;
+        return screenWidth;
     }
 }

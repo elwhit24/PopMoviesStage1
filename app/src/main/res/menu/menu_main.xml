@@ -1,25 +1,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.michelangelowhitten.popmoviesstage1.MainActivity">
+    tools:context=".MainActivity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="collapseActionView"
-        android:enabled="false" />
+        android:enabled="true"/>
+
     <item
         android:id="@+id/popular_sort"
         android:orderInCategory="100"
-        android:title="@string/movie_default_view"
+        android:title="@string/movie_default_view"/>
 
-        />
     <item
         android:id="@+id/ratings_sort"
         android:orderInCategory="100"
-        android:title="@string/movie_ratings_view"
+        android:title="@string/movie_ratings_view"/>
 
-        />
 </menu>
     <!--
             android:onClick="onPrefStart"

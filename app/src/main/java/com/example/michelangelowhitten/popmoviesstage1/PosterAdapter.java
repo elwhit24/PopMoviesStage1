@@ -66,7 +66,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
 
         final ImageView imageView = (ImageView) holder.view.findViewById(R.id.recycler_poster_view);
 
-        for(int i = 0; i < imageArrayList.size(); i++) {
+        /*for(int i = 0; i < imageArrayList.size(); i++) {
             Image onePoster = imageArrayList.get(i);
             Picasso.with(context)
                     .load(String.valueOf(onePoster))
@@ -75,7 +75,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
                     .resize(width, (width * 2) / 3)
                     .centerCrop()
                     .into(imageView);
-        }
+        }*/
     }
 
     // Return the size of your dataset (invoked by the layout manager)

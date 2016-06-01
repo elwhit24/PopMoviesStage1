@@ -10,6 +10,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.*;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -65,6 +67,7 @@ public class MainActivityFragment extends Fragment {
     ArrayList<Image> imageArrayList;
     int width;
     Context context;
+    RecyclerView mRecyclerView;
 
     public MainActivityFragment() {
         this.context = this.getActivity();
@@ -76,7 +79,7 @@ public class MainActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //setHasOptionsMenu(true);
 
-        getPopularMovies();
+       // getPopularMovies();
 
         imageAdapter = new PosterAdapter(context, imageArrayList, width);
 
@@ -109,15 +112,15 @@ public class MainActivityFragment extends Fragment {
         //inflater = (LayoutInflater)mContext.getSystemService
                 //(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
+        //View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        //mRecyclerView = (RecyclerView) container.findViewById(R.id.recycler_poster_view);
         //setHasOptionsMenu(true);
 
-
+        View mRecyclerView = inflater.inflate(R.layout.fragment_main, container, false);
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");  //DO NOT START WITHOUT ME
 
-        return rootView;
+        return mRecyclerView;
     }
 
     @Override
@@ -247,15 +250,28 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(String string) {
             Log.d(FETCH_TAG, "onPostExecute() running");
 
-            /*LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
+
+
+            mRecyclerView = (RecyclerView) findViewById(R.id.recycler_poster_view);
+
+            mRecyclerView.setHasFixedSize(true);
+            GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+            mRecyclerView.setLayoutManager(mGridLayoutManager);
+            ArrayList<Image> imageArrayList = new ArrayList<>();
+            RecyclerView.Adapter mAdapter = new PosterAdapter(context, imageArrayList, width);
+            mRecyclerView.setAdapter(mAdapter);
+
+            Log.d(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() after Doggggg%%%%%%");
+
+            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
                     (Context.LAYOUT_INFLATER_SERVICE);
 
-            ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_main, (ViewGroup) rootView);
+            ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_main, (ViewGroup) mRecyclerView);
 
             //inflater.getFactory();
 
-            imageAdapter = new PosterAdapter();
-            //Log.d(FETCH_TAG, "initializing imageAdapter in onPostExecute()");
+            //imageAdapter = new PosterAdapter();
+
 
             RecyclerView recyclerView = new RecyclerView(mContext);
             recyclerView.setAdapter(new RecyclerView.Adapter() {
@@ -273,7 +289,7 @@ public class MainActivityFragment extends Fragment {
                 public int getItemCount() {
                     return 0;
                 }
-            });*/
+            });
 
             //Log.d(FETCH_TAG, "after setAdapter");
 
