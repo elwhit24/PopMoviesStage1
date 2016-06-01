@@ -1,10 +1,8 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,8 +15,9 @@ import android.util.*;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.GridView;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +35,7 @@ import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
 
-    private final String MY_API_KEY = "";
+    private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
 
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
@@ -50,12 +49,12 @@ public class MainActivityFragment extends Fragment {
     ArrayList<String> backdropImageUrls;
     Context mContext;
     PosterAdapter imageAdapter;
-    GridView cFragGridView;
+    ImageView settingsView;
     String noFetch = "Not able to grab movie info from MovieDB.";
     String noInter = "No internet available at the moment";
     JsonReader jReader;
     ArrayList<AndroidMovie> movieArray;
-    ArrayList<Image> posterFavs;
+    ArrayList<String> posterFavs;
     String pref;
     Boolean prefP;
     Boolean prefH;
@@ -69,13 +68,19 @@ public class MainActivityFragment extends Fragment {
     RecyclerView mRecyclerView;
 
     public MainActivityFragment() {
-        this.setArguments(Bundle.EMPTY);
+
+        this.setArguments(Bundle.PARCELABLE_WRITE_RETURN_VALUE);
+        this.setArguments(MainActivity.WINDOW_SERVICE.getClass().getModifiers());
         this.context = this.getActivity();
         this.imageArrayList = new ArrayList<>();
+        Log.d(MAF_TAG, "TEST THIS ONE OUT.  MAINACTIVITY HAS SCREEN OF WIDTH: " + width);
     }
 
     private int setArguments(int width) {
         this.width = width;
+
+        Log.d(MAF_TAG, "TEST THIS ONE OUT.  MAINACTIVITY SET WIDTH TO: " + width);
+
         return this.width;
     }
 
@@ -83,53 +88,24 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        System.out.println("LET US TEST THIS ONE OUT.  MAINACTIVITY HAS SCREEN OF WIDTH: " + width);
-       // getPopularMovies();
-
-        imageAdapter = new PosterAdapter(context, imageArrayList, width);
 
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recyclerView);
-        imageAdapter = new PosterAdapter(context, imageArrayList, width);
-        mRecyclerView.setAdapter(imageAdapter);
         mRecyclerView.setLayoutManager(new GridLayoutManager(context,2));
-
-        /*mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a grid layout manager
-        mGridLayoutManager = new GridLayoutManager(getActivity(), 20);
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
-
-        ArrayList<AndroidMovie> movieArrayList = new ArrayList<>();
-
-        // specify an adapter (see also next example)
-        mAdapter = new PosterAdapter(mContext, movieArrayList);
-        mRecyclerView.setAdapter(mAdapter);*/
 
         Log.d(MAF_TAG, "after onCreate in fragment has executed...");
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
+
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
 
-        //Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
+        imageAdapter = new PosterAdapter(context, posterImageUrls, width);
+        mRecyclerView.setAdapter(imageAdapter);
 
-        //inflater = (LayoutInflater)mContext.getSystemService
-                //(Context.LAYOUT_INFLATER_SERVICE);
-
-        //View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-
-        //setHasOptionsMenu(true);
-
-        View mRecyclerView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        Log.d(MAF_TAG, "MainActivityFragment onCreateView() good");  //DO NOT START WITHOUT ME
+        Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
         return mRecyclerView;
     }
@@ -141,9 +117,9 @@ public class MainActivityFragment extends Fragment {
 
         super.onStart();
 
-        //shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
-        //p = new PreferenceChangeListener();
-        //shared_pref.registerOnSharedPreferenceChangeListener(p);
+        shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
+        p = new PreferenceChangeListener();
+        shared_pref.registerOnSharedPreferenceChangeListener(p);
 
         Log.d(MAF_TAG, "super.onStart() ran");
 
@@ -156,8 +132,6 @@ public class MainActivityFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(MAF_TAG, "super.onResume() ran");
-
-        //this.fetchMovie.execute();
     }
 
     public void getPopularMovies() {
@@ -207,13 +181,12 @@ public class MainActivityFragment extends Fragment {
 
                 if (pref == null) {
 
-                    System.out.println("pref is " + pref);
+                    Log.d(MAF_TAG, "pref is " + pref);
                     pref = "popular";
-                    System.out.println("pref is now " + pref);
-                    System.out.println("NEXT UP");
-
-                    System.out.println("popularMoviesJson is " + popularMoviesJson);
-                    System.out.println("popularMoviesJson should be null!!");
+                    Log.d(MAF_TAG, "pref is now " + pref);
+                    Log.d(MAF_TAG, "NEXT UP");
+                    Log.d(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
+                    Log.d(MAF_TAG, "popularMoviesJson should be null!!");
                 }
 
                     try {
@@ -221,13 +194,13 @@ public class MainActivityFragment extends Fragment {
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("popularMoviesJson is " + popularMoviesJson);
+                    Log.d(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
 
                     if (popularMoviesJson != null) {
                         finalJsonString = popularMoviesJson.toString();
-                        System.out.println("finalJsonString is " + finalJsonString);
+                        Log.d(MAF_TAG, "popular-finalJsonString is " + finalJsonString);
                         try {
-                            movieArray = this.getPopularMoviesArray(finalJsonString);
+                            movieArray = this.getMoviesArray(finalJsonString);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -239,11 +212,15 @@ public class MainActivityFragment extends Fragment {
                         } catch (IOException | JSONException e) {
                             e.printStackTrace();
                         }
-                    if (highestRatedMoviesJson != null) {
+                        Log.d(MAF_TAG, "highestRatedMoviesJson is " + highestRatedMoviesJson);
+
+                        if (highestRatedMoviesJson != null) {
 
                         finalJsonString = highestRatedMoviesJson.toString();
+                        Log.d(MAF_TAG, "highest rated-finalJsonString is " + finalJsonString);
+
                         try {
-                            movieArray = this.getPopularMoviesArray(finalJsonString);
+                            movieArray = this.getMoviesArray(finalJsonString);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -252,7 +229,8 @@ public class MainActivityFragment extends Fragment {
                     }
                 }
 
-                System.out.println("after sort comparison ----------in Fetch Movies task");
+                Log.d(MAF_TAG, "LET US TEST THIS ONE OUT.  MAINACTIVITY HAS SCREEN OF WIDTH: " +
+                        width);
 
                 return null;
             }
@@ -261,49 +239,24 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(String string) {
             Log.d(FETCH_TAG, "onPostExecute() running");
 
+            LayoutInflater inflater;
+            inflater = (LayoutInflater)mContext.getSystemService
+                    (Context.LAYOUT_INFLATER_SERVICE);
+
             mRecyclerView.setHasFixedSize(true);
             GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
             mRecyclerView.setLayoutManager(mGridLayoutManager);
-            ArrayList<Image> imageArrayList = new ArrayList<>();
-            RecyclerView.Adapter mAdapter = new PosterAdapter(context, imageArrayList, width);
+            RecyclerView.Adapter mAdapter = new PosterAdapter(context, posterImageUrls, width);
             mRecyclerView.setAdapter(mAdapter);
 
-            Log.d(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() after Doggggg%%%%%%");
+            Log.d(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() b4 Doggggg%%%%%%<<<PICS>>>>");
 
-            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
-                    (Context.LAYOUT_INFLATER_SERVICE);
+            mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, null);
 
-            ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_main, (ViewGroup) mRecyclerView);
-
-            //inflater.getFactory();
-
-            //imageAdapter = new PosterAdapter();
-
-
-            RecyclerView recyclerView = new RecyclerView(mContext);
-            recyclerView.setAdapter(new RecyclerView.Adapter() {
-                @Override
-                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    return null;
-                }
-
-                @Override
-                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-                }
-
-                @Override
-                public int getItemCount() {
-                    return 0;
-                }
-            });
-
-            //Log.d(FETCH_TAG, "after setAdapter");
-
-            Log.d(FETCH_TAG, "onPostExecute()..it ran, now after onPostexecute");
+            Log.d(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() after Doggggg%%%%%%<<<PICS>>>>");
         }
 
-        public ArrayList<AndroidMovie> getPopularMoviesArray(String movieJsonStr)
+        public ArrayList<AndroidMovie> getMoviesArray(String movieJsonStr)
                 throws JSONException {
 
             // JSON Keys
@@ -393,65 +346,71 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            cFragGridView.setAdapter(null);
             onPrefStart();
         }
 
         public void onPrefStart() {
 
-            //getParentFragment().onStart();
+            shared_pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            p = new PreferenceChangeListener();
+            shared_pref.registerOnSharedPreferenceChangeListener(p);
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            PreferenceChangeListener listener = new PreferenceChangeListener();
-            prefs.registerOnSharedPreferenceChangeListener(listener);
-
-            if (prefs.getString("sortby", "popularity").equals("popularity")) {
+            if (shared_pref.getString("sortby", "popularity").equals("popularity")) {
                 getActivity().setTitle("Most Popular Movies");
                 prefP = true;
                 prefH = false;
-            } else if (prefs.getString("sortby", "rating").equals("rating")) {
+            } else if (shared_pref.getString("sortby", "rating").equals("rating")) {
                 getActivity().setTitle("Highest Rated Movies");
                 prefP = false;
                 prefF = false;
-            } else if (prefs.getString("sortby", "favorites").equals("favorites")) {
+            } else if (shared_pref.getString("sortby", "favorites").equals("favorites")) {
                 getActivity().setTitle("Favorite Movies");
                 prefP = false;
                 prefF = true;
             }
 
             TextView favTextView = new TextView(getActivity());
-            RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.fragment_main_layout);
+            GridLayout preferencesLayout = (GridLayout) getActivity().findViewById(R.id.gridView);
             if (prefF) {
 
                 if (posterFavs.size() == 0) {
 
                     favTextView.setText(R.string.no_favorites);
-                    if (layout.getChildCount() == 1) {
-                        layout.addView(favTextView);
-                        cFragGridView.setVisibility(GridView.GONE);
+                    if (preferencesLayout.getChildCount() == 1) {
+                        preferencesLayout.addView(favTextView);
+                        settingsView.setVisibility(GridView.GONE);
                     }
                 } else {
-                    cFragGridView.setVisibility(GridView.VISIBLE);
-                    layout.removeView(favTextView);
+                    settingsView.setVisibility(GridView.VISIBLE);
+                    preferencesLayout.removeView(favTextView);
                 }
 
                 if (posterFavs != null && getActivity() != null) {
-                    PosterAdapter adapter = new PosterAdapter(context, imageArrayList, width);
-                    //cFragGridView.setAdapter(imageAdapter);
+                    mRecyclerView.setHasFixedSize(true);
+                    GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+                    mRecyclerView.setLayoutManager(mGridLayoutManager);
+                    RecyclerView.Adapter mAdapter = new PosterAdapter(context, posterFavs, width);
+                    mRecyclerView.setAdapter(mAdapter);
+
+                    Log.d(MAF_TAG, "$$$$$$$$$$$ onPostExecute() after Doggggg%%%%%%");
+
+                    /*LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
+                            (Context.LAYOUT_INFLATER_SERVICE);*/
                 }
             } else {
-                cFragGridView.setVisibility(GridView.VISIBLE);
-                layout.removeView(favTextView);
+                mRecyclerView.setVisibility(GridView.VISIBLE);
+                preferencesLayout.removeView(favTextView);
 
                 if (isNetworkAvailable()) {
                     fetchMovie.execute();
+
                 } else {
                     TextView noInternetText = new TextView(getActivity());
                     noInternetText.setText(noInter);
-                    if (layout.getChildCount() == 1) {
-                        layout.addView(noInternetText);
+                    if (preferencesLayout.getChildCount() == 1) {
+                        preferencesLayout.addView(noInternetText);
                     }
-                    cFragGridView.setVisibility(GridView.GONE);
+                    mRecyclerView.setVisibility(GridView.GONE);
                 }
             }
         }

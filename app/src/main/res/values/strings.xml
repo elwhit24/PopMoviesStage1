@@ -7,7 +7,7 @@
         <string name="overview_string">Poster</string>
         <string name="poster_string">Poster</string>
         <string name="action_settings">Sort By</string>
-        <string name="movie_default_view">Popularity</string>
+        <string name="movie_popularity_view">Popularity</string>
         <string name="movie_ratings_view">Ratings</string>
         <string name="vote_">Vote(out of 10): </string>
         <string name="r_date">Released in: </string>

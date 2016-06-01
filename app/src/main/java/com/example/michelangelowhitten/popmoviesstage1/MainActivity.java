@@ -14,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.test.IsolatedContext;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         this.width = getScreenWidth(context);
 
-
         if (savedInstanceState == null) {
 
             FragmentManager fragManager = getFragmentManager();
@@ -50,28 +50,27 @@ public class MainActivity extends AppCompatActivity {
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
-            //if (mRecyclerView != null) {
+            if (mRecyclerView != null) {
 
             mRecyclerView.setHasFixedSize(true);
-            //}
+            }
 
             // use a grid layout manager
             GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
             mRecyclerView.setLayoutManager(mGridLayoutManager);
 
-            ArrayList<Image> imageArrayList = new ArrayList<>();
+            ArrayList<String> posterURL_ArrayList = new ArrayList<>();
 
-            RecyclerView.Adapter mAdapter = new PosterAdapter(context, imageArrayList, getScreenWidth(context));
+            RecyclerView.Adapter mAdapter = new PosterAdapter(context, posterURL_ArrayList, getScreenWidth(context));
             mRecyclerView.setAdapter(mAdapter);
-
 
         } else {
             Bundle bundle = savedInstanceState.getBundle(M_TAG);
             super.onCreate(bundle);
             setContentView(R.layout.activity_main);
         }
-            /*Bundle nBundle = new Bundle();
-            bundle.putAll(nBundle);*/
+            Bundle nBundle = new Bundle();
+            nBundle.putAll(nBundle);
             Log.d(M_TAG, "after transaction commit");
     }
 
@@ -85,9 +84,31 @@ public class MainActivity extends AppCompatActivity {
 
     //@Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        Log.d(M_TAG, "onOptionsItemSelected is running!");
 
+        /*int id = item.getItemId();
 
+        Intent intent = new Intent();
+
+        switch (id) {
+            case R.string.movie_popularity_view :
+                GridLayoutManager PopularityGridLayoutManager = new GridLayoutManager(this, 2);
+                mRecyclerView.setLayoutManager(PopularityGridLayoutManager);
+                startActivity(intent);
+
+            case R.string.movie_ratings_view :
+                Context c = getApplicationContext();
+
+                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                //mRecyclerView.setHasFixedSize(true);
+                GridLayoutManager mGridLayoutManager = new GridLayoutManager(c, 20);
+                mRecyclerView.setLayoutManager(mGridLayoutManager);
+
+                ArrayList<String> posterURL_ArrayList = new ArrayList<>();
+
+                RecyclerView.Adapter mAdapter = new PosterAdapter(c, posterURL_ArrayList, getScreenWidth(c));
+                mRecyclerView.setAdapter(mAdapter);
+        }*/
 
         return true;
     }

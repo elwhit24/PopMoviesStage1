@@ -6,22 +6,20 @@ package com.example.michelangelowhitten.popmoviesstage1;
  * https://developer.android.com/training/material/lists-cards.html
  */
 import android.content.Context;
-import android.graphics.Point;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
+import java.net.URL;
 import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
 
 public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder> {
 
-    private ArrayList<Image> imageArrayList;
+    private ArrayList<String> posterURL_ArrayList;
     private Context context;
     int width;
 
@@ -38,8 +36,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(Context context, ArrayList<Image> imageArrayList, int sWidth) {
-        this.imageArrayList = imageArrayList;
+    public PosterAdapter(Context context, ArrayList<String> posterURL_ArrayList, int sWidth) {
+        setPosterURL_ArrayList(posterURL_ArrayList);
         this.context = context;
         this.width = sWidth;
     }
@@ -60,36 +58,35 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
+        // - get element from dataset at this position
         // - replace the contents of the view with that element
         int width = this.width;
 
-        final ImageView imageView = (ImageView) holder.view.findViewById(R.id.recycler_poster_view);
+        final ImageView imageView = (ImageView) holder.view.findViewById(R.id.recyclerView);
 
-        /*for(int i = 0; i < imageArrayList.size(); i++) {
-            Image onePoster = imageArrayList.get(i);
+        for(int i = 0; i < posterURL_ArrayList.size(); i++) {
             Picasso.with(context)
-                    .load(String.valueOf(onePoster))
+                    .load(posterURL_ArrayList.get(i))
                     .noFade()
                     .fit()
-                    .resize(width, (width * 2) / 3)
+                    .resize((width/2), (width * 2)/3)
                     .centerCrop()
                     .into(imageView);
-        }*/
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return imageArrayList.size();
+        return posterURL_ArrayList.size();
     }
 
-    public ArrayList<Image> getImageArrayList() {
-        return imageArrayList;
+    public ArrayList<String> getPosterURL_ArrayList() {
+        return posterURL_ArrayList;
     }
 
-    public void setImageArrayList(ArrayList<Image> imageArrayList) {
-        this.imageArrayList = imageArrayList;
+    public void setPosterURL_ArrayList(ArrayList<String> posterURL_ArrayList) {
+        this.posterURL_ArrayList = posterURL_ArrayList;
     }
 }
 
