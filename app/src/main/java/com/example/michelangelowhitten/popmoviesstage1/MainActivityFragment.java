@@ -79,7 +79,7 @@ public class MainActivityFragment extends Fragment {
     private int setArguments(int width) {
         this.width = width;
 
-        Log.d(MAF_TAG, "TEST THIS ONE OUT.  MAINACTIVITY SET WIDTH TO: " + width);
+        Log.d(MAF_TAG, "TEST...  MAINACTIVITY SET this.width TO: " + width);
 
         return this.width;
     }
@@ -88,9 +88,6 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context,2));
 
         Log.d(MAF_TAG, "after onCreate in fragment has executed...");
     }
@@ -102,8 +99,6 @@ public class MainActivityFragment extends Fragment {
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
 
-        imageAdapter = new PosterAdapter(context, posterImageUrls, width);
-        mRecyclerView.setAdapter(imageAdapter);
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
@@ -117,9 +112,9 @@ public class MainActivityFragment extends Fragment {
 
         super.onStart();
 
-        shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
+        /*shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
         p = new PreferenceChangeListener();
-        shared_pref.registerOnSharedPreferenceChangeListener(p);
+        shared_pref.registerOnSharedPreferenceChangeListener(p);*/
 
         Log.d(MAF_TAG, "super.onStart() ran");
 
@@ -177,7 +172,7 @@ public class MainActivityFragment extends Fragment {
 
                 jReader = new JsonReader();
 
-                System.out.println("before sort comparison ----------in Fetch Movies task");
+                Log.d(MAF_TAG, "before sort comparison ----------in Fetch Movies task");
 
                 if (pref == null) {
 
@@ -249,11 +244,11 @@ public class MainActivityFragment extends Fragment {
             RecyclerView.Adapter mAdapter = new PosterAdapter(context, posterImageUrls, width);
             mRecyclerView.setAdapter(mAdapter);
 
-            Log.d(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() b4 Doggggg%%%%%%<<<PICS>>>>");
+            Log.d(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() b4 %%%%%%<<<PICS>>>>");
 
             mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, null);
 
-            Log.d(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() after Doggggg%%%%%%<<<PICS>>>>");
+            Log.d(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() after %%%%%%<<<PICS>>>>");
         }
 
         public ArrayList<AndroidMovie> getMoviesArray(String movieJsonStr)
@@ -394,15 +389,15 @@ public class MainActivityFragment extends Fragment {
 
                     Log.d(MAF_TAG, "$$$$$$$$$$$ onPostExecute() after Doggggg%%%%%%");
 
-                    /*LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
-                            (Context.LAYOUT_INFLATER_SERVICE);*/
+                    LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
+                            (Context.LAYOUT_INFLATER_SERVICE);
                 }
             } else {
                 mRecyclerView.setVisibility(GridView.VISIBLE);
                 preferencesLayout.removeView(favTextView);
 
                 if (isNetworkAvailable()) {
-                    fetchMovie.execute();
+                    getPopularMovies();
 
                 } else {
                     TextView noInternetText = new TextView(getActivity());
