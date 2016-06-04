@@ -5,123 +5,86 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.test.IsolatedContext;
+import android.support.v4.app.Fragment;
+
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.GridView;
-
-import java.util.ArrayList;
-
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String M_TAG = MainActivity.class.getSimpleName();
-    private int width;
-    private RecyclerView mRecyclerView;
+    private final String MTAG = MainActivity.class.getSimpleName();
+    private static final String DETAILSFRAGMENT_TAG = "DFTAG";
+    int width;
+    boolean mTwoPane = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(MTAG, "in start of MainActivity onCreate");
         setContentView(R.layout.activity_main);
 
-        Context context = getApplicationContext();
-        this.width = getScreenWidth(context);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        if (savedInstanceState == null) {
-
-            FragmentManager fragManager = getFragmentManager();
-            FragmentTransaction fragTransaction = fragManager.beginTransaction();
-            fragTransaction.commit();
-            fragTransaction.replace(R.id.container, new MainActivityFragment());
-
-            mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
-            if (mRecyclerView != null) {
-
-            mRecyclerView.setHasFixedSize(true);
+        if (findViewById(R.id.details_layout) != null) {
+            mTwoPane = true;
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.details_layout, new DetailsFragment(), DETAILSFRAGMENT_TAG)
+                        .commit();
             }
-
-            // use a grid layout manager
-            GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
-            mRecyclerView.setLayoutManager(mGridLayoutManager);
-
-            ArrayList<String> posterURL_ArrayList = new ArrayList<>();
-
-            RecyclerView.Adapter mAdapter = new PosterAdapter(context, posterURL_ArrayList, getScreenWidth(context));
-            mRecyclerView.setAdapter(mAdapter);
-
         } else {
-            Bundle bundle = savedInstanceState.getBundle(M_TAG);
-            super.onCreate(bundle);
-            setContentView(R.layout.activity_main);
+            mTwoPane = false;
         }
-            Bundle nBundle = new Bundle();
-            nBundle.putAll(nBundle);
-            Log.d(M_TAG, "after transaction commit");
+
+        FragmentManager fragManager = getFragmentManager();
+        FragmentTransaction fragTransaction = fragManager.beginTransaction();
+        fragTransaction.replace(R.id.container, new MainActivityFragment());
+        fragTransaction.commit();
+
+        Log.i(MTAG, "after 2nd transaction commit");
+        Log.i(MTAG, "mTwoPane is" + mTwoPane);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        Log.d(M_TAG, "onCreateOptionsMenu done");
+        Log.i(MTAG, "in onCreateOptionsMenu after inflater done");
 
         return true;
     }
 
-    //@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(M_TAG, "onOptionsItemSelected is running!");
+        Log.i(MTAG, "in start of onOptionsItemSelected");
 
-        /*int id = item.getItemId();
 
-        Intent intent = new Intent();
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, Settings.class));
+            Log.i(MTAG, "onOptionsItemSelected, inside true condition of if");
 
-        switch (id) {
-            case R.string.movie_popularity_view :
-                GridLayoutManager PopularityGridLayoutManager = new GridLayoutManager(this, 2);
-                mRecyclerView.setLayoutManager(PopularityGridLayoutManager);
-                startActivity(intent);
+            return true;
+        }
+        Log.i(MTAG, "in onOptionsItemSelected, if false");
 
-            case R.string.movie_ratings_view :
-                Context c = getApplicationContext();
-
-                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-                //mRecyclerView.setHasFixedSize(true);
-                GridLayoutManager mGridLayoutManager = new GridLayoutManager(c, 20);
-                mRecyclerView.setLayoutManager(mGridLayoutManager);
-
-                ArrayList<String> posterURL_ArrayList = new ArrayList<>();
-
-                RecyclerView.Adapter mAdapter = new PosterAdapter(c, posterURL_ArrayList, getScreenWidth(c));
-                mRecyclerView.setAdapter(mAdapter);
-        }*/
-
-        return true;
+        return super.onOptionsItemSelected(item);
     }
-
     public int getScreenWidth(Context context) {
-        int screenWidth;
+        Log.i(MTAG, "in start of getScreenWidth method");
 
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        screenWidth = size.x / 2;
+        width = size.x / 2;
 
-        return screenWidth;
+        return width;
     }
 }

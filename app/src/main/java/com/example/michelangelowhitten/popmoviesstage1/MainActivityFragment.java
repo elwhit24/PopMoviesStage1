@@ -7,6 +7,7 @@ import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
 
-    private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
+    private final String MY_API_KEY = "";
 
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
@@ -68,18 +69,18 @@ public class MainActivityFragment extends Fragment {
     RecyclerView mRecyclerView;
 
     public MainActivityFragment() {
+        this.width = 0;
+        Log.d(MAF_TAG, "TEST... 1 MAINACTIVITY WIDTH: " + width);
 
         this.setArguments(Bundle.PARCELABLE_WRITE_RETURN_VALUE);
         this.setArguments(MainActivity.WINDOW_SERVICE.getClass().getModifiers());
-        this.context = this.getActivity();
+        this.context = getActivity();
         this.imageArrayList = new ArrayList<>();
-        Log.d(MAF_TAG, "TEST THIS ONE OUT.  MAINACTIVITY HAS SCREEN OF WIDTH: " + width);
+        Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + width);
     }
 
     private int setArguments(int width) {
-        this.width = width;
-
-        Log.d(MAF_TAG, "TEST...  MAINACTIVITY SET this.width TO: " + width);
+        this.width = width/2;
 
         return this.width;
     }
@@ -96,8 +97,8 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
-        /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);*/
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
@@ -116,7 +117,7 @@ public class MainActivityFragment extends Fragment {
         p = new PreferenceChangeListener();
         shared_pref.registerOnSharedPreferenceChangeListener(p);*/
 
-        Log.d(MAF_TAG, "super.onStart() ran");
+        Log.i(MAF_TAG, "super.onStart() ran");
 
         getPopularMovies();
 
@@ -126,7 +127,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(MAF_TAG, "super.onResume() ran");
+        Log.i(MAF_TAG, "super.onResume() ran");
     }
 
     public void getPopularMovies() {
@@ -162,26 +163,26 @@ public class MainActivityFragment extends Fragment {
 
             protected String doInBackground(String... params) {
 
-                Log.d(FETCH_TAG, "doInBackground started");
+                Log.i(FETCH_TAG, "doInBackground started");
 
                 JSONObject popularMoviesJson = new JSONObject();
                 JSONObject highestRatedMoviesJson = new JSONObject();
                 String finalJsonString;
 
-                Log.d(FETCH_TAG, "after 3 instants in doInBackground made");
+                Log.i(FETCH_TAG, "after 3 instants in doInBackground made");
 
                 jReader = new JsonReader();
 
-                Log.d(MAF_TAG, "before sort comparison ----------in Fetch Movies task");
+                Log.i(MAF_TAG, "before sort comparison ----------in Fetch Movies task");
 
                 if (pref == null) {
 
-                    Log.d(MAF_TAG, "pref is " + pref);
+                    Log.i(MAF_TAG, "pref is " + pref);
                     pref = "popular";
-                    Log.d(MAF_TAG, "pref is now " + pref);
-                    Log.d(MAF_TAG, "NEXT UP");
-                    Log.d(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
-                    Log.d(MAF_TAG, "popularMoviesJson should be null!!");
+                    Log.i(MAF_TAG, "pref is now " + pref);
+                    Log.i(MAF_TAG, "NEXT UP");
+                    Log.i(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
+                    Log.i(MAF_TAG, "popularMoviesJson should be null!!");
                 }
 
                     try {
@@ -189,11 +190,11 @@ public class MainActivityFragment extends Fragment {
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.d(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
+                    Log.i(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
 
                     if (popularMoviesJson != null) {
                         finalJsonString = popularMoviesJson.toString();
-                        Log.d(MAF_TAG, "popular-finalJsonString is " + finalJsonString);
+                        System.out.println(MAF_TAG + "popular-finalJsonString is " + finalJsonString);
                         try {
                             movieArray = this.getMoviesArray(finalJsonString);
                         } catch (JSONException e) {
@@ -207,12 +208,12 @@ public class MainActivityFragment extends Fragment {
                         } catch (IOException | JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d(MAF_TAG, "highestRatedMoviesJson is " + highestRatedMoviesJson);
+                        System.out.println(MAF_TAG + "highestRatedMoviesJson is " + highestRatedMoviesJson);
 
                         if (highestRatedMoviesJson != null) {
 
                         finalJsonString = highestRatedMoviesJson.toString();
-                        Log.d(MAF_TAG, "highest rated-finalJsonString is " + finalJsonString);
+                            System.out.println(MAF_TAG + "highest rated-finalJsonString is " + finalJsonString);
 
                         try {
                             movieArray = this.getMoviesArray(finalJsonString);
@@ -224,7 +225,7 @@ public class MainActivityFragment extends Fragment {
                     }
                 }
 
-                Log.d(MAF_TAG, "LET US TEST THIS ONE OUT.  MAINACTIVITY HAS SCREEN OF WIDTH: " +
+                Log.i(MAF_TAG, "LET US TEST THIS ONE OUT.  MAINACTIVITY HAS SCREEN OF WIDTH: " +
                         width);
 
                 return null;
@@ -232,7 +233,7 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String string) {
-            Log.d(FETCH_TAG, "onPostExecute() running");
+            Log.i(FETCH_TAG, "onPostExecute() running");
 
             LayoutInflater inflater;
             inflater = (LayoutInflater)mContext.getSystemService
@@ -244,11 +245,11 @@ public class MainActivityFragment extends Fragment {
             RecyclerView.Adapter mAdapter = new PosterAdapter(context, posterImageUrls, width);
             mRecyclerView.setAdapter(mAdapter);
 
-            Log.d(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() b4 %%%%%%<<<PICS>>>>");
+            Log.i(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() b4 %%%%%%<<<PICS>>>>");
 
             mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, null);
 
-            Log.d(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() after %%%%%%<<<PICS>>>>");
+            Log.i(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() after %%%%%%<<<PICS>>>>");
         }
 
         public ArrayList<AndroidMovie> getMoviesArray(String movieJsonStr)
