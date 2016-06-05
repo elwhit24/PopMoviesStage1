@@ -8,8 +8,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.v4.app.Fragment;
-
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -20,8 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
     private final String MTAG = MainActivity.class.getSimpleName();
     private static final String DETAILSFRAGMENT_TAG = "DFTAG";
+    private boolean mTwoPane = false;
+    private FragmentManager fragManager = getFragmentManager();
     int width;
-    boolean mTwoPane = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         Log.i(MTAG, "in start of MainActivity onCreate");
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         if (findViewById(R.id.details_layout) != null) {
             mTwoPane = true;
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             mTwoPane = false;
         }
 
-        FragmentManager fragManager = getFragmentManager();
+        fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
         fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();

@@ -69,18 +69,18 @@ public class MainActivityFragment extends Fragment {
     RecyclerView mRecyclerView;
 
     public MainActivityFragment() {
-        this.width = 0;
-        Log.d(MAF_TAG, "TEST... 1 MAINACTIVITY WIDTH: " + width);
 
         this.setArguments(Bundle.PARCELABLE_WRITE_RETURN_VALUE);
         this.setArguments(MainActivity.WINDOW_SERVICE.getClass().getModifiers());
-        this.context = getActivity();
+        this.context = this.getActivity();
         this.imageArrayList = new ArrayList<>();
         Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + width);
     }
 
     private int setArguments(int width) {
-        this.width = width/2;
+        this.width = width;
+
+        Log.d(MAF_TAG, "TEST...  MAINACTIVITY SET this.width TO: " + width);
 
         return this.width;
     }

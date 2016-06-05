@@ -20,6 +20,13 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     private Context context;
     int width;
 
+    // Provide a suitable constructor (depends on the kind of dataset)
+    public PosterAdapter(Context context, ArrayList<String> posterURL_ArrayList, int screenWidth) {
+        setPosterURL_ArrayList(posterURL_ArrayList);
+        this.context = context;
+        this.width = screenWidth;
+    }
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -30,13 +37,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
             super(v);
             view = v;
         }
-    }
-
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(Context context, ArrayList<String> posterURL_ArrayList, int screenWidth) {
-        setPosterURL_ArrayList(posterURL_ArrayList);
-        this.context = context;
-        this.width = screenWidth;
     }
 
     // Create new views (invoked by the layout manager)
@@ -60,15 +60,13 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
 
         final ImageView imageView = (ImageView) holder.view.findViewById(R.id.recyclerView);
 
-        for(int i = 0; i < posterURL_ArrayList.size(); i++) {
             Picasso.with(context)
-                    .load(posterURL_ArrayList.get(i))
+                    .load(posterURL_ArrayList.get(position))
                     .noFade()
                     .fit()
-                    .resize((width/2), (width * 2)/3)
+                    .resize(width, width)
                     .centerCrop()
                     .into(imageView);
-        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
