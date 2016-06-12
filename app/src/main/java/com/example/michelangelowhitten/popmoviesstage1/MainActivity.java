@@ -20,16 +20,25 @@ public class MainActivity extends AppCompatActivity {
     private static final String DETAILSFRAGMENT_TAG = "DFTAG";
     private boolean mTwoPane = false;
     private FragmentManager fragManager = getFragmentManager();
-    int width;
+    int sWidth;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(MTAG, "in start of MainActivity onCreate");
+
+        context = getApplicationContext();
+        sWidth = getScreenWidth(context);
         setContentView(R.layout.activity_main);
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        fragManager = getFragmentManager();
+        FragmentTransaction fragTransaction = fragManager.beginTransaction();
+        fragTransaction.replace(R.id.container, new MainActivityFragment());
+        fragTransaction.commit();
 
         if (findViewById(R.id.details_layout) != null) {
             mTwoPane = true;
@@ -41,11 +50,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mTwoPane = false;
         }
-
-        fragManager = getFragmentManager();
-        FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        fragTransaction.replace(R.id.container, new MainActivityFragment());
-        fragTransaction.commit();
 
         Log.i(MTAG, "after 2nd transaction commit");
         Log.i(MTAG, "mTwoPane is" + mTwoPane);
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     public int getScreenWidth(Context context) {
         Log.i(MTAG, "in start of getScreenWidth method");
 
+        int width;
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         Point size = new Point();
@@ -87,3 +92,15 @@ public class MainActivity extends AppCompatActivity {
         return width;
     }
 }
+
+/*
+if (findViewById(R.id.details_layout) != null) {
+        mTwoPane = true;
+        if (savedInstanceState == null) {
+        getSupportFragmentManager().beginTransaction()
+        .replace(R.id.details_layout, new DetailsFragment(), DETAILSFRAGMENT_TAG)
+        .commit();
+        }
+        } else {
+        mTwoPane = false;
+        }*/
