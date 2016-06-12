@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.i(MTAG, "in start of onOptionsItemSelected");
 
-
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, Settings.class));
