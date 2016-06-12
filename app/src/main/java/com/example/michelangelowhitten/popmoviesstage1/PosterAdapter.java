@@ -6,6 +6,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
  * https://developer.android.com/training/material/lists-cards.html
  */
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,17 +19,27 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
 
     private ArrayList<String> posterURL_ArrayList;
     private ArrayList<String> backdropURL_ArrayList;
+    private ArrayList<String> favsPosterURLs;
     private Context context;
     private int width;
     private View convertView;
+    private Boolean favorites;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(Context context, ArrayList<String> posterURL_ArrayList, int screenWidth) {
+    public PosterAdapter(Context context, int screenWidth) {
 
-        this.posterURL_ArrayList = posterURL_ArrayList;
+        this.posterURL_ArrayList = new ArrayList<>();
+        this.backdropURL_ArrayList = new ArrayList<>();
         this.context = context;
         this.width = screenWidth;
+        this.favorites = false;
     }
+
+    /*public PosterAdapter(Context context, ArrayList<String> favoritesPosterURLs, int screenWidth) {
+        this.favsPosterURLs = favoritesPosterURLs;
+        this.context = context;
+        this.width = screenWidth;
+    }*/
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -60,22 +71,23 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
         // - get element from dataset at this position
         // - replace the contents of the view with that element
         int width = this.width;
-
-        AndroidMovie androidMovie = new AndroidMovie();
+        double height = width*3/2;
         String posterPath;
-        posterPath = androidMovie.getPosterImageUrl();
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(
-                    R.layout.movie_poster, null, false);
-
+            convertView = LayoutInflater
+                    .from(context)
+                    .inflate(R.layout.fragment_main, (ViewGroup) convertView);
         }
 
-        ImageView iconView = (ImageView) convertView.findViewById(R.id.poster_view1);
-        iconView.setImageResource(Integer.parseInt(posterPath));
+        posterPath = this.getPosterURL_ArrayList().get(position);
+
+        ImageView iconView = (ImageView) convertView.findViewById(R.id.poster_view);
+        //iconView.setImageResource(Integer.parseInt(position);
         Picasso.with(context)
                 .load(posterPath)
-                .fit().resize(width, width)
+                .fit()
+                .resize(width, (int)height)
                 .into(iconView);
 
         /*final ImageView imageView = (ImageView) holder.view.findViewById(R.id.recyclerView);

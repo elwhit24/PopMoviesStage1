@@ -20,6 +20,11 @@
         android:orderInCategory="100"
         android:title="@string/movie_ratings_view"/>
 
+    <item
+        android:id="@+id/favorites_sort"
+        android:orderInCategory="100"
+        android:title="@string/movie_favorites_view"/>
+
 </menu>
     <!--
             android:onClick="onPrefStart"

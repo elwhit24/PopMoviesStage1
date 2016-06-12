@@ -3,9 +3,6 @@ package com.example.michelangelowhitten.popmoviesstage1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Mike on 5/5/2016.
- */
 public class AndroidMovie implements Parcelable {
 
     private static final String TAG = "AndroidMovie";
@@ -41,7 +38,7 @@ public class AndroidMovie implements Parcelable {
     }
 
     public int getMovieId() {
-        return movieId;
+        return this.movieId;
     }
 
     public void setId(int id) {
@@ -60,7 +57,7 @@ public class AndroidMovie implements Parcelable {
         return posterImageUrl;
     }
 
-    public void setPosterUrl(String posterUrl) {
+    public void setPosterImageUrl(String posterUrl) {
         this.posterImageUrl = posterUrl;
     }
 
@@ -68,8 +65,8 @@ public class AndroidMovie implements Parcelable {
         return backdropImageUrl;
     }
 
-    public void setBackdropImageUrl(String backdropImageUrl) {
-        this.backdropImageUrl = backdropImageUrl;
+    public void setBackdropImageUrl(String backdropUrl) {
+        this.backdropImageUrl = backdropUrl;
     }
 
     public String getPlotSynopsis() {
@@ -98,7 +95,7 @@ public class AndroidMovie implements Parcelable {
         return 0;
     }
 
-   // @Override
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(movieId);
         dest.writeString(movieTitle);

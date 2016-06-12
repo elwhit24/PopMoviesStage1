@@ -40,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
         sWidth = getScreenWidth(context);
         setContentView(R.layout.activity_main);
 
+        /*recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        adapter = new PosterAdapter(context, stringArrayList, this.sWidth);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);*/
+
         stringArrayList = new ArrayList<>(20);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -50,11 +56,7 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        adapter = new PosterAdapter(context, stringArrayList, this.sWidth);
-        recyclerView.setLayoutManager((GridLayoutManager) layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+
 
         Log.i(MTAG, "after 2nd transaction commit");
     }
