@@ -6,7 +6,7 @@
     android:visibility="invisible"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailsFragment$DetailActivity">
+    tools:context=".DetailActivity">
 
    <LinearLayout
         android:orientation="vertical"
@@ -17,7 +17,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="141dp"
         android:orientation="vertical"
         android:id="@+id/movie_detail">
 

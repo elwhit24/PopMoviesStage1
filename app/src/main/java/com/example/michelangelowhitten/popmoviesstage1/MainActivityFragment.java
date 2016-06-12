@@ -2,6 +2,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.net.ConnectivityManager;
@@ -13,13 +14,17 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.*;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,6 +65,7 @@ public class MainActivityFragment extends Fragment {
     Boolean prefP;
     Boolean prefH;
     Boolean prefF;
+    Boolean internet;
     FetchMovieTask fetchMovie;
     SharedPreferences shared_pref;
     PreferenceChangeListener p;
@@ -68,21 +74,24 @@ public class MainActivityFragment extends Fragment {
     Context context;
     RecyclerView mRecyclerView;
 
+    private int setArguments(int width) {
+        this.width = width;
+
+        Log.d(MAF_TAG, "TEST...  MAINACTIVITY SET this.width TO: " + this.width);
+
+        return this.width;
+    }
+
     public MainActivityFragment() {
 
         this.setArguments(Bundle.PARCELABLE_WRITE_RETURN_VALUE);
         this.setArguments(MainActivity.WINDOW_SERVICE.getClass().getModifiers());
         this.context = this.getActivity();
-        this.imageArrayList = new ArrayList<>();
-        Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + width);
-    }
+        this.posterImageUrls = new ArrayList<>(20);
+        this.imageAdapter = new PosterAdapter(this.context, this.posterImageUrls, this.width);
+        this.internet = false;
 
-    private int setArguments(int width) {
-        this.width = width;
-
-        Log.d(MAF_TAG, "TEST...  MAINACTIVITY SET this.width TO: " + width);
-
-        return this.width;
+        Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
     }
 
     @Override
@@ -90,7 +99,12 @@ public class MainActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        Log.d(MAF_TAG, "after onCreate in fragment has executed...");
+        fetchMovie = new FetchMovieTask();
+        //getPopularMovies();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref = prefs.getString("sort", null);
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,6 +114,22 @@ public class MainActivityFragment extends Fragment {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+
+
+        /*imageAdapter = new PosterAdapter(context, posterImageUrls, width);
+        mRecyclerView.setAdapter(imageAdapter);
+        GridLayout gridLayout = new GridLayout(context);*/
+        /*gridLayout.setOnClickListener(mRecyclerView.y) {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                imageAdapter.getItem(position);
+                AndroidMovie popMovie = imageAdapter.getItem(position);
+                Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
+                movieIntent.putExtra(Intent.EXTRA_TEXT, popMovie);
+                startActivity(movieIntent);
+            }
+        });*/
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
@@ -113,13 +143,18 @@ public class MainActivityFragment extends Fragment {
 
         super.onStart();
 
+
+
         /*shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
         p = new PreferenceChangeListener();
         shared_pref.registerOnSharedPreferenceChangeListener(p);*/
 
         Log.i(MAF_TAG, "super.onStart() ran");
 
-        getPopularMovies();
+        //getPopularMovies();
+
+
+
 
         Log.d(MAF_TAG, "after getPopularMovies() ran after super.onStart() ran");
     }
@@ -127,6 +162,9 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+
+
         Log.i(MAF_TAG, "super.onResume() ran");
     }
 
@@ -134,12 +172,24 @@ public class MainActivityFragment extends Fragment {
 
         Log.d(MAF_TAG, "inside at start of getPopularMovies() ----------before Fetch Movies task");
 
-        if(isNetworkAvailable()) {
-            fetchMovie = new FetchMovieTask();
-        }
+        FetchMovieTask fetchMovie = new FetchMovieTask();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);
+        internet = isNetworkAvailable();
+        if(internet)
+            fetchMovie.execute();
+        else
+        {
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getActivity(), noInter, duration);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
 
+        /*if(isNetworkAvailable()) {
+            fetchMovie = new FetchMovieTask();
+        } else Log.e("No internet!", "there is no internet available to pull json");
+*/
         Log.d(MAF_TAG, "get pop, after fetchmovie instantiation");
     }
 
@@ -157,23 +207,19 @@ public class MainActivityFragment extends Fragment {
 
         final String FETCH_TAG = FetchMovieTask.class.getSimpleName();
 
-            public FetchMovieTask() {
-                Log.d(MAF_TAG, "Fetch Constructor ran");
-            }
+        protected String doInBackground(String... params) {
 
-            protected String doInBackground(String... params) {
+            Log.i(FETCH_TAG, "doInBackground started");
 
-                Log.i(FETCH_TAG, "doInBackground started");
+            JSONObject popularMoviesJson = new JSONObject();
+            JSONObject highestRatedMoviesJson = new JSONObject();
+            String finalJsonString;
 
-                JSONObject popularMoviesJson = new JSONObject();
-                JSONObject highestRatedMoviesJson = new JSONObject();
-                String finalJsonString;
+            Log.i(FETCH_TAG, "after 3 instants in doInBackground made");
 
-                Log.i(FETCH_TAG, "after 3 instants in doInBackground made");
+            jReader = new JsonReader();
 
-                jReader = new JsonReader();
-
-                Log.i(MAF_TAG, "before sort comparison ----------in Fetch Movies task");
+            Log.i(MAF_TAG, "before sort comparison ----------in Fetch Movies task");
 
                 if (pref == null) {
 
@@ -221,6 +267,7 @@ public class MainActivityFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                         return finalJsonString;
                     }
                 }
@@ -264,7 +311,7 @@ public class MainActivityFragment extends Fragment {
             final String backdropPath = "backdrop_path";
             final String voteAverage = "vote_average";
 
-            if(!(movieJsonStr== null)) {
+            //if(!(movieJsonStr== null)) {
 
                 JSONObject movieJsonObject = new JSONObject(movieJsonStr);
                 JSONArray movieJsonArray = movieJsonObject.getJSONArray("results");
@@ -286,7 +333,14 @@ public class MainActivityFragment extends Fragment {
                     backdropImageUrls.add(aMovie.getPosterImageUrl());
                     aMovie.setRating(movieObject.getDouble(voteAverage));
                 }
-            }
+            //}
+
+            System.out.println("Posters are at " + posterImageUrls);
+            System.out.println("Backdrops are at " + backdropImageUrls);
+
+
+            imageAdapter.setPosterURL_ArrayList(posterImageUrls);
+            imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
             return movieArray;
         }
     }
@@ -366,7 +420,7 @@ public class MainActivityFragment extends Fragment {
             }
 
             TextView favTextView = new TextView(getActivity());
-            GridLayout preferencesLayout = (GridLayout) getActivity().findViewById(R.id.gridView);
+            GridLayout preferencesLayout = (GridLayout) getActivity().findViewById(R.id.grid_view_main);
             if (prefF) {
 
                 if (posterFavs.size() == 0) {
@@ -406,7 +460,7 @@ public class MainActivityFragment extends Fragment {
                     if (preferencesLayout.getChildCount() == 1) {
                         preferencesLayout.addView(noInternetText);
                     }
-                    mRecyclerView.setVisibility(GridView.GONE);
+                    mRecyclerView.setVisibility(GridView.VISIBLE);
                 }
             }
         }

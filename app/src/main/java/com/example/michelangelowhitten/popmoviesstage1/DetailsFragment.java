@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +22,17 @@ public class DetailsFragment extends Fragment {
 
     public static final String D_TAG = DetailsFragment.class.getSimpleName();
     static final String DETAIL_MOVIE = "Movie_Details_Fragment";
-
+    private boolean mTwoPane;
+    //private FragmentManager detailsFragManager;
     public DetailsFragment(){
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //detailsFragManager = getFragmentManager();
+        mTwoPane = false;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,6 +40,17 @@ public class DetailsFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+
+        if (rootView.findViewById(R.id.details_layout) != null) {
+            mTwoPane = true;
+            if (savedInstanceState == null) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.details_layout, new DetailsFragment(), D_TAG)
+                        .commit();
+            }
+        } else {
+            mTwoPane = false;
+        }
 
         if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
 
@@ -48,21 +69,10 @@ public class DetailsFragment extends Fragment {
             String stringRelDate = NumberFormat.getInstance().format(movieItem.getReleaseDate());
             releaseDate.setText(stringRelDate);
         }
+
         return rootView;
     }
 
-    public class DetailActivity extends AppCompatActivity {
-        public static final String EXTRA_MOVIE = "movie";
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.fragment_detail);
-            /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);*/
-            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        }
-    }
 }
 

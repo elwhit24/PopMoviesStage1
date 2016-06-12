@@ -17,12 +17,15 @@ import com.squareup.picasso.Picasso;
 public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder> {
 
     private ArrayList<String> posterURL_ArrayList;
+    private ArrayList<String> backdropURL_ArrayList;
     private Context context;
-    int width;
+    private int width;
+    private View convertView;
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public PosterAdapter(Context context, ArrayList<String> posterURL_ArrayList, int screenWidth) {
-        setPosterURL_ArrayList(posterURL_ArrayList);
+
+        this.posterURL_ArrayList = posterURL_ArrayList;
         this.context = context;
         this.width = screenWidth;
     }
@@ -58,15 +61,46 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
         // - replace the contents of the view with that element
         int width = this.width;
 
-        final ImageView imageView = (ImageView) holder.view.findViewById(R.id.recyclerView);
+        AndroidMovie androidMovie = new AndroidMovie();
+        String posterPath;
+        posterPath = androidMovie.getPosterImageUrl();
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(
+                    R.layout.movie_poster, null, false);
+
+        }
+
+        ImageView iconView = (ImageView) convertView.findViewById(R.id.poster_view1);
+        iconView.setImageResource(Integer.parseInt(posterPath));
+        Picasso.with(context)
+                .load(posterPath)
+                .fit().resize(width, width)
+                .into(iconView);
+
+        /*final ImageView imageView = (ImageView) holder.view.findViewById(R.id.recyclerView);
 
             Picasso.with(context)
                     .load(posterURL_ArrayList.get(position))
                     .noFade()
                     .fit()
-                    .resize(width, width)
+                    //.resize(width, width)
                     .centerCrop()
-                    .into(imageView);
+                    .into(imageView);*/
+    }
+
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+        //Gets the Movie Posters object from the ArrayAdapter at the appropriate position.
+
+
+        //Adapters recycle views to AdapterViews.
+        //If this is a new View object we're getting, then inflate the layout.
+        //If not, this view already has the layout inflated from a previous call to getView,
+        //and we modify the View widgets as usual.
+
+
+        return convertView;
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -81,6 +115,13 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
 
     public void setPosterURL_ArrayList(ArrayList<String> posterURL_ArrayList) {
         this.posterURL_ArrayList = posterURL_ArrayList;
+    }
+    public ArrayList<String> getBackdropURL_ArrayList() {
+        return backdropURL_ArrayList;
+    }
+
+    public void setBackdropURL_ArrayList(ArrayList<String> backdropURL_ArrayList) {
+        this.backdropURL_ArrayList = backdropURL_ArrayList;
     }
 }
 
