@@ -54,6 +54,9 @@ public class MainActivityFragment extends Fragment {
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
     Context mContext;
+
+
+
     PosterAdapter imageAdapter;
     ImageView settingsView;
     String noFetch = "Not able to grab movie info from MovieDB.";
@@ -74,23 +77,16 @@ public class MainActivityFragment extends Fragment {
     Context context;
     RecyclerView mRecyclerView;
 
-    private int setArguments(int width) {
-        this.width = width;
-
-        Log.d(MAF_TAG, "TEST...  MAINACTIVITY SET this.width TO: " + this.width);
-
-        return this.width;
-    }
-
     public MainActivityFragment() {
 
-        this.setArguments(Bundle.PARCELABLE_WRITE_RETURN_VALUE);
-        this.setArguments(MainActivity.WINDOW_SERVICE.getClass().getModifiers());
         this.context = this.getActivity();
         this.posterImageUrls = new ArrayList<>(20);
         this.backdropImageUrls = new ArrayList<>(20);
         this.imageAdapter = new PosterAdapter(this.context, this.width);
         this.internet = false;
+       // LayoutInflater inflater;
+       // inflater = (LayoutInflater)context.getSystemService
+         //       (Context.LAYOUT_INFLATER_SERVICE);
         //this.mRecyclerView = new RecyclerView(context);
 
         Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
@@ -101,7 +97,6 @@ public class MainActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        //fetchMovie = new FetchMovieTask();
         getPopularMovies();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -113,10 +108,20 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);*/
 
+       // mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, mRecyclerView);
 
+        //View mR = inflater.inflate(R.layout.fragment_main, container, false);
+
+        //gridView = (GridView) rootView.findViewById(R.id.movieGridVw);
+
+        //mRecyclerView.setHasFixedSize(true);
+        /*GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        RecyclerView.Adapter mAdapter = new PosterAdapter(context, width);
+        mRecyclerView.setAdapter(mAdapter);*/
 
         /*imageAdapter = new PosterAdapter(context, posterImageUrls, width);
         mRecyclerView.setAdapter(imageAdapter);
@@ -132,6 +137,7 @@ public class MainActivityFragment extends Fragment {
                 startActivity(movieIntent);
             }
         });*/
+
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
@@ -150,8 +156,6 @@ public class MainActivityFragment extends Fragment {
         shared_pref.registerOnSharedPreferenceChangeListener(p);*/
 
         Log.i(MAF_TAG, "super.onStart() ran");
-
-        //getPopularMovies();
 
     }
 
@@ -216,7 +220,7 @@ public class MainActivityFragment extends Fragment {
 
             Log.i(MAF_TAG, "before sort comparison ----------in Fetch Movies task");
 
-                    Log.i(MAF_TAG, "pref is " + pref);
+                    Log.i(MAF_TAG, "pref is initially " + pref);
                     pref = "popular";
                     Log.i(MAF_TAG, "pref is now " + pref);
                     Log.i(MAF_TAG, "NEXT UP");
@@ -228,11 +232,11 @@ public class MainActivityFragment extends Fragment {
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.i(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
+                    //Log.i(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
 
                     if (popularMoviesJson != null) {
                         finalJsonString = popularMoviesJson.toString();
-                        System.out.println(MAF_TAG + "popular-finalJsonString is " + finalJsonString);
+                        //System.out.println(MAF_TAG + "popular-finalJsonString is " + finalJsonString);
                         try {
                             movieArray = this.getMoviesArray(finalJsonString);
                         } catch (JSONException e) {
@@ -274,11 +278,14 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(String string) {
             Log.i(FETCH_TAG, "onPostExecute() running");
 
-            LayoutInflater inflater;
-            inflater = (LayoutInflater)mContext.getSystemService
-                    (Context.LAYOUT_INFLATER_SERVICE);
 
-            mRecyclerView.setHasFixedSize(true);
+
+            /*GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+            mRecyclerView.setLayoutManager(mGridLayoutManager);
+            RecyclerView.Adapter mAdapter = new PosterAdapter(context, width);
+            mRecyclerView.setAdapter(mAdapter);*/
+
+            /*mRecyclerView.setHasFixedSize(true);
             GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
             mRecyclerView.setLayoutManager(mGridLayoutManager);
             RecyclerView.Adapter mAdapter = new PosterAdapter(context, width);
@@ -286,9 +293,10 @@ public class MainActivityFragment extends Fragment {
 
             Log.i(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() b4 %%%%%%<<<PICS>>>>");
 
-            mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, mRecyclerView);
+            mRecyclerView = (RecyclerView) this.inflater.inflate(R.layout.fragment_main, mRecyclerView);
 
-            Log.i(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() after %%%%%%<<<PICS>>>>");
+            Log.i(FETCH_TAG, "$$$$$$$$$$$ onPostExecute() after %%%%%%<<<PICS>>>>");*/
+
         }
 
         public ArrayList<AndroidMovie> getMoviesArray(String movieJsonStr)
@@ -329,7 +337,7 @@ public class MainActivityFragment extends Fragment {
                     System.out.println("Backdrops are at " + backdropImageUrls);
                     Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
 
-                    aMovie.setRating(movieObject.getDouble(voteAverage));
+                    //aMovie.setRating(movieObject.getDouble(voteAverage));
                 }
             //}
 

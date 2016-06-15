@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragManager = getFragmentManager();
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private PosterAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private int sWidth;
     Context context;
@@ -34,19 +35,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
         Log.i(MTAG, "in start of MainActivity onCreate");
 
         context = getApplicationContext();
-        sWidth = getScreenWidth(context);
-        setContentView(R.layout.activity_main);
+        sWidth = getScreenHalfWidth(context);
 
-        /*recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        adapter = new PosterAdapter(context, stringArrayList, this.sWidth);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        //recyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);*/
-
-        stringArrayList = new ArrayList<>(20);
+        adapter = new PosterAdapter(context, this.sWidth);
+        recyclerView.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public int getScreenWidth(Context context) {
+    public int getScreenHalfWidth(Context context) {
         Log.i(MTAG, "in start of getScreenWidth method");
 
         int width;
@@ -93,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
         width = size.x / 2;
+
+        Log.i(MTAG, "Actual screen size before half is " + size.x);
 
         return width;
     }
