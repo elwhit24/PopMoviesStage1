@@ -23,7 +23,6 @@ public class DetailsFragment extends Fragment {
     public static final String D_TAG = DetailsFragment.class.getSimpleName();
     static final String DETAIL_MOVIE = "Movie_Details_Fragment";
     private boolean mTwoPane;
-    //private FragmentManager detailsFragManager;
     public DetailsFragment(){
         setHasOptionsMenu(true);
     }
@@ -31,7 +30,6 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //detailsFragManager = getFragmentManager();
         mTwoPane = false;
     }
 

@@ -87,7 +87,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
         Picasso.with(context)
                 .load(posterPath)
                 .fit()
-                .resize(width, (int)height)
                 .into(iconView);
 
         /*final ImageView imageView = (ImageView) holder.view.findViewById(R.id.recyclerView);
@@ -105,6 +104,15 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     /*public View getView(int position, View convertView, ViewGroup parent) {
         //Gets the Movie Posters object from the ArrayAdapter at the appropriate position.
 
+         View v = convertView;
+        String url;
+        if (v == null) {
+            v = mLayoutInflater.inflate(layoutId, parent, false);
+        }
+        ImageView imageView = (ImageView) v.findViewById(imageViewID);
+        url = getItem(position);
+        Picasso.with(context).load(url).into(imageView);
+return v;
 
         //Adapters recycle views to AdapterViews.
         //If this is a new View object we're getting, then inflate the layout.

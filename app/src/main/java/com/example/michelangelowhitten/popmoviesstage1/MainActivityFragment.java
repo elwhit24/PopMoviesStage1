@@ -45,7 +45,7 @@ import java.util.zip.Inflater;
 
 public class MainActivityFragment extends Fragment {
 
-    private final String MY_API_KEY = "";
+    private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
 
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
@@ -85,9 +85,9 @@ public class MainActivityFragment extends Fragment {
         this.backdropImageUrls = new ArrayList<>(20);
         this.imageAdapter = new PosterAdapter(this.context, this.width);
         this.internet = false;
-       // LayoutInflater inflater;
-       // inflater = (LayoutInflater)context.getSystemService
-         //       (Context.LAYOUT_INFLATER_SERVICE);
+        // LayoutInflater inflater;
+        // inflater = (LayoutInflater)context.getSystemService
+        //       (Context.LAYOUT_INFLATER_SERVICE);
         //this.mRecyclerView = new RecyclerView(context);
 
         Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
@@ -148,10 +148,9 @@ public class MainActivityFragment extends Fragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);
         internet = isNetworkAvailable();
-        if(internet)
+        if (internet)
             fetchMovie.execute();
-        else
-        {
+        else {
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(getActivity(), noInter, duration);
             toast.setGravity(Gravity.CENTER, 0, 0);
@@ -235,9 +234,24 @@ public class MainActivityFragment extends Fragment {
             return null;
         }
 
-        //@Override
-        protected void onPostExecute(ArrayList movieArray) {
+        @Override
+        protected void onPostExecute(String result) {
             Log.i(MAF_TAG, "onPostExecute() running");
+            super.onPostExecute(result);
+
+            if (result != null && imageAdapter != null) {
+
+                imageAdapter = new PosterAdapter(getActivity(), width);
+                //mRecyclerView.setAdapter(imageAdapter);
+
+               //imageAdapter.clear();
+                //for (AndroidMovie movie : results) {
+                //    imageAdapter.add(movie.getPoster());
+                //}
+
+            }
+
+        }
 
             /*mRecyclerView.setHasFixedSize(true);
             GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
@@ -247,7 +261,7 @@ public class MainActivityFragment extends Fragment {
 
             mAdapter.notifyDataSetChanged();*/
 
-            //return;
+        //return;
             /*if (results != null && imageAdapter != null) {
 
                 imageAdapter.clear();
@@ -270,9 +284,7 @@ public class MainActivityFragment extends Fragment {
 
             Log.i(MAF_TAG, "$$$$$$$$$$$ onPostExecute() after %%%%%%<<<PICS>>>>");*/
 
-            //Inflater inflater;
-
-        }
+        //Inflater inflater;
 
         public ArrayList<AndroidMovie> getMoviesArray(String movieJsonStr)
                 throws JSONException {
@@ -297,7 +309,6 @@ public class MainActivityFragment extends Fragment {
 
                 JSONObject movieObject = movieJsonArray.getJSONObject(i);
 
-                Log.v("||||||", "the poster path: " + aMovie.getPosterImageUrl());
                 posterImageUrls.add(aMovie.getPosterImageUrl());
                 backdropImageUrls.add(aMovie.getBackdropImageUrl());
                 aMovie.setPosterImageUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(posterPath));
@@ -306,12 +317,13 @@ public class MainActivityFragment extends Fragment {
                 aMovie.setReleaseDate(movieObject.getString(releaseDate));
                 aMovie.setId(movieObject.getInt(movieId));
                 aMovie.setMovieName(movieObject.getString(movieTitle));
-                System.out.println("posterPath is now " + movieObject.getString(posterPath));
+                System.out.println("Poster image file is now " + movieObject.getString(posterPath));
 
-                System.out.println("backdropPath is now " + movieObject.getString(backdropPath));
+                System.out.println("Backdrop image file is now " + movieObject.getString(backdropPath));
 
                 System.out.println("Posters are at " + posterImageUrls);
                 System.out.println("Backdrops are at " + backdropImageUrls);
+                Log.v("||||||", "the poster path: " + aMovie.getPosterImageUrl());
                 Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
 
                 //aMovie.setRating(movieObject.getDouble(voteAverage));
@@ -326,10 +338,10 @@ public class MainActivityFragment extends Fragment {
 
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager manager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         boolean isAvailable = false;
-        if (networkInfo != null && networkInfo.isConnected()){
+        if (networkInfo != null && networkInfo.isConnected()) {
             isAvailable = true;
         }
         return isAvailable;
@@ -387,7 +399,7 @@ public class MainActivityFragment extends Fragment {
 
                     Log.d(MAF_TAG, "$$$$$$$$$$$ onPostExecute() after Doggggg%%%%%%");
 
-                    LayoutInflater inflater = (LayoutInflater)mContext.getSystemService
+                    LayoutInflater inflater = (LayoutInflater) mContext.getSystemService
                             (Context.LAYOUT_INFLATER_SERVICE);
                 }
             } else {
@@ -409,6 +421,7 @@ public class MainActivityFragment extends Fragment {
         }
     }
 }
+
 
 // mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, mRecyclerView);
 

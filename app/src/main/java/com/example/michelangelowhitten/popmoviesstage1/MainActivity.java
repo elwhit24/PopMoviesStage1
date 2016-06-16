@@ -104,14 +104,3 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-/*
-if (findViewById(R.id.details_layout) != null) {
-        mTwoPane = true;
-        if (savedInstanceState == null) {
-        getSupportFragmentManager().beginTransaction()
-        .replace(R.id.details_layout, new DetailsFragment(), DETAILSFRAGMENT_TAG)
-        .commit();
-        }
-        } else {
-        mTwoPane = false;
-        }*/

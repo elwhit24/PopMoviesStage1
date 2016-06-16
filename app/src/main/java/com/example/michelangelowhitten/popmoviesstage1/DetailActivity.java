@@ -15,9 +15,6 @@ public class DetailActivity extends AppCompatActivity {
     public DetailActivity() {
         this.detailsFragment = new DetailsFragment();
     }
-    /*public DetailActivity(DetailsFragment detailsFragment) {
-        this.detailsFragment = detailsFragment;
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
