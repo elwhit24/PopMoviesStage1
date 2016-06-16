@@ -102,7 +102,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     }
 
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    /*public View getView(int position, View convertView, ViewGroup parent) {
         //Gets the Movie Posters object from the ArrayAdapter at the appropriate position.
 
 
@@ -113,7 +113,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
 
 
         return convertView;
-    }
+    }*/
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

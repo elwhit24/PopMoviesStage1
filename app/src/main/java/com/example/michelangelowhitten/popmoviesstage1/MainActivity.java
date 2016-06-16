@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
-
+        //LayoutInflater inflater = getLayoutInflater();
+       // inflater.inflate(R.layout.fragment_main, recyclerView);
 
         Log.i(MTAG, "after 2nd transaction commit");
     }
