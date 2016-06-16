@@ -59,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
-        //LayoutInflater inflater = getLayoutInflater();
-       // inflater.inflate(R.layout.fragment_main, recyclerView);
+        //
 
         Log.i(MTAG, "after 2nd transaction commit");
     }

@@ -90,7 +90,7 @@ public class AndroidMovie implements Parcelable {
         this.voteAverage = rating;
     }
 
-   // @Override
+    @Override
     public int describeContents() {
         return 0;
     }

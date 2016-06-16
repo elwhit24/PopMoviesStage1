@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
 
-    private final String MY_API_KEY = "";
+    private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
 
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
@@ -71,10 +71,6 @@ public class MainActivityFragment extends Fragment {
         this.backdropImageUrls = new ArrayList<>(20);
         this.imageAdapter = new PosterAdapter(this.context, this.width);
         this.internet = false;
-        // LayoutInflater inflater;
-        // inflater = (LayoutInflater)context.getSystemService
-        //       (Context.LAYOUT_INFLATER_SERVICE);
-        //this.mRecyclerView = new RecyclerView(context);
 
         Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
     }
@@ -97,6 +93,8 @@ public class MainActivityFragment extends Fragment {
 
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
+        //inflater = getLayoutInflater();
+        inflater.inflate(R.layout.fragment_main, mRecyclerView);
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
@@ -226,15 +224,12 @@ public class MainActivityFragment extends Fragment {
             super.onPostExecute(result);
 
             if (result != null && imageAdapter != null) {
-
                 imageAdapter = new PosterAdapter(getActivity(), width);
-
+                //this.execute();
 
             }
 
         }
-
-
 
         public ArrayList<AndroidMovie> getMoviesArray(String movieJsonStr)
                 throws JSONException {
@@ -259,20 +254,22 @@ public class MainActivityFragment extends Fragment {
 
                 JSONObject movieObject = movieJsonArray.getJSONObject(i);
 
-                posterImageUrls.add(aMovie.getPosterImageUrl());
-                backdropImageUrls.add(aMovie.getBackdropImageUrl());
+
                 aMovie.setPosterImageUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(posterPath));
                 aMovie.setBackdropImageUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(backdropPath));
                 aMovie.setPlotSynopsis(movieObject.getString(movieOverview));
                 aMovie.setReleaseDate(movieObject.getString(releaseDate));
                 aMovie.setId(movieObject.getInt(movieId));
                 aMovie.setMovieName(movieObject.getString(movieTitle));
-                System.out.println("Poster image file is now " + movieObject.getString(posterPath));
+                posterImageUrls.add(aMovie.getPosterImageUrl());
+                backdropImageUrls.add(aMovie.getBackdropImageUrl());
 
+                System.out.println("Poster image file is now " + movieObject.getString(posterPath));
                 System.out.println("Backdrop image file is now " + movieObject.getString(backdropPath));
 
                 System.out.println("Posters are at " + posterImageUrls);
                 System.out.println("Backdrops are at " + backdropImageUrls);
+
                 Log.v("||||||", "the poster path: " + aMovie.getPosterImageUrl());
                 Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
 
