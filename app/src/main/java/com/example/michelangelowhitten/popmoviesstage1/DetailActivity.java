@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-/**
- * Created by Mike on 6/12/2016.
- */
 public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_MOVIE = "movie";
 

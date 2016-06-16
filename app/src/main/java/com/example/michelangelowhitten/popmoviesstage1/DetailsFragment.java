@@ -15,9 +15,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.text.NumberFormat;
 
-/**
- * Created by Mike on 5/5/2016.
- */
 public class DetailsFragment extends Fragment {
 
     public static final String D_TAG = DetailsFragment.class.getSimpleName();

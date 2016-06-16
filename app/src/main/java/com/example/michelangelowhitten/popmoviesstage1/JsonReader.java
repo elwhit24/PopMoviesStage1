@@ -1,10 +1,8 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,9 +11,6 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-/**
- * Created by Mike on 6/15/2016.
- */
 public class JsonReader {
 
     JSONObject json;
