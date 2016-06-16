@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
 
-    private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
+    private final String MY_API_KEY = "";
 
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
@@ -223,11 +223,15 @@ public class MainActivityFragment extends Fragment {
             Log.i(MAF_TAG, "onPostExecute() running");
             super.onPostExecute(result);
 
-            if (result != null && imageAdapter != null) {
+            //mRecyclerView.getAdapter();
+            GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+            //mRecyclerView.setLayoutManager(mGridLayoutManager);
+/*
+            mRecyclerView.setAdapter(mAdapter);
+*/
+            /*if (result != null && imageAdapter != null) {
                 imageAdapter = new PosterAdapter(getActivity(), width);
-                //this.execute();
-
-            }
+            }*/
 
         }
 
@@ -277,7 +281,11 @@ public class MainActivityFragment extends Fragment {
 
             imageAdapter.setPosterURL_ArrayList(posterImageUrls);
             imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
+
+            System.out.print("movieArray is " + movieArray);
             return movieArray;
+
+
         }
     }
 
