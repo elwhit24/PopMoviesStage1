@@ -83,47 +83,12 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
         posterPath = this.getPosterURL_ArrayList().get(position);
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.poster_view);
-        //iconView.setImageResource(Integer.parseInt(position);
         Picasso.with(context)
                 .load(posterPath)
                 .fit()
                 .into(iconView);
 
-        /*final ImageView imageView = (ImageView) holder.view.findViewById(R.id.recyclerView);
-
-            Picasso.with(context)
-                    .load(posterURL_ArrayList.get(position))
-                    .noFade()
-                    .fit()
-                    //.resize(width, width)
-                    .centerCrop()
-                    .into(imageView);*/
     }
-
-
-    /*public View getView(int position, View convertView, ViewGroup parent) {
-        //Gets the Movie Posters object from the ArrayAdapter at the appropriate position.
-
-         View v = convertView;
-        String url;
-        if (v == null) {
-            v = mLayoutInflater.inflate(layoutId, parent, false);
-        }
-        ImageView imageView = (ImageView) v.findViewById(imageViewID);
-        url = getItem(position);
-        Picasso.with(context).load(url).into(imageView);
-return v;
-
-        //Adapters recycle views to AdapterViews.
-        //If this is a new View object we're getting, then inflate the layout.
-        //If not, this view already has the layout inflated from a previous call to getView,
-        //and we modify the View widgets as usual.
-
-
-        return convertView;
-    }*/
-
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return posterURL_ArrayList.size();
@@ -145,34 +110,3 @@ return v;
     }
 }
 
-/*
-if (item == null) {
-        Bundle args = new Bundle();
-        args.putParcelable(DetailsFragment.DETAIL_MOVIE, (Parcelable) item);
-
-        Fragment dFrag = new Fragment();
-        dFrag.setArguments(args);
-
-        getSupportFragmentManager().beginTransaction()
-        .replace(R.id.movie_detail, dFrag, DetailsFragment.D_TAG)
-        .commit();
-        } else {
-        startActivity(new Intent(this, Settings.class));
-        return true;
-        }
-
-        return true;  //super.onOptionsItemSelected(movieItem);
-
-Picasso.with(getContext())
-        .load(movieItem.getPosterImageUrl())
-        .into(imageView);*/
-
-
-
-/*public ArrayList<AndroidMovie> getPopMovieArrayList() {
-        return popMovieArrayList;
-    }
-
-    public void setPopMovieArrayList() {
-
-    }*/
