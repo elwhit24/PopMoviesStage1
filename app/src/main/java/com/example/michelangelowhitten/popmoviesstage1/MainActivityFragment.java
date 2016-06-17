@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 /*created by Michelangelo Whitten*/
 
@@ -94,7 +95,7 @@ public class MainActivityFragment extends Fragment {
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
         //inflater = getLayoutInflater();
-        inflater.inflate(R.layout.fragment_main, mRecyclerView);
+        //inflater.inflate(R.layout.fragment_main, mRecyclerView);
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
@@ -116,13 +117,14 @@ public class MainActivityFragment extends Fragment {
 
     }
 
-    /*@Override
+    @Override
     public void onResume() {
         super.onResume();
 
 
+
         Log.i(MAF_TAG, "super.onResume() ran");
-    }*/
+    }
 
     public void getPopularMovies() {
 
@@ -173,6 +175,8 @@ public class MainActivityFragment extends Fragment {
 
             try {
                 popularMoviesJson = jReader.JsonRead(POP_URL);
+                pref = "Popularity";
+
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -202,7 +206,9 @@ public class MainActivityFragment extends Fragment {
                     //System.out.println(MAF_TAG + "highest rated-finalJsonString is " + finalJsonString);
 
                     try {
+                        //Log.i(MAF_TAG, "this is where we are stopping 1");
                         movieArray = this.getMoviesArray(finalJsonString);
+                        //Log.i(MAF_TAG, "this is where we are stopping 2");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -224,11 +230,12 @@ public class MainActivityFragment extends Fragment {
             super.onPostExecute(result);
 
             //mRecyclerView.getAdapter();
-            GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+            //GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+            //mGridLayoutManager.addView(mRecyclerView);
+
             //mRecyclerView.setLayoutManager(mGridLayoutManager);
-/*
-            mRecyclerView.setAdapter(mAdapter);
-*/
+
+
             /*if (result != null && imageAdapter != null) {
                 imageAdapter = new PosterAdapter(getActivity(), width);
             }*/
@@ -268,24 +275,24 @@ public class MainActivityFragment extends Fragment {
                 posterImageUrls.add(aMovie.getPosterImageUrl());
                 backdropImageUrls.add(aMovie.getBackdropImageUrl());
 
-                System.out.println("Poster image file is now " + movieObject.getString(posterPath));
-                System.out.println("Backdrop image file is now " + movieObject.getString(backdropPath));
+                //imageAdapter.onCreateViewHolder(mRecyclerView, aMovie.getMovieId());
+                //imageAdapter = (PosterAdapter) mRecyclerView.getAdapter();
 
-                System.out.println("Posters are at " + posterImageUrls);
-                System.out.println("Backdrops are at " + backdropImageUrls);
+                //System.out.println("Poster image file is now " + movieObject.getString(posterPath));
+                //System.out.println("Backdrop image file is now " + movieObject.getString(backdropPath));
+
+                //System.out.println("Posters are at " + posterImageUrls);
+                //System.out.println("Backdrops are at " + backdropImageUrls);
 
                 Log.v("||||||", "the poster path: " + aMovie.getPosterImageUrl());
-                Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
-
+                //Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
+                System.out.print("movieArray is " + movieArray);
             }
 
             imageAdapter.setPosterURL_ArrayList(posterImageUrls);
             imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
 
-            System.out.print("movieArray is " + movieArray);
             return movieArray;
-
-
         }
     }
 

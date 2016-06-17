@@ -82,7 +82,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
 
         posterPath = this.getPosterURL_ArrayList().get(position);
 
-        ImageView iconView = (ImageView) convertView.findViewById(R.id.poster_view);
+        ImageView iconView = (ImageView) convertView.findViewById(R.id.grid_view_main);
         Picasso.with(context)
                 .load(posterPath)
                 .fit()
