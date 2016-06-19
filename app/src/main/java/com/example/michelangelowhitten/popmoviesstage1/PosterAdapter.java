@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
@@ -20,19 +22,21 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     private ArrayList<String> posterURL_ArrayList;
     private ArrayList<String> backdropURL_ArrayList;
     private ArrayList<String> favsPosterURLs;
+    private AndroidMovie androidMovie;
     private Context context;
-    private int width;
     private View convertView;
     private Boolean favorites;
+    private int position;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(Context context, int screenWidth) {
+    public PosterAdapter(Context context, int position) {
 
         this.posterURL_ArrayList = new ArrayList<>();
         this.backdropURL_ArrayList = new ArrayList<>();
+        this.androidMovie = new AndroidMovie();
         this.context = context;
-        this.width = screenWidth;
         this.favorites = false;
+        this.position = position;
     }
 
     /*public PosterAdapter(Context context, ArrayList<String> favoritesPosterURLs, int screenWidth) {
@@ -53,14 +57,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
         }
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public PosterAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
-        // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.movie_poster, parent, false);
-        // set the view's size, margins, paddings and layout parameters
 
         return new ViewHolder(v);
     }
@@ -70,8 +71,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from dataset at this position
         // - replace the contents of the view with that element
-        int width = this.width;
-        double height = width*3/2;
+
         String posterPath;
 
         if (convertView == null) {
@@ -80,16 +80,16 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
                     .inflate(R.layout.fragment_main, (ViewGroup) convertView);
         }
 
-        posterPath = this.getPosterURL_ArrayList().get(position);
+        posterPath = posterURL_ArrayList.get(this.position);
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.grid_view_main);
         Picasso.with(context)
                 .load(posterPath)
                 .fit()
                 .into(iconView);
-
     }
-    @Override
+
+        @Override
     public int getItemCount() {
         return posterURL_ArrayList.size();
     }

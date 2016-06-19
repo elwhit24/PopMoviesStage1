@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -40,15 +42,6 @@ public class MainActivity extends AppCompatActivity {
         context = getApplicationContext();
         sWidth = getScreenHalfWidth(context)/2;
 
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        //recyclerView.setHasFixedSize(true);
-
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new PosterAdapter(context, this.sWidth);
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.getLayoutParams();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -58,6 +51,18 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
         fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
+
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        //recyclerView.setHasFixedSize(true);
+
+        layoutManager = new GridLayoutManager(context,2);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new PosterAdapter(context, this.sWidth);
+        recyclerView.setAdapter(adapter);
+
+        //recyclerView.getLayoutParams();
+        LayoutInflater inflater = getLayoutInflater();
+        inflater.inflate(R.layout.movie_poster, recyclerView);
 
         Log.i(MTAG, "after 2nd transaction commit");
     }

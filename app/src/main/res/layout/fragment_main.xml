@@ -15,7 +15,6 @@
     android:columnCount="2"
     android:rowCount="20"
     android:useDefaultMargins="false"
-    android:transitionGroup="false"
     android:visibility="visible">
 
     <ImageView

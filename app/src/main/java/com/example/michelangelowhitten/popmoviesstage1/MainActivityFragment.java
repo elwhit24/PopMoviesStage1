@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.*;
 import android.view.Gravity;
@@ -26,32 +27,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 /*created by Michelangelo Whitten*/
 
 public class MainActivityFragment extends Fragment {
 
-    private final String MY_API_KEY = "";
 
-    private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
-    private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
-            "popularity.desc&api_key=" + MY_API_KEY;
-    private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185/";
-    private final String HI_RATED_URL = "http://api.themoviedb.org/3/discover/movie/?" +
-            "certification_country=US&certification=R& sort_by=vote_average.desc&api_key="
-            + MY_API_KEY;
 
-    ArrayList<String> posterImageUrls;
-    ArrayList<String> backdropImageUrls;
-    Context mContext;
+    //ArrayList<String> posterImageUrls;
+    //ArrayList<String> backdropImageUrls;
     PosterAdapter imageAdapter;
     ImageView settingsView;
-    String noFetch = "Not able to grab movie info from MovieDB.";
-    String noInter = "No internet available at the moment";
+    //String noFetch = "Not able to grab movie info from MovieDB.";
+    //String noInter = "No internet available at the moment";
     JsonReader jReader;
-    ArrayList<AndroidMovie> movieArray;
-    ArrayList<String> posterFavs;
+    //ArrayList<AndroidMovie> movieArray;
+    //ArrayList<String> posterFavs;
     String pref;
     Boolean prefP;
     Boolean prefH;
@@ -60,10 +51,11 @@ public class MainActivityFragment extends Fragment {
     FetchMovieTask fetchMovie;
     SharedPreferences shared_pref;
     PreferenceChangeListener p;
-    ArrayList<Image> imageArrayList;
+    //ArrayList<Image> imageArrayList;
     int width;
     Context context;
     RecyclerView mRecyclerView;
+    GridLayout gridLayout;
 
     public MainActivityFragment() {
 
@@ -72,6 +64,8 @@ public class MainActivityFragment extends Fragment {
         this.backdropImageUrls = new ArrayList<>(20);
         this.imageAdapter = new PosterAdapter(this.context, this.width);
         this.internet = false;
+        this.gridLayout = new GridLayout(context);
+
 
         Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
     }
@@ -82,7 +76,7 @@ public class MainActivityFragment extends Fragment {
         setHasOptionsMenu(true);
 
         getPopularMovies();
-
+        gridLayout = inflate
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);
 
@@ -95,6 +89,21 @@ public class MainActivityFragment extends Fragment {
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
         //inflater = getLayoutInflater();
+
+        //recyclerView.setHasFixedSize(true);
+
+        /*RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        mRecyclerView.setLayoutManager(layoutManager);
+        imageAdapter = new PosterAdapter(context, this.width);
+        mRecyclerView.setAdapter(imageAdapter);*/
+
+        //mRecyclerView.getLayoutParams();
+        //inflater.inflate(R.layout.movie_poster, mRecyclerView);
+
+        //gridLayout = imageAdapter.setPosterURL_ArrayList();
+       //gridLayout.addView(mRecyclerView);
+        //gridLayout.setOnClickListener(new View.OnClickListener);
+        //gridLayout = inflater.inflate(R.id.grid_view_main, context);
         //inflater.inflate(R.layout.fragment_main, mRecyclerView);
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
@@ -358,7 +367,7 @@ public class MainActivityFragment extends Fragment {
 
                     Log.d(MAF_TAG, "$$$$$$$$$$$ onPostExecute() after Doggggg%%%%%%");
 
-                    LayoutInflater inflater = (LayoutInflater) mContext.getSystemService
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService
                             (Context.LAYOUT_INFLATER_SERVICE);
                 }
             } else {
