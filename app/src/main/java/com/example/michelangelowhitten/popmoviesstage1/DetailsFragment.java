@@ -19,6 +19,8 @@ public class DetailsFragment extends Fragment {
 
     public static final String D_TAG = DetailsFragment.class.getSimpleName();
     static final String DETAIL_MOVIE = "Movie_Details_Fragment";
+    private static final String DETAILSFRAGMENT_TAG = "DFTAG";
+
     private boolean mTwoPane;
     public DetailsFragment(){
         setHasOptionsMenu(true);

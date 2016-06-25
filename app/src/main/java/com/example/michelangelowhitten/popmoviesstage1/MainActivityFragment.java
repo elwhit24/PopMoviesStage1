@@ -57,7 +57,6 @@ public class MainActivityFragment extends Fragment {
     Context context;
     RecyclerView mRecyclerView;
     GridLayout gridLayout;
-    PopMoviesData data;
 
     public MainActivityFragment() {
 
@@ -65,7 +64,6 @@ public class MainActivityFragment extends Fragment {
         this.imageAdapter = new PosterAdapter(this.context);
         this.internet = false;
         this.gridLayout = new GridLayout(context);
-        data = new PopMoviesData();
 
 
         Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);

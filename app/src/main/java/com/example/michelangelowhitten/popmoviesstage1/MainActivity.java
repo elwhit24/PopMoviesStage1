@@ -22,15 +22,14 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private final String MTAG = MainActivity.class.getSimpleName();
-    private static final String DETAILSFRAGMENT_TAG = "DFTAG";
+
 
     private FragmentManager fragManager = getFragmentManager();
     private RecyclerView recyclerView;
     private PosterAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private int sWidth;
+    PopMoviesData data;
     Context context;
-    ArrayList<String> stringArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.i(MTAG, "in start of MainActivity onCreate");
-
+        data = new PopMoviesData();
         context = getApplicationContext();
+        data.setContext(context);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new GridLayoutManager(context,2);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new PosterAdapter(context);
-        recyclerView.setAdapter(adapter);
+        data.setAdapter(adapter);
+        recyclerView.setAdapter(data.getAdapter());
 
         //recyclerView.getLayoutParams();
         LayoutInflater inflater = getLayoutInflater();
