@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.i(MTAG, "in start of MainActivity onCreate");
-        data = new PopMoviesData();
+
         context = getApplicationContext();
-        data.setContext(context);
+        data = new PopMoviesData(context);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
-        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        /*recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         //recyclerView.setHasFixedSize(true);
 
         layoutManager = new GridLayoutManager(context,2);
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         //recyclerView.getLayoutParams();
         LayoutInflater inflater = getLayoutInflater();
-        inflater.inflate(R.layout.movie_poster, recyclerView);
+        inflater.inflate(R.layout.movie_poster, recyclerView);*/
 
         Log.i(MTAG, "after 2nd transaction commit");
     }
@@ -88,17 +88,9 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public int getScreenHalfWidth(Context context) {
-        Log.i(MTAG, "in start of getScreenHalfWidth method");
 
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = windowManager.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
-        Log.i(MTAG, "Actual screen size before half is " + size.x);
-
-        return size.x;
+    public PopMoviesData getData() {
+        return data;
     }
 }
 

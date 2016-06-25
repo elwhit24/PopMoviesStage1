@@ -2,6 +2,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.net.ConnectivityManager;
@@ -57,16 +58,15 @@ public class MainActivityFragment extends Fragment {
     Context context;
     RecyclerView mRecyclerView;
     GridLayout gridLayout;
+    PopMoviesData fragmentData;
 
     public MainActivityFragment() {
 
         this.context = this.getActivity();
         this.imageAdapter = new PosterAdapter(this.context);
         this.internet = false;
-        this.gridLayout = new GridLayout(context);
+        this.fragmentData = new PopMoviesData(this.context);
 
-
-        Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
     }
 
     @Override
@@ -77,6 +77,7 @@ public class MainActivityFragment extends Fragment {
         getPopularMovies();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);
+        fragmentData.setPref(pref);
 
     }
 
@@ -85,8 +86,9 @@ public class MainActivityFragment extends Fragment {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
             super.onCreateView(inflater, container, savedInstanceState);
+        final View rootView = gridLayout.findViewById(R.id.grid_view_main);
 
-            final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        //final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
             final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
             recyclerView.setHasFixedSize(true);
@@ -96,6 +98,10 @@ public class MainActivityFragment extends Fragment {
 
         return rootView;
 
+    }
+
+    public void setFragmentData(PopMoviesData data) {
+        this.fragmentData = data;
     }
 
     @Override
@@ -170,7 +176,7 @@ public class MainActivityFragment extends Fragment {
             Log.i(MAF_TAG, "popularMoviesJson should be null!!");
 
             try {
-                popularMoviesJson = jReader.JsonRead(data.getPOP_URL());
+                popularMoviesJson = jReader.JsonRead(fragmentData.getPOP_URL());
                 pref = "Popularity";
 
             } catch (IOException | JSONException e) {
@@ -190,7 +196,7 @@ public class MainActivityFragment extends Fragment {
 
             } else if (pref.equals("highest rated")) {
                 try {
-                    highestRatedMoviesJson = jReader.JsonRead(data.getHI_RATED_URL());
+                    highestRatedMoviesJson = jReader.JsonRead(fragmentData.getHI_RATED_URL());
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
@@ -262,8 +268,8 @@ public class MainActivityFragment extends Fragment {
                 JSONObject movieObject = movieJsonArray.getJSONObject(i);
 
 
-                aMovie.setPosterImageUrl(data.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(posterPath));
-                aMovie.setBackdropImageUrl(data.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(backdropPath));
+                aMovie.setPosterImageUrl(fragmentData.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(posterPath));
+                aMovie.setBackdropImageUrl(fragmentData.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(backdropPath));
                 aMovie.setPlotSynopsis(movieObject.getString(movieOverview));
                 aMovie.setReleaseDate(movieObject.getString(releaseDate));
                 aMovie.setId(movieObject.getInt(movieId));
