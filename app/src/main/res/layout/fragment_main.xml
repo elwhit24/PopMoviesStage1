@@ -21,141 +21,122 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView1"
-         />
+        android:id="@+id/imageView1"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView2"
-        />
+        android:id="@+id/imageView2"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView3"
-         />
+        android:id="@+id/imageView3"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView4"
-         />
+        android:id="@+id/imageView4"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView5"
-         />
+        android:id="@+id/imageView5"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-         />
+        android:id="@+id/imageView"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView7"
-        android:clickable="false" />
+        android:id="@+id/imageView7"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView8"
-        android:clickable="false" />
+        android:id="@+id/imageView8"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView9"
-         />
+        android:id="@+id/imageView9"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView10"
-         />
+        android:id="@+id/imageView10"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView11"
-        />
+        android:id="@+id/imageView11"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView12"
-         />
+        android:id="@+id/imageView12"/>
 
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView13"
-        />
+        android:id="@+id/imageView13"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView14"
-       />
+        android:id="@+id/imageView14"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView15"
-        />
+        android:id="@+id/imageView15"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView16"
-        />
+        android:id="@+id/imageView16"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView17"
-        />
+        android:id="@+id/imageView17"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="144dp"
-        android:id="@+id/imageView18"
-        />
+        android:id="@+id/imageView18"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="match_parent"
-        android:id="@+id/imageView19"
-        />
+        android:id="@+id/imageView19"/>
 
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="181dp"
         android:layout_height="match_parent"
-        android:id="@+id/imageView20"
-        />
+        android:id="@+id/imageView20"/>
 
 </GridLayout>
 

@@ -16,6 +16,7 @@ import android.util.*;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.GridView;
@@ -32,17 +33,17 @@ import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
 
+    private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
 
-
-    //ArrayList<String> posterImageUrls;
-    //ArrayList<String> backdropImageUrls;
+    ArrayList<String> posterImageUrls;
+    ArrayList<String> backdropImageUrls;
     PosterAdapter imageAdapter;
     ImageView settingsView;
-    //String noFetch = "Not able to grab movie info from MovieDB.";
-    //String noInter = "No internet available at the moment";
+    String noFetch = "Not able to grab movie info from MovieDB.";
+    String noInter = "No internet available at the moment";
     JsonReader jReader;
-    //ArrayList<AndroidMovie> movieArray;
-    //ArrayList<String> posterFavs;
+    ArrayList<AndroidMovie> movieArray;
+    ArrayList<String> posterFavs;
     String pref;
     Boolean prefP;
     Boolean prefH;
@@ -51,20 +52,20 @@ public class MainActivityFragment extends Fragment {
     FetchMovieTask fetchMovie;
     SharedPreferences shared_pref;
     PreferenceChangeListener p;
-    //ArrayList<Image> imageArrayList;
+    ArrayList<Image> imageArrayList;
     int width;
     Context context;
     RecyclerView mRecyclerView;
     GridLayout gridLayout;
+    PopMoviesData data;
 
     public MainActivityFragment() {
 
         this.context = this.getActivity();
-        this.posterImageUrls = new ArrayList<>(20);
-        this.backdropImageUrls = new ArrayList<>(20);
-        this.imageAdapter = new PosterAdapter(this.context, this.width);
+        this.imageAdapter = new PosterAdapter(this.context);
         this.internet = false;
         this.gridLayout = new GridLayout(context);
+        data = new PopMoviesData();
 
 
         Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
@@ -76,7 +77,6 @@ public class MainActivityFragment extends Fragment {
         setHasOptionsMenu(true);
 
         getPopularMovies();
-        gridLayout = inflate
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);
 
@@ -86,29 +86,18 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
-        /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);*/
-        //inflater = getLayoutInflater();
+            super.onCreateView(inflater, container, savedInstanceState);
 
-        //recyclerView.setHasFixedSize(true);
+            final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        /*RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-        mRecyclerView.setLayoutManager(layoutManager);
-        imageAdapter = new PosterAdapter(context, this.width);
-        mRecyclerView.setAdapter(imageAdapter);*/
-
-        //mRecyclerView.getLayoutParams();
-        //inflater.inflate(R.layout.movie_poster, mRecyclerView);
-
-        //gridLayout = imageAdapter.setPosterURL_ArrayList();
-       //gridLayout.addView(mRecyclerView);
-        //gridLayout.setOnClickListener(new View.OnClickListener);
-        //gridLayout = inflater.inflate(R.id.grid_view_main, context);
-        //inflater.inflate(R.layout.fragment_main, mRecyclerView);
+            final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(new PosterAdapter(context));
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
-        return mRecyclerView;
+        return rootView;
+
     }
 
     @Override
@@ -183,7 +172,7 @@ public class MainActivityFragment extends Fragment {
             Log.i(MAF_TAG, "popularMoviesJson should be null!!");
 
             try {
-                popularMoviesJson = jReader.JsonRead(POP_URL);
+                popularMoviesJson = jReader.JsonRead(data.getPOP_URL());
                 pref = "Popularity";
 
             } catch (IOException | JSONException e) {
@@ -203,7 +192,7 @@ public class MainActivityFragment extends Fragment {
 
             } else if (pref.equals("highest rated")) {
                 try {
-                    highestRatedMoviesJson = jReader.JsonRead(HI_RATED_URL);
+                    highestRatedMoviesJson = jReader.JsonRead(data.getHI_RATED_URL());
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
@@ -275,8 +264,8 @@ public class MainActivityFragment extends Fragment {
                 JSONObject movieObject = movieJsonArray.getJSONObject(i);
 
 
-                aMovie.setPosterImageUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(posterPath));
-                aMovie.setBackdropImageUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(backdropPath));
+                aMovie.setPosterImageUrl(data.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(posterPath));
+                aMovie.setBackdropImageUrl(data.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(backdropPath));
                 aMovie.setPlotSynopsis(movieObject.getString(movieOverview));
                 aMovie.setReleaseDate(movieObject.getString(releaseDate));
                 aMovie.setId(movieObject.getInt(movieId));
@@ -362,7 +351,7 @@ public class MainActivityFragment extends Fragment {
                     mRecyclerView.setHasFixedSize(true);
                     GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
                     mRecyclerView.setLayoutManager(mGridLayoutManager);
-                    RecyclerView.Adapter mAdapter = new PosterAdapter(context, width);
+                    RecyclerView.Adapter mAdapter = new PosterAdapter(context);
                     mRecyclerView.setAdapter(mAdapter);
 
                     Log.d(MAF_TAG, "$$$$$$$$$$$ onPostExecute() after Doggggg%%%%%%");

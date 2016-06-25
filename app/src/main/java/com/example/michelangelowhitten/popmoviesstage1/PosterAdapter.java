@@ -29,14 +29,13 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     private int position;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(Context context, int position) {
+    public PosterAdapter(Context context) {
 
         this.posterURL_ArrayList = new ArrayList<>();
         this.backdropURL_ArrayList = new ArrayList<>();
         this.androidMovie = new AndroidMovie();
         this.context = context;
         this.favorites = false;
-        this.position = position;
     }
 
     /*public PosterAdapter(Context context, ArrayList<String> favoritesPosterURLs, int screenWidth) {
@@ -69,18 +68,14 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from dataset at this position
-        // - replace the contents of the view with that element
 
-        String posterPath;
+        String posterPath = androidMovie.getPosterImageUrl();
 
         if (convertView == null) {
             convertView = LayoutInflater
                     .from(context)
                     .inflate(R.layout.fragment_main, (ViewGroup) convertView);
         }
-
-        posterPath = posterURL_ArrayList.get(this.position);
 
         ImageView iconView = (ImageView) convertView.findViewById(R.id.grid_view_main);
         Picasso.with(context)

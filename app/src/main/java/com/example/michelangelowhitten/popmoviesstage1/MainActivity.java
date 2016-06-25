@@ -40,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i(MTAG, "in start of MainActivity onCreate");
 
         context = getApplicationContext();
-        sWidth = getScreenHalfWidth(context)/2;
-
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         //recyclerView.setHasFixedSize(true);
 
         layoutManager = new GridLayoutManager(context,2);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new PosterAdapter(context, this.sWidth);
+        adapter = new PosterAdapter(context);
         recyclerView.setAdapter(adapter);
 
         //recyclerView.getLayoutParams();

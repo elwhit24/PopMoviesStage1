@@ -26,14 +26,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:textSize="20sp"/>
+            android:textAppearance="?android:textAppearanceLarge"/>
 
         <ImageView
             android:id="@+id/movieThumb"
             android:contentDescription="@string/poster_string"
             android:layout_marginTop="2dp"
             android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@+id/movieName"
@@ -43,24 +42,21 @@
         <TextView
             android:id="@+id/releaseDate"
             android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/movieThumb"
-            android:layout_toRightOf="@+id/movieThumb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rating"
-            android:textSize="20sp"/>
+            android:textAppearance="?android:textAppearanceLarge"/>
 
         <TextView
             android:id="@+id/rating"
             android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:layout_below="@+id/overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"/>
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/overview"
@@ -71,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:textSize="12sp"/>
+            android:textSize="14sp"/>
 
         </RelativeLayout>
         </LinearLayout>
