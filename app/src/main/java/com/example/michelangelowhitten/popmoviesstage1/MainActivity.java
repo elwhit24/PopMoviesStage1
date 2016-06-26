@@ -4,20 +4,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PosterAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    PopMoviesData data;
+    PopMoviesFragData data;
     Context context;
 
     @Override
@@ -39,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i(MTAG, "in start of MainActivity onCreate");
 
         context = getApplicationContext();
-        data = new PopMoviesData(context);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,20 +41,7 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
-        /*recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        //recyclerView.setHasFixedSize(true);
-
-        layoutManager = new GridLayoutManager(context,2);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new PosterAdapter(context);
-        data.setAdapter(adapter);
-        recyclerView.setAdapter(data.getAdapter());
-
-        //recyclerView.getLayoutParams();
-        LayoutInflater inflater = getLayoutInflater();
-        inflater.inflate(R.layout.movie_poster, recyclerView);*/
-
-        Log.i(MTAG, "after 2nd transaction commit");
+        Log.i(MTAG, "after transaction commit");
     }
 
     @Override
@@ -89,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public PopMoviesData getData() {
+    public PopMoviesFragData getData() {
         return data;
     }
 }
