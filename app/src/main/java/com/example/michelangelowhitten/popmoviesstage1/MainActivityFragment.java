@@ -1,17 +1,13 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,14 +23,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 /*created by Michelangelo Whitten over a period of many months of learning*/
 
@@ -72,18 +65,18 @@ public class MainActivityFragment extends Fragment {
     int width;
     Context context;
     RecyclerView mRecyclerView;
+    GridView gridView;
 
     public MainActivityFragment() {
 
-        this.context = this.getActivity();
+        this.context = getActivity();
         this.posterImageUrls = new ArrayList<>(20);
         this.backdropImageUrls = new ArrayList<>(20);
-        this.imageAdapter = new PosterAdapter(this.context);
         this.internet = false;
-       // LayoutInflater inflater;
-       // inflater = (LayoutInflater)context.getSystemService
-         //       (Context.LAYOUT_INFLATER_SERVICE);
+        this.imageAdapter = new PosterAdapter(context);
         //this.mRecyclerView = new RecyclerView(context);
+        //this.gridView = (GridView) mRecyclerView.findViewById(R.id.grid_view_main);
+        //this.mRecyclerView = new RecyclerView();
 
         Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
     }
@@ -94,6 +87,10 @@ public class MainActivityFragment extends Fragment {
         setHasOptionsMenu(true);
 
         getPopularMovies();
+        //initializeRecyclerView();
+
+        /*PopMoviesFragData data = new PopMoviesFragData(context, posterImageUrls,backdropImageUrls,
+                movieArray,posterFavs, imageArrayList, imageAdapter, pref, prefP, prefH, prefF, internet);*/
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);
@@ -106,39 +103,41 @@ public class MainActivityFragment extends Fragment {
 
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
+        //mRecyclerView.findViewById(R.id.recycler_view);
+       //mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, mRecyclerView);
+        //mRecyclerView = (RecyclerView) mRecyclerView.findViewById(R.id.grid_view_main);
 
-       // mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, mRecyclerView);
+        //imageAdapter = (PosterAdapter) mRecyclerView.getAdapter();
 
-        //View mR = inflater.inflate(R.layout.fragment_main, container, false);
-
-        //gridView = (GridView) rootView.findViewById(R.id.movieGridVw);
-
+        //GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
         //mRecyclerView.setHasFixedSize(true);
-        /*GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        /*
         RecyclerView.Adapter mAdapter = new PosterAdapter(context, width);
         mRecyclerView.setAdapter(mAdapter);*/
+        //mRecyclerView = inflater.inflate(R.layout.movie_poster, container, false);
+        //mRecyclerView = (RecyclerView) rootView.findViewById(R.id.grid_view_main);
+       // mRecyclerView = (RecyclerView) rootView.findViewById(R.id.grid_view_main);
 
-        /*imageAdapter = new PosterAdapter(context, posterImageUrls, width);
-        mRecyclerView.setAdapter(imageAdapter);
-        GridLayout gridLayout = new GridLayout(context);*/
-        /*gridLayout.setOnClickListener(mRecyclerView.y) {
+       // mRecyclerView.setLayoutManager(mGridLayoutManager);
+       /*mRecyclerView.setAdapter(new PosterAdapter(context));
+
+        mRecyclerView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                imageAdapter.getItem(position);
-                AndroidMovie popMovie = imageAdapter.getItem(position);
-                Intent movieIntent = new Intent(getActivity(), DetailsFragment.DetailActivity.class);
-                movieIntent.putExtra(Intent.EXTRA_TEXT, popMovie);
+            public void onClick(View view) {
+                AndroidMovie androidMovie = movieArray.get(getId());
+                Intent movieIntent = new Intent(getActivity(), DetailActivity.class);
+                movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
                 startActivity(movieIntent);
             }
-        });*/
-
-
-        Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
+        });
+*/
+/*
+        Log.i(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
+*/
 
         return mRecyclerView;
     }
+
 
     @Override
     public void onStart() {
@@ -241,12 +240,7 @@ public class MainActivityFragment extends Fragment {
                     finalJsonString = highestRatedMoviesJson.toString();
                     System.out.println(MAF_TAG + "highest rated-finalJsonString is " + finalJsonString);
 
-                    try {
-                        movieArray = this.getMoviesArray(finalJsonString);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
 
                     return finalJsonString;
                 }
@@ -258,17 +252,25 @@ public class MainActivityFragment extends Fragment {
             return null;
         }
 
-        //@Override
-        protected void onPostExecute(ArrayList movieArray) {
+        @Override
+        protected void onPostExecute(String jsonString) {
             Log.i(MAF_TAG, "onPostExecute() running");
 
-            /*mRecyclerView.setHasFixedSize(true);
-            GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
-            mRecyclerView.setLayoutManager(mGridLayoutManager);
-            RecyclerView.Adapter mAdapter = new PosterAdapter(context, width);
-            mRecyclerView.setAdapter(mAdapter);
+            try {
+                movieArray = this.getMoviesArray(jsonString);
 
-            mAdapter.notifyDataSetChanged();*/
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            imageAdapter.setPosterURL_ArrayList(posterImageUrls);
+            imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
+
+            /*mRecyclerView.setAdapter(imageAdapter);
+
+            mRecyclerView.setHasFixedSize(true);
+            GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+            mRecyclerView.setLayoutManager(mGridLayoutManager);*/
 
             //return;
             /*if (results != null && imageAdapter != null) {
@@ -329,20 +331,19 @@ public class MainActivityFragment extends Fragment {
                 aMovie.setReleaseDate(movieObject.getString(releaseDate));
                 aMovie.setId(movieObject.getInt(movieId));
                 aMovie.setMovieName(movieObject.getString(movieTitle));
-                System.out.println("posterPath is now " + movieObject.getString(posterPath));
+                /*System.out.println("posterPath is now " + movieObject.getString(posterPath));
 
                 System.out.println("backdropPath is now " + movieObject.getString(backdropPath));
 
                 System.out.println("Posters are at " + posterImageUrls);
-                System.out.println("Backdrops are at " + backdropImageUrls);
+                System.out.println("Backdrops are at " + backdropImageUrls);*/
                 Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
 
                 //aMovie.setRating(movieObject.getDouble(voteAverage));
             }
             //}
 
-            imageAdapter.setPosterURL_ArrayList(posterImageUrls);
-            imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
+
             return movieArray;
         }
     }

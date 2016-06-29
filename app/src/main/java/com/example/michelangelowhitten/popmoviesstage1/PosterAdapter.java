@@ -6,13 +6,11 @@ package com.example.michelangelowhitten.popmoviesstage1;
  * https://developer.android.com/training/material/lists-cards.html
  */
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
@@ -22,7 +20,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     private ArrayList<String> posterURL_ArrayList;
     private ArrayList<String> backdropURL_ArrayList;
     private ArrayList<String> favsPosterURLs;
-    private AndroidMovie androidMovie;
     private Context context;
     private View convertView;
     private Boolean favorites;
@@ -31,9 +28,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     // Provide a suitable constructor (depends on the kind of dataset)
     public PosterAdapter(Context context) {
 
-        this.posterURL_ArrayList = new ArrayList<>();
-        this.backdropURL_ArrayList = new ArrayList<>();
-        this.androidMovie = new AndroidMovie();
+        this.posterURL_ArrayList = getPosterURL_ArrayList();
+        this.backdropURL_ArrayList = getBackdropURL_ArrayList();
         this.context = context;
         this.favorites = false;
     }
@@ -60,28 +56,34 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     public PosterAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_poster, parent, false);
+                .inflate(R.layout.fragment_main, parent, false);
 
         return new ViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(PosterAdapter.ViewHolder holder, int position) {
 
-        String posterPath = androidMovie.getPosterImageUrl();
 
-        if (convertView == null) {
-            convertView = LayoutInflater
-                    .from(context)
-                    .inflate(R.layout.fragment_main, (ViewGroup) convertView);
-        }
+        String posterPath;
 
-        ImageView iconView = (ImageView) convertView.findViewById(R.id.grid_view_main);
+/*
+        for (int i = 0; i < getItemCount(); i++) {
+*/
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.fragment_main,
+                        (ViewGroup) convertView);
+            }
+        posterPath = posterURL_ArrayList.get(position);
+
+        ImageView posterView = (ImageView) convertView.findViewById(R.id.grid_view_main);
         Picasso.with(context)
                 .load(posterPath)
                 .fit()
-                .into(iconView);
+                .into(posterView);
+        /*}*/
     }
 
         @Override
