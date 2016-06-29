@@ -21,10 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Settings" />
-        <activity android:name=".DetailActivity">
+        <activity android:name=".Settings"></activity>
+        <activity android:name=".DetailActivity"></activity>
 
-        </activity>
+
+        <activity android:name=".MainActivityFragment"></activity>
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".MainActivity" />

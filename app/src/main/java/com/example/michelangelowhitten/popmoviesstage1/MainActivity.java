@@ -2,7 +2,6 @@ package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,23 +9,29 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String MTAG = MainActivity.class.getSimpleName();
-
+    protected PopMoviesFragData data;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    PopMoviesFragData data;
+
+    public MainActivity(PopMoviesFragData data) {
+        this.data = data;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i(MTAG, "in start of MainActivity onCreate");
+
+        if (numOfColumnsForOrientation() == 2)
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.commit();
 
         Log.i(MTAG, "after transaction commit");
+
     }
 
     @Override
@@ -76,6 +82,29 @@ public class MainActivity extends AppCompatActivity {
 
     public PopMoviesFragData getData() {
         return data;
+    }
+
+
+    //code provided by https://gist.github.com/geniushkg
+    public int numOfColumnsForOrientation() {
+        Display display = this.getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        int numOfColoums = 0;
+        if (width < height) {
+            // portrait mode
+            numOfColoums = 2;
+            if (width > 600) { // for tablet sw600
+                numOfColoums = 3;
+            }
+        } else {
+            // landscape mode
+            numOfColoums = 3;
+            if (width > 600) { // for tablet sw600
+                numOfColoums = 3;
+            }
+        }
+        return numOfColoums;
     }
 }
 

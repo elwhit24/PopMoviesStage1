@@ -2,7 +2,6 @@ package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.net.ConnectivityManager;
@@ -17,7 +16,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -78,12 +76,14 @@ public class MainActivityFragment extends Fragment {
         //this.gridView = (GridView) mRecyclerView.findViewById(R.id.grid_view_main);
         //this.mRecyclerView = new RecyclerView();
 
-        Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
+        //Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.fragment_main);
+
         setHasOptionsMenu(true);
 
         getPopularMovies();
@@ -100,6 +100,8 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
+
+
 
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
@@ -180,10 +182,6 @@ public class MainActivityFragment extends Fragment {
             toast.show();
         }
 
-        /*if(isNetworkAvailable()) {
-            fetchMovie = new FetchMovieTask();
-        } else Log.e("No internet!", "there is no internet available to pull json");
-*/
         Log.d(MAF_TAG, "get pop, after fetchmovie instantiation");
     }
 
