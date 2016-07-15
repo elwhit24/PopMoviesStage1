@@ -16,14 +16,10 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     private final String MTAG = MainActivity.class.getSimpleName();
-    protected PopMoviesFragData data;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
-    public MainActivity(PopMoviesFragData data) {
-        this.data = data;
-    }
+    int numCol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +27,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.i(MTAG, "in start of MainActivity onCreate");
 
-        if (numOfColumnsForOrientation() == 2)
 
+        if (numOfColumnsForOrientation() == 2) {
+            numCol = 2;
+        }
+        if (numOfColumnsForOrientation() == 3) {
+            numCol = 3;
+        }
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        mRecyclerView.setHasFixedSize(true);
+       // mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -46,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Log.i(MTAG, "toolbar create");
+
+        /*if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new PlaceholderFragment())
+                    .commit();
+        }*/
 
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
@@ -79,11 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public PopMoviesFragData getData() {
-        return data;
-    }
-
 
     //code provided by https://gist.github.com/geniushkg
     public int numOfColumnsForOrientation() {

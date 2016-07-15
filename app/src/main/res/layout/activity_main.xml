@@ -29,7 +29,6 @@
         />
 
     <include layout="@layout/fragment_main"
-        android:id="@+id/griddy_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar" />
@@ -37,7 +36,7 @@
 </RelativeLayout>
 
 <!--
-
+android:id="@+id/griddy_layout"
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"

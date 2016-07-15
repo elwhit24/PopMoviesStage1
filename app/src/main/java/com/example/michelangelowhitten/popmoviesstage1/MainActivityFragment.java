@@ -7,11 +7,11 @@ import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.*;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +21,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -31,7 +33,7 @@ import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
 
-    private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
+    private final String MY_API_KEY = "";
 
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
@@ -64,6 +66,7 @@ public class MainActivityFragment extends Fragment {
     Context context;
     RecyclerView mRecyclerView;
     GridView gridView;
+    PopMoviesFragData popMoviesFragData;
 
     public MainActivityFragment() {
 
@@ -77,6 +80,10 @@ public class MainActivityFragment extends Fragment {
         //this.mRecyclerView = new RecyclerView();
 
         //Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
+    }
+
+    public PopMoviesFragData getData() {
+        return popMoviesFragData;
     }
 
     @Override
@@ -105,37 +112,34 @@ public class MainActivityFragment extends Fragment {
 
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
-        //mRecyclerView.findViewById(R.id.recycler_view);
+
+       // mRecyclerView.findViewById(R.id.recycler_view);
        //mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, mRecyclerView);
         //mRecyclerView = (RecyclerView) mRecyclerView.findViewById(R.id.grid_view_main);
 
         //imageAdapter = (PosterAdapter) mRecyclerView.getAdapter();
-
-        //GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+        /*GridLayout gridLayout = (GridLayout) mRecyclerView.findViewById(R.id.grid_view_main);
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+        mGridLayoutManager.addView(gridLayout);
         //mRecyclerView.setHasFixedSize(true);
-        /*
-        RecyclerView.Adapter mAdapter = new PosterAdapter(context, width);
-        mRecyclerView.setAdapter(mAdapter);*/
-        //mRecyclerView = inflater.inflate(R.layout.movie_poster, container, false);
+        RecyclerView.Adapter mAdapter = new PosterAdapter(context);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.movie_poster, gridLayout, false);
         //mRecyclerView = (RecyclerView) rootView.findViewById(R.id.grid_view_main);
-       // mRecyclerView = (RecyclerView) rootView.findViewById(R.id.grid_view_main);
+        // mRecyclerView = (RecyclerView) rootView.findViewById(R.id.grid_view_main);
 
-       // mRecyclerView.setLayoutManager(mGridLayoutManager);
-       /*mRecyclerView.setAdapter(new PosterAdapter(context));
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
 
         mRecyclerView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AndroidMovie androidMovie = movieArray.get(getId());
-                Intent movieIntent = new Intent(getActivity(), DetailActivity.class);
+                Intent movieIntent = new Intent(context, DetailActivity.class);
                 movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
                 startActivity(movieIntent);
             }
-        });
-*/
-/*
+        });*/
         Log.i(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
-*/
 
         return mRecyclerView;
     }
