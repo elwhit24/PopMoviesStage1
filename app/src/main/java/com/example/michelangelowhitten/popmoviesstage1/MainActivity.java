@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        fragTransaction.replace(R.id.container, new MainActivityFragment());
+       // fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
         Log.i(MTAG, "after transaction commit");

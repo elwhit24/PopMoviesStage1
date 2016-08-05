@@ -10,7 +10,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -83,7 +83,7 @@ public class MainActivityFragment extends Fragment {
         this.backdropImageUrls = new ArrayList<>(20);
         this.internet = false;
         this.appData = new MoviesData();
-        this.imageAdapter = new PosterAdapter(context, this.appData);
+        mRecyclerView = new RecyclerView(mContext);
 
         //this.mRecyclerView = new RecyclerView(context);
         //this.gridView = (GridView) mRecyclerView.findViewById(R.id.grid_view_main);
@@ -114,7 +114,7 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
-        //View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
@@ -129,7 +129,13 @@ public class MainActivityFragment extends Fragment {
 
         listView.setAdapter(mForecastAdapter);*/
 
-        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
+
+        imageAdapter = new PosterAdapter(context, appData);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mRecyclerView.setAdapter(imageAdapter);
+
+        //mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
         mRecyclerView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
@@ -144,7 +150,7 @@ public class MainActivityFragment extends Fragment {
 
 
 
-        return mRecyclerView;
+        return rootView;
     }
 
     @Override
@@ -398,7 +404,7 @@ public class MainActivityFragment extends Fragment {
                     preferencesLayout.removeView(favTextView);
                 }
 
-                if (appData.getPosterFavorites() != null && getActivity() != null) {
+                /*if (appData.getPosterFavorites() != null && getActivity() != null) {
                     mRecyclerView.setHasFixedSize(true);
                     GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
                     mRecyclerView.setLayoutManager(mGridLayoutManager);
@@ -412,7 +418,7 @@ public class MainActivityFragment extends Fragment {
                 }
             } else {
                 mRecyclerView.setVisibility(GridView.VISIBLE);
-                preferencesLayout.removeView(favTextView);
+                preferencesLayout.removeView(favTextView);*/
 
                 if (isNetworkAvailable()) {
                     appData.setInternet(true);
@@ -425,7 +431,7 @@ public class MainActivityFragment extends Fragment {
                     if (preferencesLayout.getChildCount() == 1) {
                         preferencesLayout.addView(noInternetText);
                     }
-                    mRecyclerView.setVisibility(GridView.VISIBLE);
+                    //mRecyclerView.setVisibility(GridView.VISIBLE);
                 }
             }
         }
