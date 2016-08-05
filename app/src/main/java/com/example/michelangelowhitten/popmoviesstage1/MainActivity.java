@@ -33,25 +33,12 @@ public class MainActivity extends AppCompatActivity {
         if (numOfColumnsForOrientation() == 3) {
             numCol = 3;
         }
-        /*mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-       // mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);*/
-/*
-        mAdapter = new PosterAdapter(getApplicationContext(), appData);
-        mRecyclerView.setAdapter(mAdapter);*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Log.i(MTAG, "toolbar create");
-
-        /*if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }*/
 
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
@@ -108,4 +95,3 @@ public class MainActivity extends AppCompatActivity {
         return numOfColoums;
     }
 }
-
