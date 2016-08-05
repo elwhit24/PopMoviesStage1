@@ -21,31 +21,28 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
 /*created by Michelangelo Whitten over a period of many months of learning*/
 
 public class MainActivityFragment extends Fragment {
-
-    private final String MY_API_KEY = "";
-
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
+
+   /* private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
+
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
             "popularity.desc&api_key=" + MY_API_KEY;
     private final String POSTER_AND_BACKDROP_URL = "http://image.tmdb.org/t/p/w185/";
     private final String HI_RATED_URL = "http://api.themoviedb.org/3/discover/movie/?" +
             "certification_country=US&certification=R& sort_by=vote_average.desc&api_key="
-            + MY_API_KEY;
+            + MY_API_KEY;*/
 
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
-    Context mContext;
     PosterAdapter imageAdapter;
     ImageView settingsView;
     String noFetch = "Not able to grab movie info from MovieDB.";
@@ -66,15 +63,24 @@ public class MainActivityFragment extends Fragment {
     Context context;
     RecyclerView mRecyclerView;
     GridView gridView;
-    PopMoviesFragData popMoviesFragData;
+
+    Context mContext;
+    Data data;
+
+    @Override
+    public void setArguments(Bundle args) {
+        super.setArguments(args);
+    }
 
     public MainActivityFragment() {
 
-        this.context = getActivity();
+        this.mContext = getActivity();
         this.posterImageUrls = new ArrayList<>(20);
         this.backdropImageUrls = new ArrayList<>(20);
         this.internet = false;
         this.imageAdapter = new PosterAdapter(context);
+        this.data = getData();
+
         //this.mRecyclerView = new RecyclerView(context);
         //this.gridView = (GridView) mRecyclerView.findViewById(R.id.grid_view_main);
         //this.mRecyclerView = new RecyclerView();
@@ -82,9 +88,11 @@ public class MainActivityFragment extends Fragment {
         //Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
     }
 
-    public PopMoviesFragData getData() {
-        return popMoviesFragData;
+    public Data getData() {
+        return data;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,9 +104,6 @@ public class MainActivityFragment extends Fragment {
         getPopularMovies();
         //initializeRecyclerView();
 
-        /*PopMoviesFragData data = new PopMoviesFragData(context, posterImageUrls,backdropImageUrls,
-                movieArray,posterFavs, imageArrayList, imageAdapter, pref, prefP, prefH, prefF, internet);*/
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);
 
@@ -107,8 +112,6 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
-
-
 
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
@@ -144,7 +147,6 @@ public class MainActivityFragment extends Fragment {
         return mRecyclerView;
     }
 
-
     @Override
     public void onStart() {
 
@@ -157,16 +159,15 @@ public class MainActivityFragment extends Fragment {
         shared_pref.registerOnSharedPreferenceChangeListener(p);*/
 
         Log.i(MAF_TAG, "super.onStart() ran");
-
     }
 
-    /*@Override
+    @Override
     public void onResume() {
         super.onResume();
 
 
         Log.i(MAF_TAG, "super.onResume() ran");
-    }*/
+    }
 
     public void getPopularMovies() {
 
@@ -213,7 +214,7 @@ public class MainActivityFragment extends Fragment {
             Log.i(MAF_TAG, "popularMoviesJson should be null!!");
 
             try {
-                popularMoviesJson = jReader.JsonRead(POP_URL);
+                popularMoviesJson = jReader.JsonRead(data.getPOP_URL());
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -231,7 +232,7 @@ public class MainActivityFragment extends Fragment {
 
             } else if (pref.equals("highest rated")) {
                 try {
-                    highestRatedMoviesJson = jReader.JsonRead(HI_RATED_URL);
+                    highestRatedMoviesJson = jReader.JsonRead(data.getHI_RATED_URL());
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
@@ -241,8 +242,6 @@ public class MainActivityFragment extends Fragment {
 
                     finalJsonString = highestRatedMoviesJson.toString();
                     System.out.println(MAF_TAG + "highest rated-finalJsonString is " + finalJsonString);
-
-
 
                     return finalJsonString;
                 }
@@ -260,13 +259,11 @@ public class MainActivityFragment extends Fragment {
 
             try {
                 movieArray = this.getMoviesArray(jsonString);
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            imageAdapter.setPosterURL_ArrayList(posterImageUrls);
-            imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
+            //setData();
 
             /*mRecyclerView.setAdapter(imageAdapter);
 
@@ -320,36 +317,33 @@ public class MainActivityFragment extends Fragment {
             JSONObject movieJsonObject = new JSONObject(movieJsonStr);
             JSONArray movieJsonArray = movieJsonObject.getJSONArray("results");
             AndroidMovie aMovie = new AndroidMovie();
-            for (int i = 0; i < movieJsonArray.length(); i++) {
+                for (int i = 0; i < movieJsonArray.length(); i++) {
 
-                JSONObject movieObject = movieJsonArray.getJSONObject(i);
+                    JSONObject movieObject = movieJsonArray.getJSONObject(i);
 
-                Log.v("||||||", "the poster path: " + aMovie.getPosterImageUrl());
-                posterImageUrls.add(aMovie.getPosterImageUrl());
-                backdropImageUrls.add(aMovie.getBackdropImageUrl());
-                aMovie.setPosterImageUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(posterPath));
-                aMovie.setBackdropImageUrl(POSTER_AND_BACKDROP_URL + movieObject.getString(backdropPath));
-                aMovie.setPlotSynopsis(movieObject.getString(movieOverview));
-                aMovie.setReleaseDate(movieObject.getString(releaseDate));
-                aMovie.setId(movieObject.getInt(movieId));
-                aMovie.setMovieName(movieObject.getString(movieTitle));
-                /*System.out.println("posterPath is now " + movieObject.getString(posterPath));
+                    Log.v("||||||", "the poster path: " + aMovie.getPosterImageUrl());
+                    posterImageUrls.add(aMovie.getPosterImageUrl());
+                    backdropImageUrls.add(aMovie.getBackdropImageUrl());
+                    aMovie.setPosterImageUrl(data.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(posterPath));
+                    aMovie.setBackdropImageUrl(data.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(backdropPath));
+                    aMovie.setPlotSynopsis(movieObject.getString(movieOverview));
+                    aMovie.setReleaseDate(movieObject.getString(releaseDate));
+                    aMovie.setId(movieObject.getInt(movieId));
+                    aMovie.setMovieName(movieObject.getString(movieTitle));
+                    /*System.out.println("posterPath is now " + movieObject.getString(posterPath));
 
-                System.out.println("backdropPath is now " + movieObject.getString(backdropPath));
+                    System.out.println("backdropPath is now " + movieObject.getString(backdropPath));
 
-                System.out.println("Posters are at " + posterImageUrls);
-                System.out.println("Backdrops are at " + backdropImageUrls);*/
-                Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
+                    System.out.println("Posters are at " + posterImageUrls);
+                    System.out.println("Backdrops are at " + backdropImageUrls);*/
+                    Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
 
-                //aMovie.setRating(movieObject.getDouble(voteAverage));
-            }
-            //}
-
+                    //aMovie.setRating(movieObject.getDouble(voteAverage));
+                }
 
             return movieArray;
         }
     }
-
 
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -374,23 +368,23 @@ public class MainActivityFragment extends Fragment {
             p = new PreferenceChangeListener();
             shared_pref.registerOnSharedPreferenceChangeListener(p);
 
-            if (shared_pref.getString("sortby", "popularity").equals("popularity")) {
+            if (shared_pref.getString("Sort By:", "popularity").equals("popularity")) {
                 getActivity().setTitle("Most Popular Movies");
-                prefP = true;
-                prefH = false;
-            } else if (shared_pref.getString("sortby", "rating").equals("rating")) {
+                data.setPrefP(true);
+                data.setPrefH(false);
+            } else if (shared_pref.getString("Sort By:", "rating").equals("rating")) {
                 getActivity().setTitle("Highest Rated Movies");
-                prefP = false;
-                prefF = false;
-            } else if (shared_pref.getString("sortby", "favorites").equals("favorites")) {
+                data.setPrefP(false);
+                data.setPrefF(false);
+            } else if (shared_pref.getString("Sort By:", "favorites").equals("favorites")) {
                 getActivity().setTitle("Favorite Movies");
-                prefP = false;
-                prefF = true;
+                data.setPrefP(false);
+                data.setPrefF(true);
             }
 
             TextView favTextView = new TextView(getActivity());
             GridLayout preferencesLayout = (GridLayout) getActivity().findViewById(R.id.grid_view_main);
-            if (prefF) {
+            if (data.getPrefF()) {
 
                 if (posterFavs.size() == 0) {
 
@@ -404,7 +398,7 @@ public class MainActivityFragment extends Fragment {
                     preferencesLayout.removeView(favTextView);
                 }
 
-                if (posterFavs != null && getActivity() != null) {
+                if (data.getPosterFavorites() != null && getActivity() != null) {
                     mRecyclerView.setHasFixedSize(true);
                     GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
                     mRecyclerView.setLayoutManager(mGridLayoutManager);
@@ -421,10 +415,12 @@ public class MainActivityFragment extends Fragment {
                 preferencesLayout.removeView(favTextView);
 
                 if (isNetworkAvailable()) {
+                    data.setInternet(true);
                     getPopularMovies();
 
                 } else {
                     TextView noInternetText = new TextView(getActivity());
+                    data.setInternet(false);
                     noInternetText.setText(noInter);
                     if (preferencesLayout.getChildCount() == 1) {
                         preferencesLayout.addView(noInternetText);
@@ -434,6 +430,25 @@ public class MainActivityFragment extends Fragment {
             }
         }
     }
+
+    public void setData() {
+        data.setPosterImageUrls(posterImageUrls);
+        data.setBackdropImageUrls(backdropImageUrls);
+        data.setImageArrayList(imageArrayList);
+        data.setPosterFavorites(posterFavs);
+        data.setPrefP(true);
+        data.setPrefH(false);
+        data.setPrefF(false);
+        data.setInternet(false);
+        data.setMovieArray(movieArray);
+
+        imageAdapter.setPosterURL_ArrayList(posterImageUrls);
+        imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
+
+    }
+
+
+
 }
 
 /*public class FetchMovieTask extends AsyncTask<String, Void, String> {
@@ -594,9 +609,6 @@ public class MainActivityFragment extends Fragment {
                 }
             //}
 
-
-
-
             imageAdapter.setPosterURL_ArrayList(posterImageUrls);
             imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
             return movieArray;
@@ -684,12 +696,10 @@ public class MainActivityFragment extends Fragment {
 
     }*/
 
-
 //List<ItemObject> rowListItem = getAllItemList();
 //lLayout = new GridLayoutManager(MainActivity.this, 4);
 
-/*
-        RecyclerView recyclerView = (RecyclerView) cFragGridView.findViewById(R.id.poster_recycler_view);
+/*      RecyclerView recyclerView = (RecyclerView) cFragGridView.findViewById(R.id.poster_recycler_view);
         *//*rView.setHasFixedSize(true);
         rView.setLayoutManager(lLayout);*//*
 
