@@ -2,6 +2,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.net.ConnectivityManager;
@@ -16,14 +17,17 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -63,9 +67,9 @@ public class MainActivityFragment extends Fragment {
     Context context;
     RecyclerView mRecyclerView;
     GridView gridView;
-
+    MoviesData appData;
     Context mContext;
-    appData appData;
+
 
     @Override
     public void setArguments(Bundle args) {
@@ -78,8 +82,8 @@ public class MainActivityFragment extends Fragment {
         this.posterImageUrls = new ArrayList<>(20);
         this.backdropImageUrls = new ArrayList<>(20);
         this.internet = false;
-        this.imageAdapter = new PosterAdapter(context);
-        this.appData = getAppData();
+        this.appData = new MoviesData();
+        this.imageAdapter = new PosterAdapter(context, this.appData);
 
         //this.mRecyclerView = new RecyclerView(context);
         //this.gridView = (GridView) mRecyclerView.findViewById(R.id.grid_view_main);
@@ -88,11 +92,9 @@ public class MainActivityFragment extends Fragment {
         //Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
     }
 
-    public appData getAppData() {
+    public MoviesData getAppData() {
         return appData;
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,26 +114,22 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
+        //View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);*/
 
-       // mRecyclerView.findViewById(R.id.recycler_view);
-       //mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, mRecyclerView);
-        //mRecyclerView = (RecyclerView) mRecyclerView.findViewById(R.id.grid_view_main);
+        /*List<String> weekForecast = new ArrayList<String>(
+                Arrays.asList(forecastArray));
 
-        //imageAdapter = (PosterAdapter) mRecyclerView.getAdapter();
-        /*GridLayout gridLayout = (GridLayout) mRecyclerView.findViewById(R.id.grid_view_main);
-        GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
-        mGridLayoutManager.addView(gridLayout);
-        //mRecyclerView.setHasFixedSize(true);
-        RecyclerView.Adapter mAdapter = new PosterAdapter(context);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.movie_poster, gridLayout, false);
-        //mRecyclerView = (RecyclerView) rootView.findViewById(R.id.grid_view_main);
-        // mRecyclerView = (RecyclerView) rootView.findViewById(R.id.grid_view_main);
+        ArrayAdapter mForecastAdapter = new ArrayAdapter<String>(context, listItemLayoutId,
+                textViewId, weekForecast);
 
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        ListView listView = (ListView) rootView.findViewById(listViewId);
+
+        listView.setAdapter(mForecastAdapter);*/
+
+        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
         mRecyclerView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
@@ -141,8 +139,10 @@ public class MainActivityFragment extends Fragment {
                 movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
                 startActivity(movieIntent);
             }
-        });*/
+        });
         Log.i(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
+
+
 
         return mRecyclerView;
     }
@@ -402,7 +402,7 @@ public class MainActivityFragment extends Fragment {
                     mRecyclerView.setHasFixedSize(true);
                     GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
                     mRecyclerView.setLayoutManager(mGridLayoutManager);
-                    RecyclerView.Adapter mAdapter = new PosterAdapter(context);
+                    RecyclerView.Adapter mAdapter = imageAdapter;
                     mRecyclerView.setAdapter(mAdapter);
 
                     Log.d(MAF_TAG, "$$$$$$$$$$$ onPostExecute() after Doggggg%%%%%%");
@@ -704,4 +704,24 @@ public class MainActivityFragment extends Fragment {
         rView.setLayoutManager(lLayout);*//*
 
         PosterAdapter mainAdapter = new PosterAdapter(getActivity(), posterImageUrls);
-        recyclerView.setAdapter(mainAdapter);*/
+        recyclerView.setAdapter(mainAdapter);
+
+//mRecyclerView.findViewById(R.id.recycler_view);
+       //mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, mRecyclerView, false);
+        //mRecyclerView = (RecyclerView) mRecyclerView.findViewById(R.id.grid_view_main);
+
+        //imageAdapter = (PosterAdapter) mRecyclerView.getAdapter();
+        /*GridLayout gridLayout = (GridLayout) mRecyclerView.findViewById(R.id.grid_view_main);
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
+        mGridLayoutManager.addView(gridLayout);
+
+
+//mRecyclerView.setHasFixedSize(true);
+// mRecyclerView.setAdapter(imageAdapter);
+// mRecyclerView = (RecyclerView) inflater.inflate(R.layout.movie_poster, gridLayout, false);
+//mRecyclerView = (RecyclerView) rootView.findViewById(R.id.grid_view_main);
+// mRecyclerView = (RecyclerView) rootView.findViewById(R.id.grid_view_main);
+//mRecyclerView.setLayoutManager(mGridLayoutManager);
+
+        */
+

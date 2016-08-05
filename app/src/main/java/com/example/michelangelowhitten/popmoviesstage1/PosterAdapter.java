@@ -7,13 +7,14 @@ package com.example.michelangelowhitten.popmoviesstage1;
  */
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import java.util.ArrayList;
+
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder> {
 
@@ -24,10 +25,12 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     private View convertView;
     private Boolean favorites;
     private int position;
+    MoviesData data;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(Context context) {
+    public PosterAdapter(Context context, MoviesData data) {
 
+        this.data = data;
         this.posterURL_ArrayList = getPosterURL_ArrayList();
         this.backdropURL_ArrayList = getBackdropURL_ArrayList();
         this.context = context;
@@ -40,11 +43,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
         this.width = screenWidth;
     }*/
 
-    // Provide a reference to the views for each appData item
-    // Complex appData items may need more than one view per item, and
-    // you provide access to all the views for a appData item in a view holder
+    // Provide a reference to the views for each MoviesData item
+    // Complex MoviesData items may need more than one view per item, and
+    // you provide access to all the views for a MoviesData item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each appData item is just a string in this case
+        // each MoviesData item is just a string in this case
         public View view;
         public ViewHolder(View v) {
             super(v);

@@ -218,7 +218,7 @@ public class Settings extends PreferenceActivity {
     }
 
     /**
-     * This fragment shows appData and sync preferences only. It is used when the
+     * This fragment shows MoviesData and sync preferences only. It is used when the
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

@@ -5,7 +5,6 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,12 +20,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     int numCol;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i(MTAG, "in start of MainActivity onCreate");
-
 
         if (numOfColumnsForOrientation() == 2) {
             numCol = 2;
@@ -34,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
         if (numOfColumnsForOrientation() == 3) {
             numCol = 3;
         }
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        /*mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
        // mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new PosterAdapter(getApplicationContext());
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);*/
+/*
+        mAdapter = new PosterAdapter(getApplicationContext(), appData);
+        mRecyclerView.setAdapter(mAdapter);*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
