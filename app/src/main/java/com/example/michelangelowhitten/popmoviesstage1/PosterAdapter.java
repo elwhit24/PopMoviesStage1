@@ -40,11 +40,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
         this.width = screenWidth;
     }*/
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+    // Provide a reference to the views for each appData item
+    // Complex appData items may need more than one view per item, and
+    // you provide access to all the views for a appData item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
+        // each appData item is just a string in this case
         public View view;
         public ViewHolder(View v) {
             super(v);

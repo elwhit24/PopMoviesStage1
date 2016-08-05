@@ -65,7 +65,7 @@ public class MainActivityFragment extends Fragment {
     GridView gridView;
 
     Context mContext;
-    Data data;
+    appData appData;
 
     @Override
     public void setArguments(Bundle args) {
@@ -79,7 +79,7 @@ public class MainActivityFragment extends Fragment {
         this.backdropImageUrls = new ArrayList<>(20);
         this.internet = false;
         this.imageAdapter = new PosterAdapter(context);
-        this.data = getData();
+        this.appData = getAppData();
 
         //this.mRecyclerView = new RecyclerView(context);
         //this.gridView = (GridView) mRecyclerView.findViewById(R.id.grid_view_main);
@@ -88,8 +88,8 @@ public class MainActivityFragment extends Fragment {
         //Log.d(MAF_TAG, "TEST...  MAINACTIVITY HAS SCREEN OF WIDTH: " + this.width);
     }
 
-    public Data getData() {
-        return data;
+    public appData getAppData() {
+        return appData;
     }
 
 
@@ -214,7 +214,7 @@ public class MainActivityFragment extends Fragment {
             Log.i(MAF_TAG, "popularMoviesJson should be null!!");
 
             try {
-                popularMoviesJson = jReader.JsonRead(data.getPOP_URL());
+                popularMoviesJson = jReader.JsonRead(appData.getPOP_URL());
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -232,7 +232,7 @@ public class MainActivityFragment extends Fragment {
 
             } else if (pref.equals("highest rated")) {
                 try {
-                    highestRatedMoviesJson = jReader.JsonRead(data.getHI_RATED_URL());
+                    highestRatedMoviesJson = jReader.JsonRead(appData.getHI_RATED_URL());
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
@@ -324,8 +324,8 @@ public class MainActivityFragment extends Fragment {
                     Log.v("||||||", "the poster path: " + aMovie.getPosterImageUrl());
                     posterImageUrls.add(aMovie.getPosterImageUrl());
                     backdropImageUrls.add(aMovie.getBackdropImageUrl());
-                    aMovie.setPosterImageUrl(data.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(posterPath));
-                    aMovie.setBackdropImageUrl(data.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(backdropPath));
+                    aMovie.setPosterImageUrl(appData.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(posterPath));
+                    aMovie.setBackdropImageUrl(appData.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(backdropPath));
                     aMovie.setPlotSynopsis(movieObject.getString(movieOverview));
                     aMovie.setReleaseDate(movieObject.getString(releaseDate));
                     aMovie.setId(movieObject.getInt(movieId));
@@ -370,21 +370,21 @@ public class MainActivityFragment extends Fragment {
 
             if (shared_pref.getString("Sort By:", "popularity").equals("popularity")) {
                 getActivity().setTitle("Most Popular Movies");
-                data.setPrefP(true);
-                data.setPrefH(false);
+                appData.setPrefP(true);
+                appData.setPrefH(false);
             } else if (shared_pref.getString("Sort By:", "rating").equals("rating")) {
                 getActivity().setTitle("Highest Rated Movies");
-                data.setPrefP(false);
-                data.setPrefF(false);
+                appData.setPrefP(false);
+                appData.setPrefF(false);
             } else if (shared_pref.getString("Sort By:", "favorites").equals("favorites")) {
                 getActivity().setTitle("Favorite Movies");
-                data.setPrefP(false);
-                data.setPrefF(true);
+                appData.setPrefP(false);
+                appData.setPrefF(true);
             }
 
             TextView favTextView = new TextView(getActivity());
             GridLayout preferencesLayout = (GridLayout) getActivity().findViewById(R.id.grid_view_main);
-            if (data.getPrefF()) {
+            if (appData.getPrefF()) {
 
                 if (posterFavs.size() == 0) {
 
@@ -398,7 +398,7 @@ public class MainActivityFragment extends Fragment {
                     preferencesLayout.removeView(favTextView);
                 }
 
-                if (data.getPosterFavorites() != null && getActivity() != null) {
+                if (appData.getPosterFavorites() != null && getActivity() != null) {
                     mRecyclerView.setHasFixedSize(true);
                     GridLayoutManager mGridLayoutManager = new GridLayoutManager(context, 20);
                     mRecyclerView.setLayoutManager(mGridLayoutManager);
@@ -415,12 +415,12 @@ public class MainActivityFragment extends Fragment {
                 preferencesLayout.removeView(favTextView);
 
                 if (isNetworkAvailable()) {
-                    data.setInternet(true);
+                    appData.setInternet(true);
                     getPopularMovies();
 
                 } else {
                     TextView noInternetText = new TextView(getActivity());
-                    data.setInternet(false);
+                    appData.setInternet(false);
                     noInternetText.setText(noInter);
                     if (preferencesLayout.getChildCount() == 1) {
                         preferencesLayout.addView(noInternetText);
@@ -432,15 +432,15 @@ public class MainActivityFragment extends Fragment {
     }
 
     public void setData() {
-        data.setPosterImageUrls(posterImageUrls);
-        data.setBackdropImageUrls(backdropImageUrls);
-        data.setImageArrayList(imageArrayList);
-        data.setPosterFavorites(posterFavs);
-        data.setPrefP(true);
-        data.setPrefH(false);
-        data.setPrefF(false);
-        data.setInternet(false);
-        data.setMovieArray(movieArray);
+        appData.setPosterImageUrls(posterImageUrls);
+        appData.setBackdropImageUrls(backdropImageUrls);
+        appData.setImageArrayList(imageArrayList);
+        appData.setPosterFavorites(posterFavs);
+        appData.setPrefP(true);
+        appData.setPrefH(false);
+        appData.setPrefF(false);
+        appData.setInternet(false);
+        appData.setMovieArray(movieArray);
 
         imageAdapter.setPosterURL_ArrayList(posterImageUrls);
         imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
