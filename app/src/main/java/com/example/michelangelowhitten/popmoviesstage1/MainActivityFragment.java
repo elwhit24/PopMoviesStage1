@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -114,21 +115,11 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        /*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);*/
-
-        /*List<String> weekForecast = new ArrayList<String>(
-                Arrays.asList(forecastArray));
-
-        ArrayAdapter mForecastAdapter = new ArrayAdapter<String>(context, listItemLayoutId,
-                textViewId, weekForecast);
-
-        ListView listView = (ListView) rootView.findViewById(listViewId);
-
-        listView.setAdapter(mForecastAdapter);*/
-
 
         imageAdapter = new PosterAdapter(context, appData);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
