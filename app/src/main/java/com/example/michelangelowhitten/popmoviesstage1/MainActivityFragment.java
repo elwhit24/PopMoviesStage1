@@ -11,7 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -67,7 +67,7 @@ public class MainActivityFragment extends Fragment {
     int width;
     Context context;
     RecyclerView mRecyclerView;
-    GridView gridView;
+    GridLayoutManager mGridLayoutManager;
     MoviesData appData;
     Context mContext;
 
@@ -121,10 +121,18 @@ public class MainActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        imageAdapter = new PosterAdapter(context, appData);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mGridLayoutManager = new GridLayoutManager(mContext, 20);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        imageAdapter = new PosterAdapter(context, appData);
         mRecyclerView.setAdapter(imageAdapter);
+
+       // mRecyclerView.setHasFixedSize(true);
+       // GridLayout gridLayout = (GridLayout) rootView.findViewById((R.id.grid_view_main));
+
+/*
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+*/
 
         //mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 

@@ -16,8 +16,6 @@
     android:useDefaultMargins="false"
     android:visibility="visible">
 
-
-
 </GridLayout>
 
 </ScrollView>

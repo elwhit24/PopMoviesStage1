@@ -37,12 +37,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
         this.favorites = false;
     }
 
-    /*public PosterAdapter(Context context, ArrayList<String> favoritesPosterURLs, int screenWidth) {
-        this.favsPosterURLs = favoritesPosterURLs;
-        this.context = context;
-        this.width = screenWidth;
-    }*/
-
     // Provide a reference to the views for each MoviesData item
     // Complex MoviesData items may need more than one view per item, and
     // you provide access to all the views for a MoviesData item in a view holder
@@ -56,8 +50,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     }
 
     @Override
-    public PosterAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public PosterAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_main, parent, false);
 
