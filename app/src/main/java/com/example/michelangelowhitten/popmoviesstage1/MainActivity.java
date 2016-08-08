@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i(MTAG, "in start of MainActivity onCreate");
+        Log.d(MTAG, "in start of MainActivity onCreate");
 
         if (numOfColumnsForOrientation() == 2) {
             numCol = 2;
@@ -38,37 +38,37 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Log.i(MTAG, "toolbar create");
+        Log.d(MTAG, "toolbar create");
 
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
-       // fragTransaction.replace(R.id.container, new MainActivityFragment());
+        fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
-        Log.i(MTAG, "after transaction commit");
+        Log.d(MTAG, "after transaction commit");
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        Log.i(MTAG, "in onCreateOptionsMenu after inflater done");
+        Log.d(MTAG, "in onCreateOptionsMenu after inflater done");
 
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i(MTAG, "in start of onOptionsItemSelected");
+        Log.d(MTAG, "in start of onOptionsItemSelected");
 
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, Settings.class));
-            Log.i(MTAG, "onOptionsItemSelected, inside true condition of if");
+            Log.d(MTAG, "onOptionsItemSelected, inside true condition of if");
 
             return true;
         }
-        Log.i(MTAG, "in onOptionsItemSelected, if false");
+        Log.d(MTAG, "in onOptionsItemSelected, if false");
 
         return super.onOptionsItemSelected(item);
     }

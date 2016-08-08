@@ -84,7 +84,7 @@ public class MainActivityFragment extends Fragment {
         this.backdropImageUrls = new ArrayList<>(20);
         this.internet = false;
         this.appData = new MoviesData();
-        mRecyclerView = new RecyclerView(mContext);
+//        mRecyclerView = new RecyclerView(mContext);
 
         //this.mRecyclerView = new RecyclerView(context);
         //this.gridView = (GridView) mRecyclerView.findViewById(R.id.grid_view_main);
@@ -119,14 +119,14 @@ public class MainActivityFragment extends Fragment {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        /*View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mGridLayoutManager = new GridLayoutManager(mContext, 20);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         imageAdapter = new PosterAdapter(context, appData);
-        mRecyclerView.setAdapter(imageAdapter);
-
+        mRecyclerView.setAdapter(imageAdapter);*/
+        
        // mRecyclerView.setHasFixedSize(true);
        // GridLayout gridLayout = (GridLayout) rootView.findViewById((R.id.grid_view_main));
 
@@ -145,11 +145,9 @@ public class MainActivityFragment extends Fragment {
                 startActivity(movieIntent);
             }
         });
-        Log.i(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
+        Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
-
-
-        return rootView;
+        return mRecyclerView;
     }
 
     @Override
@@ -163,7 +161,7 @@ public class MainActivityFragment extends Fragment {
         p = new PreferenceChangeListener();
         shared_pref.registerOnSharedPreferenceChangeListener(p);*/
 
-        Log.i(MAF_TAG, "super.onStart() ran");
+        Log.d(MAF_TAG, "super.onStart() ran");
     }
 
     @Override
@@ -171,7 +169,7 @@ public class MainActivityFragment extends Fragment {
         super.onResume();
 
 
-        Log.i(MAF_TAG, "super.onResume() ran");
+        Log.d(MAF_TAG, "super.onResume() ran");
     }
 
     public void getPopularMovies() {
@@ -199,31 +197,31 @@ public class MainActivityFragment extends Fragment {
 
         protected String doInBackground(String... params) {
 
-            Log.i(MAF_TAG, "doInBackground started");
+            Log.d(MAF_TAG, "doInBackground started");
 
             JSONObject popularMoviesJson = new JSONObject();
             JSONObject highestRatedMoviesJson = new JSONObject();
             String finalJsonString;
 
-            Log.i(MAF_TAG, "after 3 instants in doInBackground made");
+            Log.d(MAF_TAG, "after 3 instants in doInBackground made");
 
             jReader = new JsonReader();
 
-            Log.i(MAF_TAG, "before sort comparison ----------in Fetch Movies task");
+            Log.d(MAF_TAG, "before sort comparison ----------in Fetch Movies task");
 
-            Log.i(MAF_TAG, "pref is initially " + pref);
+            Log.d(MAF_TAG, "pref is initially " + pref);
             pref = "popular";
-            Log.i(MAF_TAG, "pref is now " + pref);
-            Log.i(MAF_TAG, "NEXT UP");
-            Log.i(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
-            Log.i(MAF_TAG, "popularMoviesJson should be null!!");
+            Log.d(MAF_TAG, "pref is now " + pref);
+            Log.d(MAF_TAG, "NEXT UP");
+            Log.d(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
+            Log.d(MAF_TAG, "popularMoviesJson should be null!!");
 
             try {
                 popularMoviesJson = jReader.JsonRead(appData.getPOP_URL());
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-            //Log.i(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
+            //Log.d(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
 
             if (popularMoviesJson != null) {
                 finalJsonString = popularMoviesJson.toString();
@@ -248,11 +246,17 @@ public class MainActivityFragment extends Fragment {
                     finalJsonString = highestRatedMoviesJson.toString();
                     System.out.println(MAF_TAG + "highest rated-finalJsonString is " + finalJsonString);
 
+                    try {
+                movieArray = this.getMoviesArray(finalJsonString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
                     return finalJsonString;
                 }
             }
 
-            Log.i(MAF_TAG, "LET US TEST THIS ONE OUT.  MAINACTIVITY HAS SCREEN OF WIDTH: " +
+            Log.d(MAF_TAG, "LET US TEST THIS ONE OUT.  MAINACTIVITY HAS SCREEN OF WIDTH: " +
                     width);
 
             return null;
@@ -260,13 +264,9 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String jsonString) {
-            Log.i(MAF_TAG, "onPostExecute() running");
+            Log.d(MAF_TAG, "onPostExecute() running");
 
-            try {
-                movieArray = this.getMoviesArray(jsonString);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
         }
 
         public ArrayList<AndroidMovie> getMoviesArray(String movieJsonStr)
@@ -292,7 +292,8 @@ public class MainActivityFragment extends Fragment {
 
                     JSONObject movieObject = movieJsonArray.getJSONObject(i);
 
-                    Log.v("||||||", "the poster path: " + aMovie.getPosterImageUrl());
+                    Log.d("||||||", "the poster path: " + aMovie.getPosterImageUrl());
+                    Log.d("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
                     posterImageUrls.add(aMovie.getPosterImageUrl());
                     backdropImageUrls.add(aMovie.getBackdropImageUrl());
                     aMovie.setPosterImageUrl(appData.getPOSTER_AND_BACKDROP_URL() + movieObject.getString(posterPath));
@@ -307,7 +308,7 @@ public class MainActivityFragment extends Fragment {
 
                     System.out.println("Posters are at " + posterImageUrls);
                     System.out.println("Backdrops are at " + backdropImageUrls);*/
-                    Log.v("||||||", "the backdrop path: " + aMovie.getBackdropImageUrl());
+
 
                     //aMovie.setRating(movieObject.getDouble(voteAverage));
                 }

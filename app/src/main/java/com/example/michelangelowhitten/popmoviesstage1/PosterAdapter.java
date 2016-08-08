@@ -5,6 +5,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
  * lots of info&code snippets from developer site:
  * https://developer.android.com/training/material/lists-cards.html
  */
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,13 +62,9 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     @Override
     public void onBindViewHolder(PosterAdapter.ViewHolder holder, int position) {
 
-
         String posterPath;
 
-/*
         for (int i = 0; i < getItemCount(); i++) {
-*/
-
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.fragment_main,
                         (ViewGroup) convertView);
@@ -79,7 +76,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
                 .load(posterPath)
                 .fit()
                 .into(posterView);
-        /*}*/
+        }
     }
 
         @Override
