@@ -11,9 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -71,11 +71,12 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
             }
         posterPath = posterURL_ArrayList.get(position);
 
-        ImageView posterView = (ImageView) convertView.findViewById(R.id.grid_view_main);
+        RecyclerView posterView = (RecyclerView) convertView.findViewById(R.id.grid_view_main);
+            data.setRecyclerView(posterView);
         Picasso.with(context)
                 .load(posterPath)
                 .fit()
-                .into(posterView);
+                .into((Target) data.getRecyclerView());
         }
     }
 

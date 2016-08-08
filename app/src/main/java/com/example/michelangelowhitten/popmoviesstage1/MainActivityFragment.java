@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -104,8 +103,14 @@ public class MainActivityFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+
         getPopularMovies();
         //initializeRecyclerView();
+
+        imageAdapter = new PosterAdapter(mContext, appData);
+        appData.setAdapter(imageAdapter);
+        mRecyclerView.setAdapter(appData.getAdapter());
+
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);
@@ -116,18 +121,10 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //StrictMode.setThreadPolicy(policy);
 
-        /*View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        mGridLayoutManager = new GridLayoutManager(mContext, 20);
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
-        imageAdapter = new PosterAdapter(context, appData);
-        mRecyclerView.setAdapter(imageAdapter);*/
-        
-       // mRecyclerView.setHasFixedSize(true);
        // GridLayout gridLayout = (GridLayout) rootView.findViewById((R.id.grid_view_main));
 
 /*
@@ -147,7 +144,7 @@ public class MainActivityFragment extends Fragment {
         });
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
-        return mRecyclerView;
+        return appData.getRecyclerView();
     }
 
     @Override
@@ -155,7 +152,10 @@ public class MainActivityFragment extends Fragment {
 
         Log.d(MAF_TAG, "onStart()...at the start");
 
+       // appData.setRecyclerView(mRecyclerView);
+
         super.onStart();
+
 
         /*shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
         p = new PreferenceChangeListener();
@@ -167,6 +167,8 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+       // appData.setRecyclerView(mRecyclerView);
 
 
         Log.d(MAF_TAG, "super.onResume() ran");
@@ -266,6 +268,15 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(String jsonString) {
             Log.d(MAF_TAG, "onPostExecute() running");
 
+           // View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+           // mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+            mGridLayoutManager = new GridLayoutManager(mContext, 20);
+            mRecyclerView.setLayoutManager(mGridLayoutManager);
+            imageAdapter = new PosterAdapter(context, appData);
+            mRecyclerView.setAdapter(imageAdapter);
+            mRecyclerView.setHasFixedSize(true);
+
+            appData.setRecyclerView(mRecyclerView);
 
         }
 
