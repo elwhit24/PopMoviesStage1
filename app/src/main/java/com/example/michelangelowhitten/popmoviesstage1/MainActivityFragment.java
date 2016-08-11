@@ -197,26 +197,28 @@ public class MainActivityFragment extends Fragment {
 
     public class FetchMovieTask extends AsyncTask<String, Void, String> {
 
+        private final String LOG_TAG = FetchMovieTask.class.getSimpleName();
+
         protected String doInBackground(String... params) {
 
-            Log.d(MAF_TAG, "doInBackground started");
+            Log.d(LOG_TAG, "doInBackground started");
 
             JSONObject popularMoviesJson = new JSONObject();
             JSONObject highestRatedMoviesJson = new JSONObject();
             String finalJsonString;
 
-            Log.d(MAF_TAG, "after 3 instants in doInBackground made");
+            Log.d(LOG_TAG, "after 3 instants in doInBackground made");
 
             jReader = new JsonReader();
 
-            Log.d(MAF_TAG, "before sort comparison ----------in Fetch Movies task");
+            Log.d(LOG_TAG, "before sort comparison ----------in Fetch Movies task");
 
-            Log.d(MAF_TAG, "pref is initially " + pref);
+            Log.d(LOG_TAG, "pref is initially " + pref);
             pref = "popular";
-            Log.d(MAF_TAG, "pref is now " + pref);
-            Log.d(MAF_TAG, "NEXT UP");
-            Log.d(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
-            Log.d(MAF_TAG, "popularMoviesJson should be null!!");
+            Log.d(LOG_TAG, "pref is now " + pref);
+            Log.d(LOG_TAG, "NEXT UP");
+            Log.d(LOG_TAG, "popularMoviesJson is " + popularMoviesJson);
+            Log.d(LOG_TAG, "popularMoviesJson should be null!!");
 
             try {
                 popularMoviesJson = jReader.JsonRead(appData.getPOP_URL());
@@ -241,12 +243,12 @@ public class MainActivityFragment extends Fragment {
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
-                System.out.println(MAF_TAG + "highestRatedMoviesJson is " + highestRatedMoviesJson);
+                System.out.println(LOG_TAG + "highestRatedMoviesJson is " + highestRatedMoviesJson);
 
                 if (highestRatedMoviesJson != null) {
 
                     finalJsonString = highestRatedMoviesJson.toString();
-                    System.out.println(MAF_TAG + "highest rated-finalJsonString is " + finalJsonString);
+                    System.out.println(LOG_TAG + "highest rated-finalJsonString is " + finalJsonString);
 
                     try {
                 movieArray = this.getMoviesArray(finalJsonString);
@@ -257,9 +259,6 @@ public class MainActivityFragment extends Fragment {
                     return finalJsonString;
                 }
             }
-
-            Log.d(MAF_TAG, "LET US TEST THIS ONE OUT.  MAINACTIVITY HAS SCREEN OF WIDTH: " +
-                    width);
 
             return null;
         }
