@@ -199,6 +199,7 @@ public class MainActivityFragment extends Fragment {
 
         private final String LOG_TAG = FetchMovieTask.class.getSimpleName();
 
+        @Override
         protected String doInBackground(String... params) {
 
             Log.d(LOG_TAG, "doInBackground started");
@@ -225,7 +226,7 @@ public class MainActivityFragment extends Fragment {
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-            //Log.d(MAF_TAG, "popularMoviesJson is " + popularMoviesJson);
+            //Log.d(LOG_TAG, "popularMoviesJson is " + popularMoviesJson);
 
             if (popularMoviesJson != null) {
                 finalJsonString = popularMoviesJson.toString();

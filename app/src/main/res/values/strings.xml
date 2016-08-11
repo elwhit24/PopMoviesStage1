@@ -6,7 +6,7 @@
         <string name="title_string">Popular Movies</string>
         <string name="overview_string">Poster</string>
         <string name="poster_string">Poster</string>
-        <string name="action_settings">Sort By</string>
+        <string name="action_settings">SORT BY:</string>
         <string name="movie_popularity_view">Popularity</string>
         <string name="movie_ratings_view">Ratings</string>
         <string name="movie_favorites_view">Favorites</string>
