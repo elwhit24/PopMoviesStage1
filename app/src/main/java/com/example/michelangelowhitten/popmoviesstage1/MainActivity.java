@@ -30,10 +30,9 @@ public class MainActivity extends AppCompatActivity {
         if (numOfColumnsForOrientation() == 2) {
             numCol = 2;
         }
-        if (numOfColumnsForOrientation() == 3) {
+        /*if (numOfColumnsForOrientation() == 3) {
             numCol = 3;
-        }
-
+        }*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.commit();
 
         Log.d(MTAG, "after transaction commit");
-
     }
 
     @Override

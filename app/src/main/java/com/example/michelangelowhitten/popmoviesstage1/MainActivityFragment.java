@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -50,7 +51,7 @@ public class MainActivityFragment extends Fragment {
     PosterAdapter imageAdapter;
     ImageView settingsView;
     String noFetch = "Not able to grab movie info from MovieDB.";
-    String noInter = "No internet available at the moment";
+    String noInter = "No internet available at the moment.";
     JsonReader jReader;
     ArrayList<AndroidMovie> movieArray;
     ArrayList<String> posterFavs;
@@ -103,7 +104,6 @@ public class MainActivityFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-
         getPopularMovies();
         //initializeRecyclerView();
 
@@ -123,15 +123,12 @@ public class MainActivityFragment extends Fragment {
 
         //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         //StrictMode.setThreadPolicy(policy);
+        View rootView = new View(mContext);
 
-
-       // GridLayout gridLayout = (GridLayout) rootView.findViewById((R.id.grid_view_main));
-
-/*
+        GridLayout gridLayout = (GridLayout) rootView.findViewById((R.id.grid_view_main));
+        inflater.inflate(R.layout.fragment_main, gridLayout);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-*/
-
-        //mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
+        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
         mRecyclerView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
@@ -144,10 +141,11 @@ public class MainActivityFragment extends Fragment {
         });
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
-        return appData.getRecyclerView();
+        //return appData.getRecyclerView();
+        return rootView; //.getAdapter(); //)R.id.grid_view_main, getId());
     }
 
-    @Override
+    /*@Override
     public void onStart() {
 
         Log.d(MAF_TAG, "onStart()...at the start");
@@ -157,13 +155,13 @@ public class MainActivityFragment extends Fragment {
         super.onStart();
 
 
-        /*shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
+        *//*shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
         p = new PreferenceChangeListener();
-        shared_pref.registerOnSharedPreferenceChangeListener(p);*/
+        shared_pref.registerOnSharedPreferenceChangeListener(p);*//*
 
         Log.d(MAF_TAG, "super.onStart() ran");
     }
-
+*/
     @Override
     public void onResume() {
         super.onResume();
