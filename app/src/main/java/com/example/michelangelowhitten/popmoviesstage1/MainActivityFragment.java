@@ -105,10 +105,10 @@ public class MainActivityFragment extends Fragment {
         setHasOptionsMenu(true);
 
         getPopularMovies();
-        //initializeRecyclerView();
+        imageAdapter = new PosterAdapter(movieArray);
 
-        imageAdapter = new PosterAdapter(mContext, appData);
-        appData.setAdapter(imageAdapter);
+        //initializeRecyclerView();
+        //appData.setAdapter(imageAdapter);
         //mRecyclerView.setAdapter(appData.getAdapter());
 
 
@@ -128,7 +128,7 @@ public class MainActivityFragment extends Fragment {
 
         //GridLayout gridLayout = (GridLayout) rootView.findViewById((R.id.container_layout));
         recyclerView.setLayoutManager(new GridLayoutManager(context, 20));
-        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
+        //recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
         recyclerView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
@@ -144,23 +144,20 @@ public class MainActivityFragment extends Fragment {
         return layout;
     }
 
-    /*@Override
+    @Override
     public void onStart() {
 
         Log.d(MAF_TAG, "onStart()...at the start");
 
-       // appData.setRecyclerView(mRecyclerView);
-
         super.onStart();
 
-
-        *//*shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
+        shared_pref = PreferenceManager.getDefaultSharedPreferences(context);
         p = new PreferenceChangeListener();
-        shared_pref.registerOnSharedPreferenceChangeListener(p);*//*
+        shared_pref.registerOnSharedPreferenceChangeListener(p);
 
         Log.d(MAF_TAG, "super.onStart() ran");
     }
-*/
+
     @Override
     public void onResume() {
         super.onResume();

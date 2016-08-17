@@ -17,7 +17,7 @@ import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
-public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder> {
+public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHolder> {
 
     private ArrayList<String> posterURL_ArrayList;
     private ArrayList<String> backdropURL_ArrayList;
@@ -27,40 +27,36 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     private Boolean favorites;
     private int position;
     MoviesData data;
+    ArrayList<AndroidMovie> moviesList;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(Context context, MoviesData data) {
+    public PosterAdapter(ArrayList<AndroidMovie> movieArrayList) {
 
-        this.data = data;
+            this.moviesList = movieArrayList;
+
+        /*this.data = data;
         this.posterURL_ArrayList = getPosterURL_ArrayList();
         this.backdropURL_ArrayList = getBackdropURL_ArrayList();
         this.context = context;
-        this.favorites = false;
+        this.favorites = false;*/
     }
 
     // Provide a reference to the views for each MoviesData item
     // Complex MoviesData items may need more than one view per item, and
     // you provide access to all the views for a MoviesData item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each MoviesData item is just a string in this case
-        public View view;
-        public ViewHolder(View v) {
-            super(v);
-            view = v;
-        }
-    }
+
 
     @Override
-    public PosterAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PosterAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_main, parent, false);
 
-        return new ViewHolder(v);
+        return new MyViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(PosterAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(PosterAdapter.MyViewHolder holder, int position) {
 
         String posterPath;
 
@@ -71,7 +67,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
             }
         posterPath = posterURL_ArrayList.get(position);
 
-        RecyclerView posterView = (RecyclerView) convertView.findViewById(R.id.container_layout);
+        RecyclerView posterView = (RecyclerView) convertView.findViewById(R.id.recycler_view);
             data.setRecyclerView(posterView);
         Picasso.with(context)
                 .load(posterPath)
@@ -84,6 +80,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
     public int getItemCount() {
         return posterURL_ArrayList.size();
     }
+
 
     public ArrayList<String> getPosterURL_ArrayList() {
         return posterURL_ArrayList;
@@ -98,6 +95,12 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.ViewHolder
 
     public void setBackdropURL_ArrayList(ArrayList<String> backdropURL_ArrayList) {
         this.backdropURL_ArrayList = backdropURL_ArrayList;
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        public MyViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 }
 
