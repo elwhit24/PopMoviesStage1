@@ -45,6 +45,7 @@ public class MainActivityFragment extends Fragment {
     private final String HI_RATED_URL = "http://api.themoviedb.org/3/discover/movie/?" +
             "certification_country=US&certification=R& sort_by=vote_average.desc&api_key="
             + MY_API_KEY;*/
+    private RecyclerView recyclerView;
 
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
@@ -66,7 +67,7 @@ public class MainActivityFragment extends Fragment {
     ArrayList<Image> imageArrayList;
     int width;
     Context context;
-    RecyclerView mRecyclerView;
+
     GridLayoutManager mGridLayoutManager;
     MoviesData appData;
     Context mContext;
@@ -109,7 +110,7 @@ public class MainActivityFragment extends Fragment {
 
         imageAdapter = new PosterAdapter(mContext, appData);
         appData.setAdapter(imageAdapter);
-        mRecyclerView.setAdapter(appData.getAdapter());
+        //mRecyclerView.setAdapter(appData.getAdapter());
 
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -123,14 +124,14 @@ public class MainActivityFragment extends Fragment {
 
         //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         //StrictMode.setThreadPolicy(policy);
-        View rootView = new View(mContext);
+        View layout = inflater.inflate(R.layout.fragment_main, container);
+        recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
 
-        GridLayout gridLayout = (GridLayout) rootView.findViewById((R.id.grid_view_main));
-        inflater.inflate(R.layout.fragment_main, gridLayout);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
+        //GridLayout gridLayout = (GridLayout) rootView.findViewById((R.id.container_layout));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
-        mRecyclerView.setOnClickListener(new AdapterView.OnClickListener() {
+        recyclerView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AndroidMovie androidMovie = movieArray.get(getId());
@@ -141,8 +142,7 @@ public class MainActivityFragment extends Fragment {
         });
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
-        //return appData.getRecyclerView();
-        return rootView; //.getAdapter(); //)R.id.grid_view_main, getId());
+        return layout; //.getAdapter(); //)R.id.grid_view_main, getId());
     }
 
     /*@Override
@@ -268,13 +268,13 @@ public class MainActivityFragment extends Fragment {
 
            // View rootView = inflater.inflate(R.layout.fragment_main, container, false);
            // mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-            mGridLayoutManager = new GridLayoutManager(mContext, 20);
+           /* mGridLayoutManager = new GridLayoutManager(mContext, 20);
             mRecyclerView.setLayoutManager(mGridLayoutManager);
             imageAdapter = new PosterAdapter(context, appData);
             mRecyclerView.setAdapter(imageAdapter);
             mRecyclerView.setHasFixedSize(true);
 
-            appData.setRecyclerView(mRecyclerView);
+            appData.setRecyclerView(mRecyclerView);*/
 
         }
 
@@ -364,7 +364,7 @@ public class MainActivityFragment extends Fragment {
             }
 
             TextView favTextView = new TextView(getActivity());
-            GridLayout preferencesLayout = (GridLayout) getActivity().findViewById(R.id.grid_view_main);
+            GridLayout preferencesLayout = (GridLayout) getActivity().findViewById(R.id.container_layout);
             if (appData.getPrefF()) {
 
                 if (posterFavs.size() == 0) {
