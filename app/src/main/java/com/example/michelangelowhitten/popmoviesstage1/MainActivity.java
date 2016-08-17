@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragManager = getFragmentManager();
         android.app.FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        fragTransaction.add(R.id.container_layout, new MainActivityFragment());
+        fragTransaction.replace(R.id.container_layout, new MainActivityFragment());
         fragTransaction.commit();
 
         Log.d(MTAG, "after transaction commit");

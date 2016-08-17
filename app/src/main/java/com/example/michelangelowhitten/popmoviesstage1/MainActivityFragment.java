@@ -107,7 +107,7 @@ public class MainActivityFragment extends Fragment {
 
         Log.d(MAF_TAG, "after getPopularMovies in onCreate in Fragment");
 
-        imageAdapter = new PosterAdapter(posterImageUrls);
+        //imageAdapter = new PosterAdapter(posterImageUrls);
 
         //initializeRecyclerView();
         //appData.setAdapter(imageAdapter);
@@ -267,7 +267,10 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(String jsonString) {
             Log.d(MAF_TAG, "onPostExecute() running");
 
-           // View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            imageAdapter = new PosterAdapter(posterImageUrls);
+
+
+            // View rootView = inflater.inflate(R.layout.fragment_main, container, false);
            // mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
            /* mGridLayoutManager = new GridLayoutManager(mContext, 20);
             mRecyclerView.setLayoutManager(mGridLayoutManager);
