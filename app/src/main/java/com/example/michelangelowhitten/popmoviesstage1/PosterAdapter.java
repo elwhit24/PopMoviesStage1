@@ -7,6 +7,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
-public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHolder> {
+public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHolder> implements View.OnClickListener {
 
     private ArrayList<String> posterURL_ArrayList;
     private ArrayList<String> backdropURL_ArrayList;
@@ -30,9 +31,9 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     ArrayList<AndroidMovie> moviesList;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(ArrayList<AndroidMovie> movieArrayList) {
+    public PosterAdapter(ArrayList<String> posterURL_ArrayList) {
 
-            this.moviesList = movieArrayList;
+            this.posterURL_ArrayList = posterURL_ArrayList;
 
         /*this.data = data;
         this.posterURL_ArrayList = getPosterURL_ArrayList();
@@ -56,7 +57,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(PosterAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(PosterAdapter.MyViewHolder holder, final int position) {
 
         String posterPath;
 
@@ -73,6 +74,9 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
                 .load(posterPath)
                 .fit()
                 .into((Target) data.getRecyclerView());
+
+            //posterView.setOnClickListener(new AdapterView.OnClickListener() {
+
         }
     }
 
@@ -80,7 +84,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     public int getItemCount() {
         return posterURL_ArrayList.size();
     }
-
 
     public ArrayList<String> getPosterURL_ArrayList() {
         return posterURL_ArrayList;
@@ -96,6 +99,17 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     public void setBackdropURL_ArrayList(ArrayList<String> backdropURL_ArrayList) {
         this.backdropURL_ArrayList = backdropURL_ArrayList;
     }
+
+    @Override
+    public void onClick(View view) {
+
+            AndroidMovie androidMovie = moviesList.get((int) getItemId(position));
+            Intent movieIntent = new Intent(context, DetailActivity.class);
+            movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
+            context.startActivity(movieIntent);
+
+    };
+
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         public MyViewHolder(View itemView) {

@@ -1,7 +1,6 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(MTAG, "toolbar create");
 
         FragmentManager fragManager = getFragmentManager();
-        FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        //fragTransaction.add(R.id.container, new MainActivityFragment());
+        android.app.FragmentTransaction fragTransaction = fragManager.beginTransaction();
+        fragTransaction.add(R.id.container_layout, new MainActivityFragment());
         fragTransaction.commit();
 
         Log.d(MTAG, "after transaction commit");
@@ -76,20 +75,20 @@ public class MainActivity extends AppCompatActivity {
         Display display = this.getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
         int height = display.getHeight();
-        int numOfColoums = 0;
+        int numOfColumns = 0;
         if (width < height) {
             // portrait mode
-            numOfColoums = 2;
+            numOfColumns = 2;
             if (width > 600) { // for tablet sw600
-                numOfColoums = 3;
+                numOfColumns = 3;
             }
         } else {
             // landscape mode
-            numOfColoums = 3;
+            numOfColumns = 3;
             if (width > 600) { // for tablet sw600
-                numOfColoums = 3;
+                numOfColumns = 3;
             }
         }
-        return numOfColoums;
+        return numOfColumns;
     }
 }
