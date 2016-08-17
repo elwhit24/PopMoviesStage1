@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -128,7 +127,7 @@ public class MainActivityFragment extends Fragment {
         recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
 
         //GridLayout gridLayout = (GridLayout) rootView.findViewById((R.id.container_layout));
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 20));
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
         recyclerView.setOnClickListener(new AdapterView.OnClickListener() {
@@ -142,7 +141,7 @@ public class MainActivityFragment extends Fragment {
         });
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
-        return layout; //.getAdapter(); //)R.id.grid_view_main, getId());
+        return layout;
     }
 
     /*@Override
