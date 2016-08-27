@@ -46,7 +46,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
         View v = inflater.inflate(R.layout.content_main, parent, false);
         MyViewHolder holder = new MyViewHolder(v);
 
-        return null;
+        return holder;
     }
 
 
@@ -122,8 +122,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
             movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
             context.startActivity(movieIntent);
 
-    };
-
+    }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;

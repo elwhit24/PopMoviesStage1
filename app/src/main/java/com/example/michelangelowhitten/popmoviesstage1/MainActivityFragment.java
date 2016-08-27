@@ -272,7 +272,7 @@ public class MainActivityFragment extends Fragment {
 
             //recyclerView.setAdapter(imageAdapter);
 
-            imageAdapter = new PosterAdapter();
+            imageAdapter = new PosterAdapter(mContext);
 
 
             // View rootView = inflater.inflate(R.layout.fragment_main, container, false);
