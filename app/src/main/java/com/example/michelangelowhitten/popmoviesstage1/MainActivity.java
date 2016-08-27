@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.replace(R.id.container_layout, new MainActivityFragment());
         fragTransaction.commit();
 
+       // PosterAdapter posterAdapter = new PosterAdapter(getApplicationContext());
+
         Log.d(MTAG, "after transaction commit");
     }
 

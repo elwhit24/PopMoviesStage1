@@ -32,10 +32,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     private Boolean favorites;
     private int position;
     MoviesData data;
-    ArrayList<AndroidMovie> moviesList;
+    ArrayList<String> moviesList = new ArrayList<>();
 
-    public PosterAdapter(Context context) {
+    public PosterAdapter(Context context, ArrayList<String> moviesList) {
 
+        this.moviesList = moviesList;
         this.context = context;
         inflater =  LayoutInflater.from(context);
     }
@@ -117,7 +118,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     @Override
     public void onClick(View view) {
 
-            AndroidMovie androidMovie = moviesList.get((int) getItemId(position));
+            String androidMovie = moviesList.get((int) getItemId(position));
             Intent movieIntent = new Intent(context, DetailActivity.class);
             movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
             context.startActivity(movieIntent);
