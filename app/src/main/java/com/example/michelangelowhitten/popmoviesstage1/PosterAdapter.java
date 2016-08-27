@@ -69,9 +69,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(PosterAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        String posterPath;
+        String posterPath = moviesList.get(position);
+        holder.imageView.setImageResource(posterPath.indexOf(moviesList.get(position)));
+
 
         for (int i = 0; i < getItemCount(); i++) {
             if (convertView == null) {
@@ -127,6 +129,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.poster_view);
