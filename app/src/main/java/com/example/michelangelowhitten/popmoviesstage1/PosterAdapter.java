@@ -9,6 +9,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.squareup.picasso.Target;
 import java.util.ArrayList;
 
 public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHolder> implements View.OnClickListener {
+
+    public final String PLOG_TAG = MainActivityFragment.class.getSimpleName();
 
     private ArrayList<String> posterURL_ArrayList;
     private ArrayList<String> backdropURL_ArrayList;
@@ -70,6 +73,9 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
         RecyclerView posterView = (RecyclerView) convertView.findViewById(R.id.recycler_view);
             posterView.setAdapter(this);
+
+            Log.v(PLOG_TAG, "this is the start of Picasso");
+
         Picasso.with(context)
                 .load(posterPath)
                 .fit()

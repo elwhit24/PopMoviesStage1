@@ -25,7 +25,7 @@
         <activity android:name=".DetailActivity"></activity>
 
 
-        <activity android:name=".MainActivityFragment"></activity>
+        <!--<activity android:name=".MainActivityFragment"></activity>-->
 
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"

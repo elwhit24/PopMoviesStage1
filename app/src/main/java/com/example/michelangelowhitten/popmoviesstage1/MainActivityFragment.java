@@ -44,9 +44,10 @@ public class MainActivityFragment extends Fragment {
             + MY_API_KEY;*/
     private RecyclerView recyclerView;
 
+    PosterAdapter imageAdapter;
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
-    PosterAdapter imageAdapter;
+
     ImageView settingsView;
     String noFetch = "Not able to grab movie info from MovieDB.";
     String noInter = "No internet available at the moment.";
@@ -63,7 +64,6 @@ public class MainActivityFragment extends Fragment {
     PreferenceChangeListener p;
     ArrayList<Image> imageArrayList;
     int width;
-    Context context;
 
     GridLayoutManager mGridLayoutManager;
     MoviesData appData;
