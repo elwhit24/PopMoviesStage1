@@ -9,8 +9,9 @@
 <GridLayout android:id="@+id/container_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:columnCount="2"
-    android:rowCount="3"
+    android:rowCount="20"
     android:useDefaultMargins="false"
     android:visibility="visible"
     xmlns:android="http://schemas.android.com/apk/res/android">

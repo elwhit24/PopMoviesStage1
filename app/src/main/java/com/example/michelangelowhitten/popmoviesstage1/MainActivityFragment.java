@@ -2,7 +2,6 @@ package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.net.ConnectivityManager;
@@ -17,7 +16,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -132,11 +130,11 @@ public class MainActivityFragment extends Fragment {
 
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
-
-        GridLayout gridLayout = (GridLayout) layout.findViewById((R.id.container_layout));
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 20));
-        recyclerView.setAdapter(imageAdapter);
+        GridLayout gridLayout = (GridLayout) layout.findViewById((R.id.container_layout));
 
+
+/*
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
         recyclerView.setOnClickListener(new AdapterView.OnClickListener() {
@@ -147,10 +145,10 @@ public class MainActivityFragment extends Fragment {
                 movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
                 startActivity(movieIntent);
             }
-        });
+        });*/
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
-        return layout;
+        return gridLayout;
     }
 
     @Override
@@ -270,6 +268,8 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(String jsonString) {
             Log.d(MAF_TAG, "onPostExecute() running");
+
+            //recyclerView.setAdapter(imageAdapter);
 
             imageAdapter = new PosterAdapter(posterImageUrls);
 
