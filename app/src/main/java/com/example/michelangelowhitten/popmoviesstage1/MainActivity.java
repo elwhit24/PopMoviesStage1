@@ -1,5 +1,6 @@
 package com.example.michelangelowhitten.popmoviesstage1;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -36,14 +37,15 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$<
 
         Log.d(MTAG, "toolbar create");
 
-        /*FragmentManager fragManager = getFragmentManager();
+        FragmentManager fragManager = getFragmentManager();
         android.app.FragmentTransaction fragTransaction = fragManager.beginTransaction();
         fragTransaction.replace(R.id.container_layout, new MainActivityFragment());
-        fragTransaction.commit();*/
+        fragTransaction.commit();
 
         Log.d(MTAG, "after transaction commit");
     }

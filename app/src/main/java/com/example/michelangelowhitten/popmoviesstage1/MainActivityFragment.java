@@ -129,9 +129,9 @@ public class MainActivityFragment extends Fragment {
         //StrictMode.setThreadPolicy(policy);
 
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
-        //recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
 
-        //GridLayout gridLayout = (GridLayout) rootView.findViewById((R.id.container_layout));
+        GridLayout gridLayout = (GridLayout) layout.findViewById((R.id.container_layout));
       //recyclerView.setLayoutManager(new GridLayoutManager(context, 20));
        // recyclerView.setAdapter(imageAdapter);
 
@@ -209,7 +209,7 @@ public class MainActivityFragment extends Fragment {
             JSONObject highestRatedMoviesJson = new JSONObject();
             String finalJsonString;
 
-            Log.d(LOG_TAG, "after 3 instants in doInBackground made");
+            Log.d(LOG_TAG, "doInBackground made");
 
             jReader = new JsonReader();
 
