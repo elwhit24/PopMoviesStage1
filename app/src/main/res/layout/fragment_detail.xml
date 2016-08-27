@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/details_layout"
-    android:visibility="invisible"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DetailActivity">
+<LinearLayout
 
-   <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,7 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:textAppearance="?android:textAppearanceLarge"/>
+            android:text="Dummy Text 1"
+            android:textAppearance="?android:textAppearanceLarge"
+            />
 
         <ImageView
             android:id="@+id/movieThumb"
@@ -47,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rating"
+            android:text="Dummy Text 2"
             android:textAppearance="?android:textAppearanceLarge"/>
 
         <TextView
@@ -56,6 +53,7 @@
             android:layout_below="@+id/overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Dummy Text 3"
             android:textSize="12sp"/>
 
         <TextView
@@ -67,11 +65,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:text="Dummy Text 4"
             android:textSize="14sp"/>
 
         </RelativeLayout>
         </LinearLayout>
-</ScrollView>
 <!--
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
