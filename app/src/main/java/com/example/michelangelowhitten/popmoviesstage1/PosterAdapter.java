@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -22,41 +23,48 @@ import java.util.ArrayList;
 public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHolder> implements View.OnClickListener {
 
     public final String PLOG_TAG = MainActivityFragment.class.getSimpleName();
-
+    private final LayoutInflater inflater;
+    private Context context;
     private ArrayList<String> posterURL_ArrayList;
     private ArrayList<String> backdropURL_ArrayList;
     private ArrayList<String> favsPosterURLs;
-    private Context context;
     private View convertView;
     private Boolean favorites;
     private int position;
     MoviesData data;
     ArrayList<AndroidMovie> moviesList;
 
+    public PosterAdapter(Context context) {
+
+        this.context = context;
+        inflater =  LayoutInflater.from(context);
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View v = inflater.inflate(R.layout.content_main, parent, false);
+        MyViewHolder holder = new MyViewHolder(v);
+
+        return null;
+    }
+
+
     // Provide a suitable constructor (depends on the kind of dataset)
-    public PosterAdapter(ArrayList<String> posterURL_ArrayList) {
+    /*public PosterAdapter(ArrayList<String> posterURL_ArrayList) {
 
             this.posterURL_ArrayList = posterURL_ArrayList;
 
-        /*this.data = data;
+        *//*this.data = data;
         this.posterURL_ArrayList = getPosterURL_ArrayList();
         this.backdropURL_ArrayList = getBackdropURL_ArrayList();
         this.context = context;
-        this.favorites = false;*/
-    }
+        this.favorites = false;*//*
+    }*/
 
     // Provide a reference to the views for each MoviesData item
     // Complex MoviesData items may need more than one view per item, and
     // you provide access to all the views for a MoviesData item in a view holder
-
-
-    @Override
-    public PosterAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_main, parent, false);
-
-        return new MyViewHolder(v);
-    }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
@@ -118,8 +126,10 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
         public MyViewHolder(View itemView) {
             super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.poster_view);
         }
     }
 }

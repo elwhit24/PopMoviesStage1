@@ -107,7 +107,7 @@ public class MainActivityFragment extends Fragment {
 
         Log.d(MAF_TAG, "after getPopularMovies in onCreate in Fragment");
 
-        imageAdapter = new PosterAdapter(posterImageUrls);
+        //imageAdapter = new PosterAdapter(posterImageUrls);
 //        recyclerView.setAdapter(imageAdapter);
 
 
@@ -129,9 +129,10 @@ public class MainActivityFragment extends Fragment {
         //StrictMode.setThreadPolicy(policy);
 
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
+        /*
         recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 20));
-        GridLayout gridLayout = (GridLayout) layout.findViewById((R.id.container_layout));
+        GridLayout gridLayout = (GridLayout) layout.findViewById((R.id.container_layout));*/
 
 
 /*
@@ -148,7 +149,7 @@ public class MainActivityFragment extends Fragment {
         });*/
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
-        return gridLayout;
+        return layout;
     }
 
     @Override
@@ -271,7 +272,7 @@ public class MainActivityFragment extends Fragment {
 
             //recyclerView.setAdapter(imageAdapter);
 
-            imageAdapter = new PosterAdapter(posterImageUrls);
+            imageAdapter = new PosterAdapter();
 
 
             // View rootView = inflater.inflate(R.layout.fragment_main, container, false);
