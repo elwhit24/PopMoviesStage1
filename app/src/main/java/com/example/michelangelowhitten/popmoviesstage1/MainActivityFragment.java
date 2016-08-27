@@ -2,6 +2,7 @@ package com.example.michelangelowhitten.popmoviesstage1;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.net.ConnectivityManager;
@@ -16,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -132,20 +134,20 @@ public class MainActivityFragment extends Fragment {
         recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
 
         GridLayout gridLayout = (GridLayout) layout.findViewById((R.id.container_layout));
-      //recyclerView.setLayoutManager(new GridLayoutManager(context, 20));
-       // recyclerView.setAdapter(imageAdapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 20));
+        recyclerView.setAdapter(imageAdapter);
 
-        //recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
+        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
-        /*recyclerView.setOnClickListener(new AdapterView.OnClickListener() {
+        recyclerView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AndroidMovie androidMovie = movieArray.get(getId());
-                Intent movieIntent = new Intent(context, DetailActivity.class);
+                Intent movieIntent = new Intent(mContext, DetailActivity.class);
                 movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
                 startActivity(movieIntent);
             }
-        });*/
+        });
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
         return layout;
