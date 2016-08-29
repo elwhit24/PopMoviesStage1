@@ -23,28 +23,25 @@ import java.util.ArrayList;
 public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHolder> implements View.OnClickListener {
 
     public final String PLOG_TAG = MainActivityFragment.class.getSimpleName();
-    private final LayoutInflater inflater;
+
+    //private final LayoutInflater inflater;
     private Context context;
     private ArrayList<String> posterURL_ArrayList;
     private ArrayList<String> backdropURL_ArrayList;
     private ArrayList<String> favsPosterURLs;
     private View convertView;
-    private Boolean favorites;
-    private int position;
-    MoviesData data;
-    ArrayList<String> posterList = new ArrayList<>();
 
     public PosterAdapter(Context context, ArrayList<String> posterList) {
 
         this.posterURL_ArrayList = posterList;
         this.context = context;
-        inflater =  LayoutInflater.from(context);
+        //inflater =  LayoutInflater.from(context);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = inflater.inflate(R.layout.content_main, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_poster, parent, false);
         MyViewHolder holder = new MyViewHolder(v);
 
         return holder;
@@ -71,8 +68,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        String posterPath = posterList.get(position);
-        holder.imageView.setImageResource(posterPath.indexOf(posterList.get(position)));
+        String posterPath = posterURL_ArrayList.get(position);
+        holder.imageView.setImageResource(posterPath.indexOf(posterURL_ArrayList.get(position)));
 
         for (int i = 0; i < getItemCount(); i++) {
             if (convertView == null) {
@@ -81,7 +78,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
             }
         posterPath = posterURL_ArrayList.get(position);
 
-        RecyclerView posterView = (RecyclerView) convertView.findViewById(R.id.container_layout);
+        RecyclerView posterView = (RecyclerView) convertView.findViewById(R.id.recycler_view);
             posterView.setAdapter(this);
 
             Log.v(PLOG_TAG, "this is the start of Picasso");
@@ -98,11 +95,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
         @Override
     public int getItemCount() {
-        return posterURL_ArrayList.size();
+        return this.posterURL_ArrayList.size();
     }
 
     public ArrayList<String> getPosterURL_ArrayList() {
-        return posterURL_ArrayList;
+        return this.posterURL_ArrayList;
     }
 
     public void setPosterURL_ArrayList(ArrayList<String> posterURL_ArrayList) {
@@ -118,8 +115,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
     @Override
     public void onClick(View view) {
-
-            String androidMovie = posterList.get((int) getItemId(position));
+            int position = view.getId();
+            String androidMovie = posterURL_ArrayList.get((int) getItemId(position));
             Intent movieIntent = new Intent(context, DetailActivity.class);
             movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
             context.startActivity(movieIntent);

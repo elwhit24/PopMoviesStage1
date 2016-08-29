@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -75,12 +76,10 @@ public class MainActivityFragment extends Fragment {
     private GridLayoutManager mGridLayoutManager;
     MoviesData appData;
 
-
-
-    @Override
+    /*@Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
-    }
+    }*/
 
     public MainActivityFragment() {
 
@@ -138,14 +137,13 @@ public class MainActivityFragment extends Fragment {
 
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
 
-        /*mGridLayoutManager = new GridLayoutManager(mContext, 20);
-        //mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mGridLayoutManager = new GridLayoutManager(mContext, 20);
+        mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
-        imageAdapter = new PosterAdapter(mContext, posterImageUrls);
-        mRecyclerView.setAdapter(imageAdapter);*/
+
 /*
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -284,7 +282,8 @@ public class MainActivityFragment extends Fragment {
            // imageAdapter = new PosterAdapter(mContext);
            //recyclerView.setAdapter(imageAdapter);
 
-
+            imageAdapter = new PosterAdapter(mContext, posterImageUrls);
+           // mRecyclerView.setAdapter(imageAdapter);
 
             // View rootView = inflater.inflate(R.layout.fragment_main, container, false);
            // mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
