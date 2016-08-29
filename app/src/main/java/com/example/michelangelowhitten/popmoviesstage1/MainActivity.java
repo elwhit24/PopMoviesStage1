@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
@@ -14,7 +17,13 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     private final String MTAG = MainActivity.class.getSimpleName();
+
     int numCol;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter imageAdapter;
+
+    RecyclerView.LayoutManager mLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +48,19 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragManager = getFragmentManager();
         android.app.FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        fragTransaction.add(R.id.container, new MainActivityFragment());
+        fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
-       // PosterAdapter posterAdapter = new PosterAdapter(getApplicationContext());
+        mGridLayoutManager = new GridLayoutManager(this, 20);
+        mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+       //mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        mRecyclerView.setAdapter(imageAdapter);
+
+
+        // PosterAdapter posterAdapter = new PosterAdapter(getApplicationContext());
 
         Log.d(MTAG, "after transaction commit");
     }

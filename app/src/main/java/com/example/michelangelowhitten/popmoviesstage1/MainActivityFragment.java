@@ -9,8 +9,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -69,11 +67,7 @@ public class MainActivityFragment extends Fragment {
     ArrayList<Image> imageArrayList;
     int width;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter imageAdapter;
 
-    RecyclerView.LayoutManager mLayoutManager;
-    private GridLayoutManager mGridLayoutManager;
     MoviesData appData;
 
     /*@Override
@@ -83,7 +77,7 @@ public class MainActivityFragment extends Fragment {
 
     public MainActivityFragment() {
 
-        this.mContext = this.getActivity();
+       // this.mContext = this.getActivity().getApplicationContext();
         this.posterImageUrls = new ArrayList<>(20);
         this.backdropImageUrls = new ArrayList<>(20);
         this.internet = false;
@@ -119,7 +113,7 @@ public class MainActivityFragment extends Fragment {
         Log.d(MAF_TAG, "after getPopularMovies in onCreate in Fragment");
 
         //initializeRecyclerView();
-        //appData.setAdapter(imageAdapter);
+        //setAdapter(imageAdapter);
         //mRecyclerView.setAdapter(appData.getAdapter());
 
 
@@ -136,14 +130,6 @@ public class MainActivityFragment extends Fragment {
         //StrictMode.setThreadPolicy(policy);
 
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
-
-        mGridLayoutManager = new GridLayoutManager(mContext, 20);
-        mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
-
 /*
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -282,7 +268,6 @@ public class MainActivityFragment extends Fragment {
            // imageAdapter = new PosterAdapter(mContext);
            //recyclerView.setAdapter(imageAdapter);
 
-            imageAdapter = new PosterAdapter(mContext, posterImageUrls);
            // mRecyclerView.setAdapter(imageAdapter);
 
             // View rootView = inflater.inflate(R.layout.fragment_main, container, false);
