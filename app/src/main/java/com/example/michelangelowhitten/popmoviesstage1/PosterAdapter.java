@@ -32,11 +32,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     private Boolean favorites;
     private int position;
     MoviesData data;
-    ArrayList<String> moviesList = new ArrayList<>();
+    ArrayList<String> posterList = new ArrayList<>();
 
-    public PosterAdapter(Context context, ArrayList<String> moviesList) {
+    public PosterAdapter(Context context, ArrayList<String> posterList) {
 
-        this.moviesList = moviesList;
+        this.posterURL_ArrayList = posterList;
         this.context = context;
         inflater =  LayoutInflater.from(context);
     }
@@ -71,9 +71,8 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        String posterPath = moviesList.get(position);
-        holder.imageView.setImageResource(posterPath.indexOf(moviesList.get(position)));
-
+        String posterPath = posterList.get(position);
+        holder.imageView.setImageResource(posterPath.indexOf(posterList.get(position)));
 
         for (int i = 0; i < getItemCount(); i++) {
             if (convertView == null) {
@@ -82,7 +81,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
             }
         posterPath = posterURL_ArrayList.get(position);
 
-        RecyclerView posterView = (RecyclerView) convertView.findViewById(R.id.recycler_view);
+        RecyclerView posterView = (RecyclerView) convertView.findViewById(R.id.container_layout);
             posterView.setAdapter(this);
 
             Log.v(PLOG_TAG, "this is the start of Picasso");
@@ -120,7 +119,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     @Override
     public void onClick(View view) {
 
-            String androidMovie = moviesList.get((int) getItemId(position));
+            String androidMovie = posterList.get((int) getItemId(position));
             Intent movieIntent = new Intent(context, DetailActivity.class);
             movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
             context.startActivity(movieIntent);

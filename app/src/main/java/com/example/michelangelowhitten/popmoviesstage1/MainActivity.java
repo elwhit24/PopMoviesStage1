@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
@@ -15,11 +14,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     private final String MTAG = MainActivity.class.getSimpleName();
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     int numCol;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragManager = getFragmentManager();
         android.app.FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        fragTransaction.replace(R.id.container_layout, new MainActivityFragment());
+        fragTransaction.add(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
        // PosterAdapter posterAdapter = new PosterAdapter(getApplicationContext());
@@ -100,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             height = display.getHeight();
         }
 
-        int numOfColumns = 0;
+        int numOfColumns;
         if (width < height) {
             // portrait mode
             numOfColumns = 2;

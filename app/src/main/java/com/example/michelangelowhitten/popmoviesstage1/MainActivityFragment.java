@@ -42,9 +42,12 @@ public class MainActivityFragment extends Fragment {
     private final String HI_RATED_URL = "http://api.themoviedb.org/3/discover/movie/?" +
             "certification_country=US&certification=R& sort_by=vote_average.desc&api_key="
             + MY_API_KEY;*/
-    private RecyclerView recyclerView;
+    //private RecyclerView recyclerView;
+    Context mContext;
 
-    PosterAdapter imageAdapter;
+    private RecyclerView.Adapter mAdapter;
+
+    //PosterAdapter imageAdapter;
     ArrayList<String> posterImageUrls;
     ArrayList<String> backdropImageUrls;
 
@@ -65,9 +68,13 @@ public class MainActivityFragment extends Fragment {
     ArrayList<Image> imageArrayList;
     int width;
 
-    GridLayoutManager mGridLayoutManager;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter imageAdapter;
+
+    RecyclerView.LayoutManager mLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
     MoviesData appData;
-    Context mContext;
+
 
 
     @Override
@@ -77,11 +84,12 @@ public class MainActivityFragment extends Fragment {
 
     public MainActivityFragment() {
 
-        this.mContext = getActivity();
+        this.mContext = this.getActivity();
         this.posterImageUrls = new ArrayList<>(20);
         this.backdropImageUrls = new ArrayList<>(20);
         this.internet = false;
         this.appData = new MoviesData();
+        //imageAdapter = new PosterAdapter(mContext, posterImageUrls);
 //        mRecyclerView = new RecyclerView(mContext);
 
         //this.mRecyclerView = new RecyclerView(context);
@@ -105,11 +113,11 @@ public class MainActivityFragment extends Fragment {
 
         getPopularMovies();
 
+        //setData();
+        // getAppData();
+
+
         Log.d(MAF_TAG, "after getPopularMovies in onCreate in Fragment");
-
-        imageAdapter = new PosterAdapter(mContext, posterImageUrls);
-        recyclerView.setAdapter(imageAdapter);
-
 
         //initializeRecyclerView();
         //appData.setAdapter(imageAdapter);
@@ -129,12 +137,15 @@ public class MainActivityFragment extends Fragment {
         //StrictMode.setThreadPolicy(policy);
 
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
-        /*
-        recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 20));
-        GridLayout gridLayout = (GridLayout) layout.findViewById((R.id.container_layout));*/
 
+        /*mGridLayoutManager = new GridLayoutManager(mContext, 20);
+        //mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
+        mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        imageAdapter = new PosterAdapter(mContext, posterImageUrls);
+        mRecyclerView.setAdapter(imageAdapter);*/
 /*
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -258,7 +269,6 @@ public class MainActivityFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
                     return finalJsonString;
                 }
             }
@@ -271,8 +281,9 @@ public class MainActivityFragment extends Fragment {
             Log.d(MAF_TAG, "onPostExecute() running");
 
             //recyclerView.setAdapter(imageAdapter);
-
            // imageAdapter = new PosterAdapter(mContext);
+           //recyclerView.setAdapter(imageAdapter);
+
 
 
             // View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -432,8 +443,10 @@ public class MainActivityFragment extends Fragment {
         appData.setInternet(false);
         appData.setMovieArray(movieArray);
 
-        imageAdapter.setPosterURL_ArrayList(posterImageUrls);
-        imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
+        Log.v(MAF_TAG, "Poster Image Urls: JJJ" + appData.getPosterImageUrls());
+
+       // imageAdapter.setPosterURL_ArrayList(posterImageUrls);
+       // imageAdapter.setBackdropURL_ArrayList(backdropImageUrls);
 
     }
 }
