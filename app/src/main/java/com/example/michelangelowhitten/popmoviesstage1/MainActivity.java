@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private final String MTAG = MainActivity.class.getSimpleName();
 
     int numCol;
-    private RecyclerView mRecyclerView;
+
     private RecyclerView.Adapter imageAdapter;
 
     RecyclerView.LayoutManager mLayoutManager;
@@ -53,10 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         mGridLayoutManager = new GridLayoutManager(this, 20);
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
+        RecyclerView mRecyclerView;
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
        //mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
+        imageAdapter = new PosterAdapter();
         mRecyclerView.setAdapter(imageAdapter);
 
 

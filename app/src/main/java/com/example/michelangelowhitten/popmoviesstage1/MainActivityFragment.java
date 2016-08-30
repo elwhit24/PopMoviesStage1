@@ -33,7 +33,7 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment {
     private final String MAF_TAG = MainActivityFragment.class.getSimpleName();
 
-   /* private final String MY_API_KEY = "6b8fe412e3a3da14c6a1847deb895f09";
+   /* private final String MY_API_KEY = "";
 
     private final String POP_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=" +
             "popularity.desc&api_key=" + MY_API_KEY;
@@ -106,16 +106,10 @@ public class MainActivityFragment extends Fragment {
 
         getPopularMovies();
 
-        //setData();
-        // getAppData();
-
+        setData();
+        //getAppData();
 
         Log.d(MAF_TAG, "after getPopularMovies in onCreate in Fragment");
-
-        //initializeRecyclerView();
-        //setAdapter(imageAdapter);
-        //mRecyclerView.setAdapter(appData.getAdapter());
-
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         pref = prefs.getString("sort", null);

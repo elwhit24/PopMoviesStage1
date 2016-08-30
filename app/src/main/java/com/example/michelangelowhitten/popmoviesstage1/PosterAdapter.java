@@ -31,11 +31,15 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     private ArrayList<String> favsPosterURLs;
     private View convertView;
 
-    public PosterAdapter(Context context, ArrayList<String> posterList) {
+    /*public PosterAdapter(Context context, ArrayList<String> posterList) {
 
         this.posterURL_ArrayList = posterList;
         this.context = context;
         //inflater =  LayoutInflater.from(context);
+    }*/
+
+    public PosterAdapter() {
+
     }
 
     @Override
@@ -49,16 +53,16 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    /*public PosterAdapter(ArrayList<String> posterURL_ArrayList) {
+    public PosterAdapter(Context c, ArrayList<String> posterURL_ArrayList) {
 
             this.posterURL_ArrayList = posterURL_ArrayList;
 
-        *//*this.data = data;
+       // this.data = data;
         this.posterURL_ArrayList = getPosterURL_ArrayList();
         this.backdropURL_ArrayList = getBackdropURL_ArrayList();
-        this.context = context;
-        this.favorites = false;*//*
-    }*/
+        this.context = c;
+       // this.favorites = false;
+    }
 
     // Provide a reference to the views for each MoviesData item
     // Complex MoviesData items may need more than one view per item, and
