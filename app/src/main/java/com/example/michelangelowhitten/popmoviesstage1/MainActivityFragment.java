@@ -128,6 +128,8 @@ public class MainActivityFragment extends Fragment {
 
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
 
+        mGridLayoutManager = new GridLayoutManager(mContext, 20);
+
         RecyclerView mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
@@ -136,7 +138,7 @@ public class MainActivityFragment extends Fragment {
 
         mRecyclerView.setAdapter(imageAdapter);
 
-        mGridLayoutManager = new GridLayoutManager(mContext, 20);
+
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
