@@ -73,14 +73,9 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         String posterPath = posterURL_ArrayList.get(position);
-        holder.imageView.setImageResource(posterPath.indexOf(posterURL_ArrayList.get(position)));
+       // holder.imageView.setImageResource(posterPath.indexOf(posterURL_ArrayList.get(position)));
 
-        for (int i = 0; i < getItemCount(); i++) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.fragment_main,
-                        (ViewGroup) convertView);
-            }
-        posterPath = posterURL_ArrayList.get(position);
+       // posterPath = posterURL_ArrayList.get(position);
 
             Log.d(PLOG_TAG, "this is the start of Picasso");
 
@@ -88,7 +83,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
                 .load(posterPath)
                 .fit()
                 .into((Target) holder.imageView);
-        }
     }
 
         @Override
