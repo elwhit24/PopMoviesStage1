@@ -9,6 +9,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -67,6 +69,10 @@ public class MainActivityFragment extends Fragment {
     ArrayList<Image> imageArrayList;
     int width;
 
+    private RecyclerView.Adapter imageAdapter;
+
+    RecyclerView.LayoutManager mLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
 
     MoviesData appData;
 
@@ -124,6 +130,18 @@ public class MainActivityFragment extends Fragment {
         //StrictMode.setThreadPolicy(policy);
 
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
+
+        RecyclerView mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+
+        imageAdapter = new PosterAdapter(mContext, posterImageUrls);
+
+        mRecyclerView.setAdapter(imageAdapter);
+
+        mGridLayoutManager = new GridLayoutManager(mContext, 20);
+        mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
 /*
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
 

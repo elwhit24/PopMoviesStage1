@@ -20,11 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     int numCol;
 
-    private RecyclerView.Adapter imageAdapter;
-
-    RecyclerView.LayoutManager mLayoutManager;
-    private GridLayoutManager mGridLayoutManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +46,7 @@ public class MainActivity extends AppCompatActivity {
         fragTransaction.replace(R.id.container, new MainActivityFragment());
         fragTransaction.commit();
 
-        mGridLayoutManager = new GridLayoutManager(this, 20);
-        mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        RecyclerView mRecyclerView;
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-       //mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
-        imageAdapter = new PosterAdapter();
-        mRecyclerView.setAdapter(imageAdapter);
+
 
 
         // PosterAdapter posterAdapter = new PosterAdapter(getApplicationContext());
