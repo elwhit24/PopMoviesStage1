@@ -38,7 +38,9 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
         //inflater =  LayoutInflater.from(context);
     }*/
 
-    public PosterAdapter() {
+    public PosterAdapter(ArrayList<String> pList) {
+
+        this.posterURL_ArrayList = pList;
 
     }
 
