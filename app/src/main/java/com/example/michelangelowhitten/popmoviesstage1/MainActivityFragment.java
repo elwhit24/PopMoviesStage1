@@ -126,9 +126,6 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() started");
 
-        //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        //StrictMode.setThreadPolicy(policy);
-
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
 
         RecyclerView mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
@@ -142,18 +139,6 @@ public class MainActivityFragment extends Fragment {
         mGridLayoutManager = new GridLayoutManager(mContext, 20);
         mGridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-/*
-        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_main, container, false);
-
-        recyclerView.setOnClickListener(new AdapterView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AndroidMovie androidMovie = movieArray.get(getId());
-                Intent movieIntent = new Intent(mContext, DetailActivity.class);
-                movieIntent.putExtra(Intent.EXTRA_TEXT, androidMovie);
-                startActivity(movieIntent);
-            }
-        });*/
         Log.d(MAF_TAG, "MainActivityFragment onCreateView() good, after strictMode");  //DO NOT START WITHOUT ME
 
         return layout;
