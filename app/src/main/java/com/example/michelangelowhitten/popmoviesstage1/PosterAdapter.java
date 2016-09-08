@@ -82,18 +82,12 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.MyViewHold
             }
         posterPath = posterURL_ArrayList.get(position);
 
-        //ImageView posterView = convertView.findViewById(R.id.poster_view);
-           // posterView.setAdapter(this);
-
-            Log.v(PLOG_TAG, "this is the start of Picasso");
+            Log.d(PLOG_TAG, "this is the start of Picasso");
 
         Picasso.with(context)
                 .load(posterPath)
                 .fit()
                 .into((Target) holder.imageView);
-
-            //posterView.setOnClickListener(new AdapterView.OnClickListener() {
-
         }
     }
 
