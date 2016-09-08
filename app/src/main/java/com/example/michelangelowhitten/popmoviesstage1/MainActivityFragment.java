@@ -131,7 +131,7 @@ public class MainActivityFragment extends Fragment {
 
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
 
-        RecyclerView mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        RecyclerView mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
 
